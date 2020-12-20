@@ -1,0 +1,169 @@
+.page-block__inside iframe{
+    width: 100%;
+    height: 483px;
+}
+.page-block__inside .item-page img{
+    max-width: 100%;
+}
+@media screen and (max-width : 779px) {
+    div#container{
+        min-height: 0;
+    }
+    .page-wrapper #nav-block.menu-close, .page-wrapper .menu-close .nav-block__inside{
+        height: auto !important;
+        min-height: 100px !important;
+    }
+    .page-wrapper #nav-block{
+        overflow: hidden;
+    }
+    .page-wrapper #nav-block, .page-wrapper .nav-block__inside{
+        -webkit-transition: all .4s;
+        -moz-transition: all .4s ;
+        -ms-transition: all .4s ;
+        -o-transition: all .4s ;
+        transition: all .4s ;
+    }
+    .page-wrapper .nav-block__inside{
+        padding: 10px !important;
+    }
+    #nav-block:after{
+        content: '';
+        display: block;
+        clear: both;
+    }
+    .nav-block__inside .logo{
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 !important;
+    }
+    .page-wrapper .logo .logo-link img{
+        width: 100px !important;
+    }
+    .nav-block__inside .menu-btn-block{
+        width: 35px !important;
+        display: inline-block !important;
+        vertical-align: top;
+        margin: 0 !important;
+        float: right;
+        margin-top: 25px !important;
+    }
+    .nav-block__inside .menu-btn {
+        position: relative;
+        width: 35px !important;
+        height: 35px;
+        display: inline-block;
+        /*margin: 100px auto;*/
+    }
+    .nav-block__inside .menu-btn-block label{
+        display: inline-block;
+        vertical-align: top;
+        color: #fff;
+        font-size: 22px;
+    }
+    .nav-block__inside .menu-btn input {
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .nav-block__inside .menu-btn input:checked + span {
+        background: transparent;
+    }
+    .nav-block__inside .menu-btn input:checked + span:after {
+        -webkit-transform: rotate(45deg) translate(-1px, -8px);
+        transform: rotate(45deg) translate(-3px, -8px);
+    }
+    .nav-block__inside .menu-btn input:checked + span:before {
+        -webkit-transform: rotate(-45deg) translate(-4px, 12px);
+        transform: rotate(-45deg) translate(-7px, 12px);
+    }
+    .nav-block__inside .menu-btn span {
+        position: absolute;
+        width: 100%;
+        height: 5px;
+        background: #fff;
+        margin-top: 10px;
+    }
+    .nav-block__inside .menu-btn span:before, .nav-block__inside .menu-btn span:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 5px;
+        background: #fff;
+        top: -11px;
+        -webkit-transition: 0.3s;
+        transition: 0.3s;
+    }
+    .nav-block__inside .menu-btn span:after {
+        top: 11px;
+    }
+
+    /* slider */
+    .big-product-list{
+        padding: 0 !important;
+    }
+    .big-product-list .big-product-item{
+        float: left;
+        padding-top: 65px;
+    }
+    .page-wrapper .product-slider-wrap{
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    .page-wrapper .mainslider-nav div{
+        width: 60px;
+    }
+    .page-wrapper .mainslider-nav div.mainslider-prev{
+        background-position: 10px 45px;
+    }
+    .link-back, .front-pane > div:not(.page-block__inside--main) .mod-cat-download{
+        position: initial;
+        margin-bottom: 10px;
+        display: inline-block;
+    }
+    .shop-maincategory{
+        padding-top: 20px;
+    }
+
+    /* tables */
+    .product-geometry table, .product-block table{
+        width: 100% !important;
+        overflow-x: auto;
+        display: block;
+    }
+
+
+    /* video */
+    .page-block__inside iframe{
+        width: 100% !important;
+        height: 300px;
+    }
+    .page-block__inside iframe.apester-fill-content, .typeform-widget iframe{
+        height: 100% !important;
+    }
+
+    /* map */
+    /*.item-page ymaps{*/
+        /*width: 100% !important;*/
+    /*}*/
+
+    /* grid */
+    .page-block__inside{
+        padding: 20px 15px;
+        overflow: hidden;
+    }
+    #easybook .row-input .col{
+        width: 100%;
+    }
+    #easybook h2{
+        margin-bottom: 15px;
+    }
+    .easybook__faq-link{
+        position: relative;
+        margin-bottom: 20px;
+    }
+}

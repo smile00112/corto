@@ -1,0 +1,52 @@
+@media (max-width: 991px) {
+    .sm-margin-bottom-10 {
+        margin-bottom: 10px;
+    }
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10px;
+}
+
+.margin-top--9 {
+    margin-top: -9px;
+}
+
+.specific-categories,
+.specific-products {
+    height: 150px;
+    overflow: auto;
+}
+
+.fa-minus-circle {
+    cursor: pointer;
+}
+
+.image-upload-info .btn {
+    float: left;
+    margin-right: 10px;
+}
+
+.image-upload-info span {
+    display: inline-block;
+    line-height: 18px;
+    font-size: 13px;
+    color: #666;
+}
+
+.image-upload-preview img {
+    max-width: 100%;
+}
+
+.preview-container img {
+    max-width: 100%;
+    border: 1px solid #dcdcdc;
+}
+
+.bootstrap-select.btn-group.input-group-btn {
+    width: 100%;
+}
+
+#clean-stop {
+    margin-left: 10px;
+}

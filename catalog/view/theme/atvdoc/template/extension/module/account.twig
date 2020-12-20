@@ -1,0 +1,66 @@
+<ul class="left-menu account-menu" >
+
+  {% if not logged %}
+  <li ><a href="{{ login }}" class="list-group-item ">{{ text_login }} </a> </li>
+  <li><a href="{{ register }}" class="list-group-item">{{ text_register }}</a> </li>
+  <li><a href="{{ forgotten }}" class="list-group-item">{{ text_forgotten }}</a></li>
+  {% endif %}
+
+
+  {% if logged %}
+  <li {% if edit == here %}class="selected"{% endif %}><a href="{{ edit }}" class="list-group-item">Личные данные</a></li>
+
+  <li {% if cart == here %}class="selected"{% endif %}> <a href="{{ cart }}" class="list-group-item">Моя корзина</a> </li>
+
+  <li {% if order_new == here %}class="selected"{% endif %}> <a href="{{ order_new }}" class="list-group-item">Текущие заказы</a> </li>
+
+  <li {% if wishlist == here %}class="selected"{% endif %}> <a href="{{ wishlist }}" class="list-group-item">Отложенные товары</a></li>
+
+  <li {% if order_old == here %}class="selected"{% endif %}> <a href="{{ order_old }}" class="list-group-item">Архив заказов</a> </li>
+
+  <li {% if shet == here %}class="selected"{% endif %}><a href="{{ shet }}" class="list-group-item">Личный счет</a></li>
+
+  <li {% if newsletter == here %}class="selected"{% endif %}> <a href="{{ newsletter }}" class="list-group-item">Сообщения</a></li >
+
+
+
+    {#}
+
+    <li>
+      <a href="/personal/mailings/">---------------</a>
+    </li>			
+
+
+
+
+  <li {% if account == here %}class="selected"{% endif %}><a href="{{ account }}" class="list-group-item">{{ text_account }}</a></li>
+
+
+  <li {% if order == here %}class="selected"{% endif %}> <a href="{{ order }}" class="list-group-item">{{ text_order }}</a> </li>
+  
+
+  <li {% if address == here %}class="selected"{% endif %}> <a href="{{ address }}" class="list-group-item">{{ text_address }}</a></li>
+
+ 
+  <li {% if download == here %}class="selected"{% endif %}> <a href="{{ download }}" class="list-group-item">{{ text_download }}</a></li>
+
+  <li {% if recurring == here %}class="selected"{% endif %}> <a href="{{ recurring }}" class="list-group-item">{{ text_recurring }}</a></li >
+
+  <li {% if reward == here %}class="selected"{% endif %}> <a href="{{ reward }}" class="list-group-item">{{ text_reward }}</a></li >
+
+  <li {% if return == here %}class="selected"{% endif %}> <a href="{{ return }}" class="list-group-item">{{ text_return }}</a></li>
+
+  <li {% if transaction == here %}class="selected"{% endif %}> <a href="{{ transaction }}" class="list-group-item">{{ text_transaction }}</a></li>
+
+  <li {% if newsletter == here %}class="selected"{% endif %}> <a href="{{ newsletter }}" class="list-group-item">{{ text_newsletter }}</a></li >
+
+  <li{% if password == here %}class="selected"{% endif %}> <a href="{{ password }}" class="list-group-item">{{ text_password }}</a></li>
+
+#}
+
+  <li> <a href="{{ logout }}" class="list-group-item">{{ text_logout }}</a></li> 
+
+
+  {% endif %}  
+
+</ul>

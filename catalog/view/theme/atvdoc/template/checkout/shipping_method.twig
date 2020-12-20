@@ -1,0 +1,103 @@
+{#
+{% if error_warning %}
+<div class="alert alert-warning alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+{% endif %}
+{% if shipping_methods %}
+<p>{{ text_shipping_method }}</p>
+{% for shipping_method in shipping_methods %}
+<p><strong>{{ shipping_method.title }}</strong></p>
+{% if not shipping_method.error %}
+{% for quote in shipping_method.quote %}
+<div class="radio">
+  <label> {% if quote.code == code or not code %}
+    {% set code = quote.code %}
+    <input type="radio" name="shipping_method" value="{{ quote.code }}" checked="checked" />
+    {% else %}
+    <input type="radio" name="shipping_method" value="{{ quote.code }}" />
+    {% endif %}
+    {{ quote.title }} - {{ quote.text }}</label>
+</div>
+{% endfor %}
+{% else %}
+<div class="alert alert-danger alert-dismissible">{{ shipping_method.error }}</div>
+{% endif %}
+{% endfor %}
+{% endif %}
+<p><strong>{{ text_comments }}</strong></p>
+<p>
+  <textarea name="comment" rows="8" class="form-control">{{ comment }}</textarea>
+</p>
+<div class="buttons">
+  <div class="pull-right">
+    <input type="button" value="{{ button_continue }}" id="button-shipping-method" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
+  </div>
+</div>
+#}
+
+
+{% if error_warning %}
+<div class="alert alert-warning alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+{% endif %}
+
+{% if shipping_methods %}
+  {% for shipping_method in shipping_methods %}
+    {% for quote in shipping_method.quote %}
+      <p class="">
+        {% if quote.code == code %}
+        {% set code = quote.code %}
+        <input type="radio" required id="{{ quote.code }}" name="shipping_method" value="{{ quote.code }}" checked="checked" class="bx-soa-pp-company-input" />
+        {% else %}
+        <input type="radio" required id="{{ quote.code }}" name="shipping_method" value="{{ quote.code }}" />
+        {% endif %}
+        <label for="{{ quote.code }}" class="label__pay">
+          <span>{{ quote.title }}:{{ quote.cost_currency }} <br> {{ quote.description }} </span>
+        </label>
+      </p>
+
+{#
+        <div class=" bx-soa-pp-company {% if quote.code == code or not code %}bx-selected{% endif %}">
+          <div class="bx-soa-pp-company-graf-container">
+            <div class="bx-soa-pp-company-graf">
+              <div class="bx-soa-pp-company-checkbox">
+                {% if quote.code == code or not code %}
+                {% set code = quote.code %}
+                <input type="radio" name="shipping_method" value="{{ quote.code }}" checked="checked" class="bx-soa-pp-company-input" />
+                {% else %}
+                <input type="radio" name="shipping_method" value="{{ quote.code }}" />
+                {% endif %}
+              </div>
+              <div class="bx-soa-pp-company-image">
+                {{ quote.image }}
+              </div>
+              <div class="bx-soa-pp-company-descr"><label><i class="fa fa-info"></i></label>
+                <div class="pop-up pp-descr" style="opacity: 0; z-index: -1;">{{ quote.text }}</div>
+              </div>
+            </div>
+          </div><label class="icon"><i class="fa fa-check"></i></label>
+         {% if quote.cost %} <div class="bx-soa-pp-delivery-cost">{{ quote.cost }} руб.</div>{% endif %}
+          <div class="bx-soa-pp-company-smalltitle">{{ quote.title }}</div>
+        </div>
+     #}
+    {% endfor %}
+  {% endfor %}
+  <!--
+  <textarea name="comment" rows="8" class="form-control hide">{{ comment }}</textarea>
+
+  <div class="bx-soa-more"><button type="button" data-loading-text="{{ text_loading }}" class="btn_buy ppp prev">Назад</button>
+    <button
+        type="button" class="btn_buy popdef next" id="button-shipping-method" >Далее
+    </button>
+</div>
+-->
+{% endif %}
+
+<script>
+  /*$('.bx-soa-pp-company').click(function(){
+      var $this = $(this);
+      $this.find('input[name="shipping_method"]').prop('checked', 'checked');
+      $this.find('input[name="shipping_method"]').change();
+
+      $('.bx-soa-pp-company').removeClass('bx-selected');
+      $this.addClass('bx-selected');
+  })*/
+</script>

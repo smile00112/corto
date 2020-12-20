@@ -1,0 +1,676 @@
+{{ header }}
+
+
+<section class="content main__content">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="breads">
+
+              <a class="breadcrumb__link" href="/" title="Главная" itemprop="url"  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" itemref="breadcrumb_1">
+                <span class="breadcrumb__title_main" itemprop="title">Главная</span>
+              </a>
+              <i class="sl20"></i>
+              {% for breadcrumb in breadcrumbs %}
+
+                  {% if breadcrumb.href %} 
+                    <a class="breadcrumb__link" href="{{ breadcrumb.href }}" title="{{ breadcrumb.text }}" itemprop="url" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                  {% endif %}
+                      <span class="breadcrumb__title" itemprop="title">
+                        {{ breadcrumb.text }}
+                      </span>
+                  {% if breadcrumb.href %}
+                   </a>
+                   <i class="sl20"></i>
+                  {% endif %}
+
+              {% endfor %}
+           
+				</div>
+				<div class="block__h1__sort">
+					<h1 class="h1__main">{{ heading_title }} {#{ product_total }} товаров#}</h1>
+					<!--<div class="sort__block">-->
+						<!--<p class="name__sort">Сортировать по цене</p>-->
+						<!--<span class="active"><i class="sl22"></i></span>-->
+						<!--<span><i class="sl21"></i></span>-->
+						<!--<p class="button__filtr-noactive hvr-fade button_one toddle-aside" data-aside="id-aside">Фильтр</p>-->
+					<!--</div>-->
+				</div>
+				<div class="block__sort">
+					<div class="sort">
+            <p class="button__filtr-noactive hvr-fade button_one toddle-aside" data-aside="id-aside">Фильтр</p>
+{# Сортировка #}
+{% if products|length %}
+{#
+        <div class="filter_indent clr"></div> 
+        <div class="count_items">
+          <label>Товаров:</label>
+          <span>{{ product_total }}</span>
+        </div>
+#}
+        <div class="mobile__not">
+          <p class="sort__sort hvr-fade"><span>Сортировать:</span></a></p>
+          <p class="sort__price hvr-fade {% if sort == 'p.price' and order == 'DESC' %}selected {{ order|lower }} {% endif %}">
+            <a href="{{ sort_sort_price_desc }}"><span>Дороже</span></a></p>
+          <p class="sort__price hvr-fade active {% if sort == 'p.price' and order == 'ASC' %}selected {{ order|lower }} {% endif %}">
+            <a href="{{ sort_sort_price_asc }}"><span>Дешевле</span></a></p>
+          <p class="sort__price hvr-fade {% if sort == 'p.name' and order == 'ASC' %}selected {{ order|lower }} {% endif %}">
+            <a href="{{ sort_sort_name_asc }}"><span>От А до Я</span></a></p>
+          <p class="sort__price hvr-fade {% if sort == 'p.name' and order == 'DESC' %}selected {{ order|lower }} {% endif %}">
+            <a href="{{ sort_sort_name_desc }}"><span>От Я до А</span></a></p>
+        </div>
+
+{% endif %}
+{#--- Сортировка #}
+
+            
+						<div class="sort__not-desktop">
+							<a href="#text-popup-sort" data-effect="mfp-zoom-in" class="popup-content">
+								<p class="sort__sort hvr-fade"><span>Сортировать:</span></p>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="table">
+					<aside id="id-aside">
+						<div class="filtr">
+              <form method="get" >
+							<div class="accordion">
+								<section class="">
+									<h3 class="title_block"><span class="orange__kvsdro"></span>	<span>Цена</span></h3>
+									<div class="">
+										<p><input type="text" id="example_id" name="price" data-from="{{price_from}}" data-to="{{price_to}}"  data-filter_val value="" class="filtr__price"/></p>
+									</div>
+								</section>
+								<section class="accordion_item active_block color__important accordion__color">
+									<h3 class="title_block"><span class="orange__kvsdro"></span><span>Цвет</span></h3>
+									<div class="info" style="display: block;">
+
+                    {% for attr in filter_color %}
+                    
+                      <label class="checkbox {{attr.translit}} f-item" {% if loop.index >= 10 %} style="display:none" {% endif %}>
+                        <input type="checkbox" data-filter_val name="color" {% if attr.checked %}checked="checked"{% endif %} value="{{attr.text}}">
+                        <span tabindex="0"></span>
+                        <sup data-attr_ostatok="color_{{attr.text}}" class="ostatok">(777)</sup>
+                      </label>
+
+                      {% if loop.index == 10 %}<span class="filtr__add-color more_filter_items">+ еще <i>{{ loop.revindex }}</i></span>{% endif %}
+                    {% endfor %}
+                    
+                    <!--<span class="filtr__add-color more_filter_items">+ еще <i>15</i></span>-->
+
+									</div>
+								</section>
+								<section class="accordion_item active_block accordion__manufacturer">
+									<h3 class="title_block"><span class="orange__kvsdro"></span><span>Производитель</span></h3>
+									<div class="info" style="display: block;">
+										<div class="fabricator__block">
+
+                      {% for attr in filter_manufacturer %}
+
+                        <p class="fabricator__block--item f-item" {% if loop.index >= 10 %} style="display:none" {% endif %}><label class="checkbox fabricator">
+                            <input type="checkbox" data-filter_val name="manufacturer" {% if attr.checked %}checked="checked"{% endif %} value="{{attr.text}}">
+                            <span class="fabricator__close checkbox__text">{{attr.text}}<sup data-attr_ostatok="manufacturer_{{attr.text}}" class="ostatok">(777)</sup></span>
+                          </label>
+                        </p>
+                        {% if loop.index == 10 %}<span class="filtr__add-color more_filter_items">+ еще <i>{{ loop.revindex }}</i></span>{% endif %}
+
+                      {% endfor %}
+                      
+
+                    </div>
+									</div>
+                </section>
+                
+								<section class="accordion_item active_block accordion__matherial">
+									<h3 class="title_block"><span class="orange__kvsdro"></span><span>Материал</span></h3>
+									<div class="info" style="display: block;">
+										<div class="fabricator__block">
+
+                      {% for attr in filter_matherial %}
+
+                        <p class="fabricator__block--item f-item" {% if loop.index >= 10 %} style="display:none" {% endif %}><label class="checkbox fabricator">
+                            <input type="checkbox" data-filter_val name="matherial" {% if attr.checked %}checked="checked"{% endif %} value="{{attr.text}}">
+                            <span class="fabricator__close checkbox__text">{{attr.text}}<sup data-attr_ostatok="matherial_{{attr.text}}" class="ostatok">(777)</sup></span>
+                          </label>
+                        </p>
+                        {% if loop.index == 10 %}<span class="filtr__add-color more_filter_items">+ еще <i>{{ loop.revindex }}</i></span>{% endif %}
+
+                      {% endfor %}
+                      
+
+                    </div>
+									</div>
+                </section>
+
+								<section class="accordion_item active_block accordion__model">
+									<h3 class="title_block"><span class="orange__kvsdro"></span><span>Модель</span></h3>
+									<div class="info" style="display: block;">
+										<div class="fabricator__block">
+
+                      {% for attr in filter_model %}
+
+                        <p class="fabricator__block--item f-item" {% if loop.index >= 10 %} style="display:none" {% endif %}><label class="checkbox fabricator">
+                            <input type="checkbox" data-filter_val name="model" {% if attr.checked %}checked="checked"{% endif %} value="{{attr.text}}">
+                            <span class="fabricator__close checkbox__text">{{attr.text}}<sup data-attr_ostatok="model_{{attr.text}}" class="ostatok">(777)</sup></span>
+                          </label>
+                        </p>
+
+                        {% if loop.index == 10 %}<span class="filtr__add-color more_filter_items">+ еще <i>{{ loop.revindex }}</i></span>{% endif %}
+
+                      {% endfor %}
+                      
+
+                    </div>
+									</div>
+                </section>
+                
+								<div class="filtr__button ">
+									<button class="hvr-fade filter-aply">Применить</button>
+									<button class="hvr-fade close__mobile-button">Закрыть Фильтр</button>
+								</div>
+              </div>
+              </form>
+						</div>
+					</aside>
+					<div>
+            {% if not categories and not products %}
+            <p>{{ text_empty }}</p>
+            <!-- empty items-container -->
+            {% endif %}
+
+  {% if(products) %}
+						<ul class="block__table">
+              
+            {% for product in products %}
+     
+              <li class="item" data-product_item="{{ product.product_id }}" itemscope=""  itemtype="http://schema.org/Product">
+                <div class="block__item-default">
+                  <p class="conteiner__image">
+                    <meta content="{{ product.thumb }}" itemprop="image">
+                  
+                    {% if product.image != '' %}    
+          
+                      <a href="{{ product.href }}" class="image-link" data-modal_id="product_{{ product.product_id }}_modal_foto" 
+                        title="{{ product.name }}" rel="nofollow">
+                        <img class="item_img" id="product_{{ product.product_id }}_image" src="{{ product.thumb }}"  alt="{{ product.name }}" title="{{ product.name }}">
+                      </a>
+          
+                    {% endif %}
+                    
+                   
+                  <p class="block__item-default--artikul"><span>Артикул: 	</span> <span>{{ product.sku }}</span></p>
+                  <p class="block__item-default--text">
+                    <a href="{{ product.href }}" title="{{ product.name }}" itemprop="url"><span itemprop="name">{{ product.name }}</span></a>
+                  </p>
+
+                  {% if product.quantity %}    
+                    <div class="block__item-default-basket" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+                      <p class="block__item-default-price"><span>{{ product.price_not_formated }}</span> руб </p>
+                      <meta itemprop="price" content="{{ product.price_not_formated }}">
+                      <meta itemprop="priceCurrency" content="RUB">
+                      <meta content="InStock" itemprop="availability">
+                      
+
+                      <input type="hidden" name="ID" value="{{ product.product_id }}">
+                      <p> 
+                        <button type="button" 
+                        class="btn_buy hvr-fade"
+                        id = "product_{{ product.product_id }}_addbtn"
+                        name="add2basket"
+                        onclick="cart.add('{{ product.product_id }}', '1');">
+                        Купить
+                      </button> 
+                    </p>
+
+                    </div>
+                    <div class="block__item-default-comparison">
+                      <p class="block__item-default--text">В наличии</p>
+                      <p class="comparison wishlist-btn" onclick="wishlist.add('{{ product.product_id }}');"><i class="sl12"></i></p>
+                    </div>
+               {% else %}
+                <div class="block__item-default-basket">
+                  <p class="block__item-default-price"><span>{{ product.price_not_formated }}</span> руб </p>
+                </div>
+                  <div class="block__item-default-comparison">
+                    <p class="block__item-default--text">Нет в наличии</p>
+                    <p class="comparison wishlist-btn" onclick="wishlist.add('{{ product.product_id }}');"><i class="sl12"></i></p>
+                  </div>
+               {% endif %}                    
+
+                </div>
+              </li>
+          
+          
+              {% endfor %} 
+
+
+					
+					</ul>
+
+{% endif %}
+          
+
+              {{ pagination }}
+
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+let map = {{category_products_map}};
+console.log(map)
+function _map(element) {
+  console.log( element.value );
+}
+class Filter {
+  //var self = this;
+  handleEvent(event) {
+    //Типы фильтров
+    
+    //Имя текущего выбранного фильтра
+    let el_name = event.target.checked ? event.target.name : '';
+    let target = event.target;
+    filtered(el_name)
+  /*  switch(event.type) {
+      case 'change':
+      //console.log( fitlterItem.value )
+      //  elem.innerHTML = "Нажата кнопка мыши";
+        break;
+      case 'click':
+      
+      
+    };*/
+  
+  };
+  }
+  function filtered(el_name){
+    //console.log(event.target.value)
+    let p_ar = document.querySelector('[name="price"]').value.split(';');
+    let price_from = p_ar[0];
+    let price_to = p_ar[1];
+    let filter_types = ['color', 'manufacturer', 'model', 'matherial'];
+    //Массив выбранных цветов 
+    let selected_colors = Array.prototype.map.call(document.querySelectorAll('[name="color"]:checked'), function (item) {
+        return item.value;
+    });
+    //Массив выбранных производителей 
+    let selected_manufacturiers = Array.prototype.map.call(document.querySelectorAll('[name="manufacturer"]:checked'), function (item) {
+        return item.value;
+    });    
+    //Массив выбранных моделей 
+    let selected_models = Array.prototype.map.call(document.querySelectorAll('[name="model"]:checked'), function (item) {
+      return item.value;
+  });    
+    //Массив выбранных материалов 
+    let selected_matherials = Array.prototype.map.call(document.querySelectorAll('[name="matherial"]:checked'), function (item) {
+      return item.value;
+  });      
+        //Обнуляем предполагаемые колличества товарво
+    filter_types.forEach(function(filter_t, i, arr){
+        document.querySelectorAll('.accordion__'+ filter_t +' [data-attr_ostatok]').forEach((element) => {
+           //element.innerHTML = '('+element.innerHTML+')'
+           //console.log(element);
+           if(filter_t != el_name)
+              element.innerHTML = 0;
+/*
+           if(filter_t != el_name)
+             element.innerHTML = 0;
+           else element.innerHTML = '';
+*/
+        });
+    });
+      //console.log(selected_manufacturiers);
+      let map_filtered = map.filter(function(item, index, array) {
+          //console.warn(item, index, array)
+         // console.log(selected_colors.length,  selected_manufacturiers.length)
+          let price = item.price <= price_to && item.price >= price_from;
+          let color = ( !selected_colors.length ) || ( selected_colors.indexOf(item.color) >=0  ) ;
+          let model = ( !selected_models.length ) || ( selected_models.indexOf(item.model) >=0 ) ;
+          let matherial = ( !selected_matherials.length  ) || ( selected_matherials.indexOf(item.matherial) >=0  ) ;
+          let manufacturer = ( !selected_manufacturiers.length ) ||( selected_manufacturiers.indexOf(item.manufacturer) >=0  ) ;
+          let $result = color && model && matherial && manufacturer && price;
+          if( $result ){
+              filter_types.forEach(function(filter_t, i, arr){
+                  //document.querySelectorAll('.accordion__'+ filter_t +' [data-attr_ostatok]').forEach((element) => {
+                  //element.innerHTML = '('+element.innerHTML+')'
+                    if(filter_t != el_name)
+                    {
+                      if( item != null ){
+                        let el = document.querySelector('[data-attr_ostatok="'+filter_t+'_'+item[filter_t]+'"]');
+                        if(el)
+                          el.innerHTML = el.innerHTML*1+1;
+                      }
+                    }
+        
+                  //});
+              });
+          }
+         //let price = true;
+        //console.log(item);
+        console.log(item.color, color, model, matherial, manufacturer, price);
+        return $result;
+/*
+          if(selected_colors.length && selected_manufacturiers.length  && selected_models.length  && selected_matherials.length )
+            return ( selected_colors.indexOf( item.color ) >= 0 || item.color == null )  && 
+              ( selected_models.indexOf( item.model ) >= 0 || item.model == null ) &&
+              ( selected_matherials.indexOf( item.matherial ) >= 0 || item.matherial == null )
+              ;
+          if(selected_colors.length && !selected_manufacturiers.length && !selected_models.length  && !selected_matherials.length) {
+            console.log(item.color, selected_colors.indexOf( item.color ));
+            return ( selected_colors.indexOf( item.color ) >= 0 || item.color == null);
+          }  
+          if(!selected_colors.length && selected_manufacturiers.length)  
+            return( selected_manufacturiers.indexOf( item.manufacturer ) >= 0 || item.manufacturer == null );          
+*/
+      });
+      
+      console.error('map_filtered');
+      console.error(map_filtered);
+/*
+      //Обнуляем предполагаемые колличества товаров
+      filter_types.forEach(function(filter_t, i, arr){
+           document.querySelectorAll('.accordion__'+ filter_t +' [data-attr_ostatok]').forEach((element) => {
+            //element.innerHTML = '('+element.innerHTML+')'
+            //console.log(element);
+            if(filter_t != el_name)
+              element.innerHTML = 0;
+            else element.innerHTML = '';
+          });
+      });
+*/
+      //Заполняем предполагаемые колличества товаров  
+ /*
+      map_filtered.forEach(function(item, i, arr){
+        filter_types.forEach(function(filter_t, i, arr){
+            document.querySelectorAll('.accordion__'+ filter_t +' [data-attr_ostatok]').forEach((element) => {
+            //element.innerHTML = '('+element.innerHTML+')'
+            if(filter_t != el_name){
+              if( item != null ){
+                let el = document.querySelector('[data-attr_ostatok="'+filter_t+'_'+item[filter_t]+'"]');
+                if(el)
+                  el.innerHTML = el.innerHTML*1+1;
+              }
+            }
+          });
+        });
+      });
+*/
+      //Делаем скобки
+  /*
+      filter_types.forEach(function(filter_t, i, arr){
+        document.querySelectorAll('.accordion__'+ filter_t +' [data-attr_ostatok]').forEach((element) => {
+         if(element.innerHTML)
+            element.innerHTML = '('+element.innerHTML+')'
+        
+       });
+      });
+      */
+      // console.warn( fitlterItem.value )
+      
+    }
+document.querySelectorAll('[data-filter_val]').onclick = function() { // перезапишет существующий обработчик
+    console.log( this.value );
+};
+let filter = new Filter();
+setTimeout(function tick() {
+  //Назначаем события для checkbox фильтра
+  let filter_elements = document.querySelectorAll('[data-filter_val]');
+  filter_elements.forEach((fitlterItem) => fitlterItem.addEventListener('click' , filter ))
+//console.log(filter_elements);
+  //Назначаем события для поля цена фильтра  
+  let filter_price = document.querySelector('[name="price"]');
+  //filter_price.addEventListener('change' , alert() );
+  //Назначаем события для кнопки "показать еще" фильтра  
+  let filter_more = document.querySelectorAll('.more_filter_items');
+  filter_more.forEach((fitlterItem) => fitlterItem.addEventListener('click' , function(){
+      let p = this.parentNode.children  ;
+      [].forEach.call(p, function(elem) {
+        elem.style.display = '';
+        //elem.remove();
+      });
+      this.remove();
+  } ));
+ // document.querySelector('.accordion__color input[type="checkbox"]').click();
+ // document.querySelector('.accordion__color input[type="checkbox"]').click();
+ filtered('price');
+}, 2000);
+function mmmm() { 
+  filter
+}
+let filter_types = ['color', 'manufacturer', 'model', 'matherial'];
+$('.filter-aply').click(function(e){
+    e.preventDefault();
+    var patch = '',
+    url_t = [];
+    $url='{{u}}';
+
+    //Собираем выбранные параметры
+    $('.filtr input:checked').each(function(){
+        if($(this).prop('name')!='category[]' &&  $(this).prop('name')!='price'){
+          if(!!!url_t[$(this).prop('name')]) url_t[$(this).prop('name')] = '';
+          url_t[$(this).prop('name')]+=$(this).val()+';';
+        }
+    });
+    //Делаем ссылку
+     for (key in url_t) {
+      //console.log(key, url_t[key]);
+      patch+='&'+key+'='+url_t[key];
+      //elem.remove();
+    };
+
+    //обработка слайдеров 
+    var 
+    p = $('[name="price"]').val();
+    price = p.split(';'),
+    price_from = price[0],
+    price_to = price[1];
+    
+   //if( price.data('start') != price_from.val() )
+    { 
+          patch+='&price_from='+price_from;
+    }
+    //if( price.data('end') != price_to.val() )
+    {
+          patch+='&price_to='+price_to;
+    }       
+    //patch=window.location.href+patch;
+    patch=$url+patch;
+    //console.log(patch); 
+    window.location.href=patch;
+});
+/*
+for (let elem of elements) {
+  console.warn(elem.value); // "тест", "пройден"
+}*/
+</script>
+
+
+<div class="content_bottom">
+  {{ content_bottom }}
+</div>
+
+<!-- {{ content_top }}-->
+
+<div id="fastview_modal"></div>
+
+{{ footer }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#
+  <div id="product-category" class="container">
+    <ul class="breadcrumb">
+      {% for breadcrumb in breadcrumbs %}
+      <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+      {% endfor %}
+    </ul>
+    <div class="row">
+      {% if column_left and column_right %}
+      {% set class = 'col-sm-6' %}
+      {% elseif column_left or column_right %}
+      {% set class = 'col-sm-9' %}
+      {% else %}
+      {% set class = 'col-sm-12' %}
+      {% endif %}
+      <div id="content" class="{{ class }}">{{ content_top }}
+        <h1>{{ heading_title }}</h1>
+        {% if thumb or description %}
+        <div class="row"> {% if thumb %}
+          <div class="col-sm-2"><img src="{{ thumb }}" alt="{{ heading_title }}" title="{{ heading_title }}"
+              class="img-thumbnail" /></div>
+          {% endif %}
+          {% if description %}
+          <div class="col-sm-10">{{ description }}</div>
+          {% endif %}</div>
+        <hr>
+        {% endif %}
+        {% if categories %}
+        <h3>{{ text_refine }}</h3>
+        {% if categories|length <= 5 %}
+        <div class="row">
+          <div class="col-sm-3">
+            <ul>
+              {% for category in categories %}
+              <li><a href="{{ category.href }}">{{ category.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        {% else %}
+        <div class="row">{% for category in categories|batch((categories|length / 4)|round(1, 'ceil')) %}
+          <div class="col-sm-3">
+            <ul>
+              {% for child in category %}
+              <li><a href="{{ child.href }}">{{ child.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endfor %}</div>
+        <br />
+        {% endif %}
+        {% endif %}
+        {% if products %}
+        <div class="row">
+          <div class="col-md-2 col-sm-6 hidden-xs">
+            <div class="btn-group btn-group-sm">
+              <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip"
+                title="{{ button_list }}"><i class="fa fa-th-list"></i></button>
+              <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip"
+                title="{{ button_grid }}"><i class="fa fa-th"></i></button>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="form-group"><a href="{{ compare }}" id="compare-total"
+                class="btn btn-link">{{ text_compare }}</a></div>
+          </div>
+          <div class="col-md-4 col-xs-6">
+            <div class="form-group input-group input-group-sm">
+              <label class="input-group-addon" for="input-sort">{{ text_sort }}</label>
+              <select id="input-sort" class="form-control" onchange="location = this.value;">
+                {% for sorts in sorts %}
+                {% if sorts.value == '%s-%s'|format(sort, order) %}
+                <option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
+                {% else %}
+                <option value="{{ sorts.href }}">{{ sorts.text }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-6">
+            <div class="form-group input-group input-group-sm">
+              <label class="input-group-addon" for="input-limit">{{ text_limit }}</label>
+              <select id="input-limit" class="form-control" onchange="location = this.value;">
+                {% for limits in limits %}
+                {% if limits.value == limit %}
+                <option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
+                {% else %}
+                <option value="{{ limits.href }}">{{ limits.text }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row"> {% for product in products %}
+          <div class="product-layout product-list col-xs-12">
+            <div class="product-thumb">
+              <div class="image"><a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}"
+                    title="{{ product.name }}" class="img-responsive" /></a></div>
+              <div>
+                <div class="caption">
+                  <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                  <p>{{ product.description }}</p>
+                  {% if product.price %}
+                  <p class="price"> {% if not product.special %}
+                    {{ product.price }}
+                    {% else %} <span class="price-new">{{ product.special }}</span> <span
+                      class="price-old">{{ product.price }}</span> {% endif %}
+                    {% if product.tax %} <span class="price-tax">{{ text_tax }} {{ product.tax }}</span> {% endif %}
+                  </p>
+                  {% endif %}
+                  {% if product.rating %}
+                  <div class="rating"> {% for i in 1..5 %}
+                    {% if product.rating < i %} <span class="fa fa-stack"><i
+                        class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i
+                        class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>{% endif %}
+                    {% endfor %} </div>
+                  {% endif %}
+                </div>
+                <div class="button-group">
+                  <button type="button" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');"><i
+                      class="fa fa-shopping-cart"></i> <span
+                      class="hidden-xs hidden-sm hidden-md">{{ button_cart }}</span></button>
+                  <button type="button" data-toggle="tooltip" title="{{ button_wishlist }}"
+                    onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+                  <button type="button" data-toggle="tooltip" title="{{ button_compare }}"
+                    onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %} </div>
+        <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+        {% endif %}
+        {% if not categories and not products %}
+        <p>{{ text_empty }}</p>
+        <div class="buttons">
+          <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+        </div>
+        {% endif %}
+        {{ content_bottom }}
+      </div>
+    </div>
+  </div>
+  #}

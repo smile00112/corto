@@ -1,0 +1,31 @@
+<div style="overflow:auto;">
+  <div class="col-sm-6 required">
+	<label class="control-label">{{ entry_password }}</label>
+	<input type="password" name="password" value="" class="form-control" />
+  </div>
+  <div class="col-sm-6 required">
+	<label class="control-label">{{ entry_confirm }}</label>
+	<input type="password" name="confirm" value="" class="form-control" />
+  </div>
+  <div class="col-xs-12" style="clear:both;border-bottom:1px solid #dddddd;margin:10px 0px;">
+
+	{% if field_newsletter.required and not field_newsletter.display %}
+		<input type="checkbox" name="newsletter" value="1" id="newsletter" class="hide" checked="checked" />
+	{% elseif field_newsletter.display %}
+	  <label for="newsletter">
+	  {% if field_newsletter.default %} 
+	  	<input type="checkbox" name="newsletter" value="1" id="newsletter" checked="checked" />
+	  {% else %}   
+	  	<input type="checkbox" name="newsletter" value="1" id="newsletter" />
+	  {% endif %}
+	    {{ entry_newsletter }}</label><br />
+	{% else %}   
+    	<input type="checkbox name="newsletter" value="1" id="newsletter" class="hide" />
+	{% endif %}
+
+	{% if text_agree %}
+    	<label for="agree-reg"><input type="checkbox" name="agree" value="1" id="agree-reg" />	{{ text_agree }}</label>
+	{% endif %} 
+
+  </div>
+</div>

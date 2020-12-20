@@ -1,0 +1,123 @@
+<section class="content main__content">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h2 class="h2__main"><span>Рекомендуем Вам </span><i class="sl10"></i></h2>
+				<div class="owl-carousel owl-theme slide-two">
+
+
+          {% for banner in banners %}
+           
+					<div class="item  item__hot" style="background: url('{{ banner.image }}') no-repeat;background-size:  cover;" alt="{{ banner.title }}">
+						<a href="{{ banner.link }}" title="{{ banner.title }}" ><p class="item__hot--text hvr-grow">Беспроводной аккумулятор</p></a>
+          </div>
+          
+         
+         {% endfor %}
+
+
+				</div>
+			</div>
+	</div>
+
+
+
+
+
+      {# 
+
+        {% for banner in banners %}
+           
+
+              <a class="banners-main__item" href="{{ banner.link }}" style="width:50%;">
+                <span class="banners-main__item-image" alt="{{ banner.title }}"
+                  style="background-image:url('{{ banner.image }}');"></span>
+                <span class="banners-main__item-block-wrap">
+                  <span class="banners-main__item-block">
+                    <span class="banners-main__item-btn">
+            
+                      <span class="banners-main__item-text">{{ banner.title }}</span>
+                      <button name="banners-main__item-button" class="btn_buy">Перейти в каталог</button>
+                    </span>
+            
+                  </span>
+                </span>
+              </a>
+
+              
+        
+
+            {% if loop.index is even  %}
+              </div><div class="banners-main__row">
+            {% endif %}
+
+
+
+ 
+      {% endfor %}
+
+
+     #}
+
+
+
+
+
+
+
+{#
+
+
+<div class="vendors_bottom">
+  <div class="h3">Производители</div>
+  <a class="all" href="/manufacturiers/">Все производители</a>
+  <div class="clr"></div>
+  <div class="vendors-section-list">
+    <div class="vendors-section-items">
+        {% for banner in banners %}
+
+          <div class="vendors-section-item">
+
+            {% if banner.link %}
+
+              <a href="{{ banner.link }}">
+                <span class="item">
+                  <span class="image">
+                    <img src="{{ banner.image }}" alt="{{ banner.title }}" width="69" height="24" >
+                  </span>
+                  <span class="item-title">{{ banner.title }}</span>
+                </span>
+              </a>
+            {% else %}
+            
+            <a href="javascript:void(0);">
+              <span class="item">
+                <span class="image">
+                  <img src="{{ banner.image }}" alt="{{ banner.title }}" width="69" height="24" >
+                </span>
+                <span class="item-title">{{ banner.title }}</span>
+              </span>
+            </a>
+            
+            {% endif %}
+
+
+          </div>
+
+        {% endfor %}
+      
+
+
+      <div class="clr"></div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+#}`

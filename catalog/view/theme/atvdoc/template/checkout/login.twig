@@ -1,0 +1,83 @@
+<div class="bx-soa-authform">
+  <div class="bx-soa-authform-formgroup-container">
+    <div class="bx-soa-authform-label-container">Логин</div>
+
+    <div class="bx-soa-authform-input-container">
+      <input type="text" name="email" value="" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+    </div>
+  </div>
+
+  <div class="bx-soa-authform-formgroup-container">
+    <div class="bx-soa-authform-label-container">Пароль</div>
+    <div class="bx-soa-authform-input-container">
+      <input type="password" name="password" value="" placeholder="{{ entry_password }}" id="input-password"
+        class="form-control" />
+    </div>
+  </div>
+
+  <div class="bx-soa-authform-formgroup-container">
+    <div class="checkbox"><label class="bx-filter-param-label"><input type="checkbox" name="USER_REMEMBER"
+          value="Y"><span class="bx-filter-param-text">Запомнить меня</span></label></div>
+  </div>
+  <div class="bx-soa-authform-formgroup-container">
+    <button type="button" id="button-login" class="btn_buy popdef" value="Войти">Войти</button>
+  </div>
+  <a href="{{ forgotten }}">Забыли пароль?</a>
+
+
+
+  {% if checkout_guest %}
+
+  <div class="bx-soa-reg-block">
+    <p>Если вы впервые на сайте, и хотите что бы мы вас помнили и все ваши заказы сохранялись, заполните
+      регистрационную форму.</p>
+    <button type="button" id="button-show-reg" class="btn_buy popdef">Зарегистрироваться</button>
+  </div>
+
+
+  {% endif %}
+
+</div>
+
+{#}
+<div class="row">
+  <div class="col-sm-6">
+    <h2>{{ text_new_customer }}</h2>
+    <p>{{ text_checkout }}</p>
+    <div class="radio">
+      <label> {% if account == 'register' %}
+        <input type="radio" name="account" value="register" checked="checked" />
+        {% else %}
+        <input type="radio" name="account" value="register" />
+        {% endif %}
+        {{ text_register }}</label>
+    </div>
+    {% if checkout_guest %}
+    <div class="radio">
+      <label> {% if account == 'guest' %}
+        <input type="radio" name="account" value="guest" checked="checked" />
+        {% else %}
+        <input type="radio" name="account" value="guest" />
+        {% endif %}
+        {{ text_guest }}</label>
+    </div>
+    {% endif %}
+    <p>{{ text_register_account }}</p>
+    <input type="button" value="{{ button_continue }}" id="button-account" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
+  </div>
+  <div class="col-sm-6">
+    <h2>{{ text_returning_customer }}</h2>
+    <p>{{ text_i_am_returning_customer }}</p>
+    <div class="form-group">
+      <label class="control-label" for="input-email">{{ entry_email }}</label>
+      <input type="text" name="email" value="" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="input-password">{{ entry_password }}</label>
+      <input type="password" name="password" value="" placeholder="{{ entry_password }}" id="input-password" class="form-control" />
+      <a href="{{ forgotten }}">{{ text_forgotten }}</a></div>
+    <input type="button" value="{{ button_login }}" id="button-login" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
+  </div>
+</div>
+
+#}

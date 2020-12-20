@@ -1,0 +1,15 @@
+<div class="vendors">
+
+  <div class="h3">Производители</div>
+
+  <div class="vendors-list">
+    {% for banner in banners %}
+    <p class="vendors-item">
+      <a rel="nofollow" href="{{ banner.link }}" title="{{ banner.title }}">{{ banner.title }}</a>
+    </p>
+    {% endfor %}
+  </div>
+  <a class="all" href="/manufacturers/">Все производители</a>
+
+</div>
+

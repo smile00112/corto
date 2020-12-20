@@ -1,0 +1,274 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="form-inline pull-right">
+                <button id="save-form" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i
+                            class="fa fa-save"></i></button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i
+                            class="fa fa-reply"></i></a>
+            </div>
+            <h1>{{ heading_title }} {{ version }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if error.warning %}
+            <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error.warning }}
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        {% endif %}
+        {% if success %}
+            <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> {{ success }}
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_form }}</h3>
+            </div>
+            <div class="panel-body">
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-setting"
+                      class="form-horizontal">
+                    {{ tabs }}
+                    <div class="main-content">
+                        <div class="bs-callout bs-callout-info">
+                            <h4>{{ text_important }}</h4>
+                            {{ text_warning_genaral_setting }}
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <ul class="nav nav-pills nav-stacked">
+
+                                    <li class="active"><a href="#general" data-toggle="tab"><i class="fa fa-cog"
+                                                                                               aria-hidden="true"></i> {{ text_tab_general }}
+                                        </a></li>
+                                    <li><a href="#custom_script" data-toggle="tab"><i class="fa fa-edit"
+                                                                                      aria-hidden="true"></i> {{ text_tab_custom_script }}
+                                        </a></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="tab-content">
+                                    <div id="general" class="tab-pane active">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="input_ajax">{{ entry_ajax }}</label>
+                                            <div class="col-sm-10">
+                                                <input type="hidden" name="{{ codename }}_setting[ajax]" value="0"/>
+                                                <input type="checkbox" class="form-control switcher"
+                                                       data-label-text="{{ text_enabled }}"
+                                                       name="{{ codename }}_setting[ajax]" {{ setting.ajax ? 'checked="checked"' }}
+                                                       value="1" id="input_ajax"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="input_fade_out_product">{{ entry_fade_out_product }}</label>
+                                            <div class="col-sm-10">
+                                                <input type="hidden" name="{{ codename }}_setting[fade_out_product]"
+                                                       value="0"/>
+                                                <input id="input_fade_out_product" type="checkbox"
+                                                       class="form-control switcher"
+                                                       data-label-text="{{ text_enabled }}"
+                                                       name="{{ codename }}_setting[fade_out_product]" {{ setting.fade_out_product ? 'checked="checked"' }}
+                                                       value="1"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="input_display_loader">{{ entry_display_loader }}</label>
+                                            <div class="col-sm-10">
+                                                <input type="hidden" name="{{ codename }}_setting[display_loader]"
+                                                       value="0"/>
+                                                <input id="input_display_loader" type="checkbox"
+                                                       class="form-control switcher"
+                                                       data-label-text="{{ text_enabled }}"
+                                                       name="{{ codename }}_setting[display_loader]" {{ setting.display_loader ? 'checked="checked"' }}
+                                                       value="1"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="input_content_path">{{ entry_contant_path }}</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control"
+                                                       name="{{ codename }}_setting[content_path]"
+                                                       value="{{ setting.content_path }}" id="input_content_path"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="input_display_selected_top">{{ entry_display_selected_top }}</label>
+                                            <div class="col-sm-10">
+                                                <input type="hidden" name="{{ codename }}_setting[display_selected_top]"
+                                                       value="0"/>
+                                                <input type="checkbox" class="form-control switcher"
+                                                       data-label-text="{{ text_enabled }}"
+                                                       name="{{ codename }}_setting[display_selected_top]" {{ setting.display_selected_top ? 'checked="checked"' }}
+                                                       value="1" id="input_display_selected_top"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="input_selected_path">{{ entry_selected_path }}</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control"
+                                                       name="{{ codename }}_setting[selected_path]"
+                                                       value="{{ setting.selected_path }}" id="input_selected_path"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="input_display_out_of_stock">{{ entry_display_out_of_stock }}</label>
+                                            <div class="col-sm-10">
+                                                <input type="hidden" name="{{ codename }}_setting[display_out_of_stock]"
+                                                       value="0"/>
+                                                <input type="checkbox" class="form-control switcher"
+                                                       data-label-text="{{ text_enabled }}"
+                                                       name="{{ codename }}_setting[display_out_of_stock]" {{ setting.display_out_of_stock ? 'checked="checked"' }}
+                                                       value="1" id="input_display_out_of_stock"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-2"
+                                                   for="input_in_stock_status">{{ entry_in_stock_status }}</label>
+                                            <div class="col-sm-10">
+                                                <select class="form-control"
+                                                        name="{{ codename }}_setting[in_stock_status]"
+                                                        id="input_in_stock_status">
+                                                    {% for value in stock_statuses %}
+                                                        {% if value.stock_status_id == setting.in_stock_status %}
+                                                            <option value="{{ value.stock_status_id }}"
+                                                                    selected="selected">{{ value.name }}</option>
+                                                        {% else %}
+                                                            <option value="{{ value.stock_status_id }}">{{ value.name }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="input_display_sub_category">{{ entry_display_sub_category }}</label>
+                                            <div class="col-sm-10">
+                                                <input type="hidden" name="{{ codename }}_setting[display_sub_category]"
+                                                       value="0"/>
+                                                <input type="checkbox" class="form-control switcher"
+                                                       data-label-text="{{ text_enabled }}"
+                                                       name="{{ codename }}_setting[display_sub_category]" {{ setting.display_sub_category ? 'checked="checked"' }}
+                                                       value="1" id="input_display_sub_category"/>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="input_multiple_attributes_value">{{ entry_multiple_attributes_value }}</label>
+                                            <div class="col-sm-10">
+                                                <input type="hidden"
+                                                       name="{{ codename }}_setting[multiple_attributes_value]"
+                                                       value="0"/>
+                                                <input id="input_multiple_attributes_value" type="checkbox"
+                                                       class="form-control switcher"
+                                                       data-label-text="{{ text_enabled }}"
+                                                       name="{{ codename }}_setting[multiple_attributes_value]" {{ setting.multiple_attributes_value ? 'checked="checked"' }}
+                                                       value="1"/>
+                                                <br/>
+                                                <br/>
+                                                <div class="bs-callout bs-callout-warning">
+                                                    <h4>{{ text_important }}</h4>
+                                                    {{ text_warning_multiple_value }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group"
+                                             id="separator" {{ not setting.multiple_attributes_value ? 'style="display:none;"' }}>
+                                            <label class="col-sm-2 control-label"
+                                                   for="input_separator">{{ entry_separator }}</label>
+                                            <div class="col-sm-2">
+                                                <input id="input_separator" type="text"
+                                                       name="{{ codename }}_setting[separator]" class="form-control"
+                                                       value="{{ setting.separator }}"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label"
+                                                   for="input_recreate_cache">{{ entry_recreate_cache }}</label>
+                                            <div class="col-sm-10">
+                                                <a href="{{ recreate_cache }}"
+                                                   class="btn btn-danger">{{ button_recreate_cache }}</a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div id="custom_script" class="tab-pane">
+                                        <textarea name="{{ codename }}_setting[custom_script]" id="input_custom_script"
+                                                  class="form-control" rows="20">{{ setting.custom_script }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".switcher").bootstrapSwitch({
+            'onColor': 'success',
+            'onText': '{{ text_yes }}',
+            'offText': '{{ text_no }}'
+        });
+
+        $(document).on('switchChange.bootstrapSwitch', 'input[type=checkbox][name$="[multiple_attributes_value]"]', function (event, state) {
+
+            if (state) {
+                $('#separator').show();
+            } else {
+                $('#separator').hide();
+            }
+        });
+
+        $(document).on('click', '#save-form', function () {
+            $.ajax({
+                url: $('#form-setting').attr('action'),
+                type: 'post',
+                dataType: 'json',
+                data: $('#form-setting').serializeJSON(),
+                beforeSend: function () {
+                    $('#form-setting').fadeTo('slow', 0.5);
+                },
+                success: function (json) {
+                    $('.form-group.has-error').removeClass('has-error');
+                    $('.form-group .text-danger').remove();
+                    $('.alert').remove();
+                    if (json['success']) {
+                        location.href = json['redirect'];
+                    }
+                    if (json['error']) {
+                        for (var key in json['errors']) {
+                            $('[data-error="' + key + '"]').after('<div class="text-danger">' + json['errors'][key] + '</div>');
+                            $('[data-error="' + key + '"]').closest('.form-group').addClass('has-error');
+                        }
+                        $('#content > .container-fluid').prepend('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                    }
+                },
+                complete: function () {
+                    $('#form-setting').fadeTo('slow', 1);
+                }
+            });
+        });
+    })
+
+</script>
+{{ footer }}

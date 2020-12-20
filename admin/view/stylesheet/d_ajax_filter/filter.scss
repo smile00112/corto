@@ -1,0 +1,60 @@
+table{
+    > tbody{
+        > tr{
+            > td{
+                &.disabled-next{
+                    &~td{
+                        select, input{
+                            pointer-events: none;
+                            background-color: #eee;
+                            opacity: 1;
+                        }
+                        div.bootstrap-switch-wrapper{
+                            pointer-events:none;
+                            > .bootstrap-switch-container{
+                                > span{
+                                    opacity:0.5;
+
+                                }
+                                input{
+                                    display:none;
+                                }
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+}
+.main-content{
+    padding-top: 20px;
+}
+.well-link{
+    cursor:pointer;
+}
+.s-nav-stacked{
+    li{
+        width: 100%;
+        display: block;
+        margin-left: 0px !important;
+        margin-bottom: 2px;
+        a{
+            width: 100%;
+            display: block;
+            margin-left: 0px !important;
+            margin-bottom: 2px;
+        }
+    }
+}
+.img-thumbnail {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.delete-image {
+  vertical-align: top;
+  cursor: pointer;
+}

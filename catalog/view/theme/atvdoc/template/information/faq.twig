@@ -1,0 +1,293 @@
+{{ header }}
+
+
+{{ column_left }}
+
+{{ column_right }}
+
+{{ content_top }}
+<!-- pic panel -->
+<div id="pic-block" class="cube-wrap col site-pane">
+    <div class="cube">
+        <div class="front-pane hiddenBackface">
+            <div class="pic-block__inside">
+                <div class="category-info" style="background-image: url(/assets/images/slide2.jpg);">
+                    <div class="category-info__desc b-bottom">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="right-pane hiddenBackface"></div>
+        <div class="left-pane hiddenBackface"></div>
+    </div>
+</div><!-- pic panel END -->
+
+
+
+<div id="page-block" class="cube-wrap-с site-pane" style="opacity: 0;">
+    <div class="cube-с">
+        <div class="right-pane hiddenBackface"></div>
+        <div class="left-pane hiddenBackface"></div>
+        <div class="front-pane hiddenBackface item-page"> 
+            <div class="page-block__inside">
+                <div id="system-message-container2">
+                </div>
+                <!-- download catalog btn -->
+
+                <span class="mouse-scroll"></span>
+                <div id="easybook">
+                    <h2 class="content-title">Вопрос-ответ</h2>
+                    <div class="easybook__wrap">
+
+
+                        <button class="easybook__faq-link" href="javascript:void(0)" title="Задать вопрос">
+                            Задать вопрос
+                        </button>
+
+
+                        {% for comment in faqes %}
+
+                        <div class="easybook__item">
+                            <div class="easybook__top">
+                                <div class="easybook__top-left">
+                                    <strong id="gbentry_425">{{ comment.gbname }}</strong>
+                                </div>
+                                <div class="easybook__top-right">
+                                    <div style="float:right;">
+                                        {{ comment.gbdate }} | {{ comment.gbloca }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="easybook__question">{{ comment.gbtext }}</div>
+                            {% if comment.gbcomment %}
+                            <div class="easybook__admincomment clearfix">
+                                <div class="easybook__admincomment-img">
+                                    <img src="/image/corto.jpg" alt="" class="easybook__admin-img">
+                                </div>
+                                <div class="easybook__admincomment-text">
+                                    <strong class="easybook__adminname">Corto Россия :</strong>
+
+                                    {{ comment.gbcomment }}
+
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% endfor %}
+
+                        <div class="btn-up">Наверх</div>
+
+
+                    </div>
+                    <div class="pagination">
+
+                        {{ pagination }}
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+<!-- Форма  вопроса -->
+      <div style="display:none" id="hidden_comment" data-src="#hidden_comment"> 
+        <div class="page-block__inside">
+            
+
+            <div id="easybook">
+                <h2 class="content-title">Задать вопрос</h2>
+                <div id="system-message-container"></div>
+                <div class="easybook-form">
+                    <form class="easybook__form-add" name="gbookForm" action="" target="_top" method="post">
+                        <div class="row-input clearfix">
+
+                            <div class="col">
+                                <label for="gbname">Имя</label>
+                                <input class="inputbox" type="text" name="gbname" id="gbname" value="" required="">
+                                <input class="inputbox faqqq" type="text" name="fio" id="fio" value="">
+                            </div>
+
+
+                            <div class="col">
+                                <label for="gbmail">E-mail</label>
+                                <input class="inputbox" type="text" name="gbmail" id="gbmail" value="" required="">
+                            </div>
+
+
+                            <div class="col">
+                                <label class="control-label" for="gbloca">Город</label>
+                                <input class="inputbox" type="text" name="gbloca" id="gbloca" value="">
+                            </div>
+                        </div>
+                        <input type="hidden" name="gbvote" value="0">
+
+
+                        <div class="b-textarea">
+                            <label for="gbtext">Сообщение</label>
+                            <textarea name="gbtext" id="gbtext" rows="10"></textarea>
+                        </div>
+
+                        <div class="row-input clearfix">
+                            <div class="col" style="width:50%">
+                                <div class="captcha">
+                                    <label for="hxz5umoo">Защита от спама</label><span class="easycalc-task">9 - 3 =</span><input type="text" class="inputbox" name="hxz5umoo" id="hxz5umoo" size="3" value="">
+                                </div>
+                            </div>
+
+
+                            <div class="col"style="width:50%;">
+                                <button type="submit" name="send" class="btn" value="" style="float: right;">Отправить</button>
+                            </div>
+							
+                            <div class="col"style="width:100%;text-align: center;">
+                                <p class="ps">все поля обязательны для заполнения</p>
+                            </div>
+                            <input type="hidden" name="option" value="">
+                            <input type="hidden" name="task" value="save">
+                            <input type="hidden" name="controller" value="entry">
+                            <input type="hidden" name="gbid" value="">
+                            <input type="hidden" name="44156eb4fd00edec4cf988f414a0c0af" value="1">
+                        </div>
+                    </form>
+
+                    <div class="easy_small_notice">
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+<!---------Форма  вопроса -->
+
+
+
+
+
+
+
+
+        {{ content_bottom }}
+
+
+
+
+        {{ footer }}
+
+
+
+
+        {#}
+
+
+
+<div class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }} showcase-list">{{ content_top }}
+      <h1>{{ heading_title }}</h1>
+	   {% if thumb or description %}
+      <div class="row">
+        {% if thumb %}
+        <div class="col-sm-2"><img src="{{ thumb }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-thumbnail" /></div>
+        {% endif %}
+        {% if description %}
+        <div class="col-sm-10">{{ description }}</div>
+		{% endif %}
+      </div>
+      <hr>
+	  {% endif %}
+      {% if articles %}
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="btn-group">
+            <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_list }}"><i class="fa fa-th-list"></i></button>
+            <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_grid }}"><i class="fa fa-th"></i></button>
+          </div>
+        </div>
+        <div class="col-sm-1 col-sm-offset-2 text-right">
+          <label class="control-label" for="input-sort">{{ text_sort }}</label>
+        </div>
+        <div class="col-sm-3 text-right">
+         <select id="input-sort" class="form-control" onchange="location = this.value;">
+              {% for sorts in sorts %}
+              {% if sorts.value == '%s-%s'|format(sort, order) %}
+              <option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
+              {% else %}
+              <option value="{{ sorts.href }}">{{ sorts.text }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-1 text-right">
+          <label class="control-label" for="input-limit">{{ text_limit }}</label>
+        </div>
+        <div class="col-sm-2 text-right">
+          <select id="input-limit" class="form-control" onchange="location = this.value;">
+              {% for limits in limits %}
+              {% if limits.value == limit %}
+              <option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
+              {% else %}
+              <option value="{{ limits.href }}">{{ limits.text }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+        </div>
+      </div>
+      <br />
+      <div class="row">  
+        {% for article in articles %} 
+        <div class="product-layout product-list col-xs-12">
+          <div class="product-thumb">
+            <div class="image"><a href="{{ article.href }}"><img src="{{ article.thumb }}" alt="{{ article.name }}" title="{{ article.name }}" class="img-responsive" /></a></div>
+            <div class="caption">
+              <h4><a href="{{ article.href }}">{{ article.name }}</a></h4>
+              <p class="description">{{ article['description'] }}</p>
+              {% if configblog_review_status %}
+              {% if article.rating %}
+                <div class="rating"> {% for i in 1..5 %}
+                  {% if article.rating < i %} <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>{% endif %}
+                  {% endfor %} </div>
+                {% endif %}
+			  {% endif %}
+            </div>
+            <div class="button-group">
+				<button type="button" onclick="location.href = ('{{ article.href }}');"><i class="fa fa-share"></i> <span class="hidden-xs hidden-sm hidden-md">{{ button_more }}</span></button>
+				<button type="button" data-toggle="tooltip" title="{{ article.date_added }}" "><i class="fa fa-clock-o"></i></button>
+				<button type="button" data-toggle="tooltip" title="{{ text_views }} {{ article.viewed }}" "><i class="fa fa-eye"></i></button>
+			</div>
+          </div>
+        </div>
+       {% endfor %}
+      </div>
+      <div class="row">
+        <div class="col-sm-6 text-left">{{ pagination }}</div>
+      </div>
+      {% else %}
+      <p>{{ text_empty }}</p>
+      <div class="buttons">
+        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+      </div>
+      {% endif %}
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+
+#}

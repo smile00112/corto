@@ -1,0 +1,72 @@
+<section class="block__ban">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="block__ban--conteiner">
+					<div class="block__ban--left">
+						<div class="owl-carousel owl-theme slide-one">
+
+              {% for banner in banners %}
+             
+              <div class="item">
+               <a href="{% if banner.link %}{{ banner.link }}{% else %}javascript:void(0){% endif %}" alt="{{ banner.title }}">
+                 <img src="{{ banner.image }}" alt="{{ banner.title }}">
+                </a>
+          
+              </div>
+          
+              {% endfor %}
+	
+						</div>
+					</div>
+					<div class="block__ban--right">
+						<div class="card__item">
+							<H2>Товар дня</H2>
+							<img src="img/item1.jpg" alt="">
+							<p class="card__item--price">2459 руб.</p>
+							<p class="card__item--name">Безпроводные наушники Xiaomi
+								(белые) (XMSH07HM) </p>
+							<p><i class="sl3"></i></p>
+							<p class="card__item-basket"><i class="sl6"></i></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+
+
+{#
+
+<div class="swiper-viewport">
+  <div id="slideshow{{ module }}" class="swiper-container">
+    <div class="swiper-wrapper"> {% for banner in banners %}
+      <div class="swiper-slide text-center">{% if banner.link %}<a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" /></a>{% else %}<img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" />{% endif %}</div>
+      {% endfor %} </div>
+  </div>
+  <div class="swiper-pagination slideshow{{ module }}"></div>
+  <div class="swiper-pager">
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+</div>
+<script type="text/javascript"><!--
+$('#slideshow{{ module }}').swiper({
+	mode: 'horizontal',
+	slidesPerView: 1,
+	pagination: '.slideshow{{ module }}',
+	paginationClickable: true,
+	nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    spaceBetween: 30,
+	autoplay: 2500,
+    autoplayDisableOnInteraction: true,
+	loop: true
+});
+--></script>
+
+#}

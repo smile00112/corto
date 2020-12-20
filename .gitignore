@@ -1,0 +1,13 @@
+/-install-
+/image/catalog
+/image/cache
+/system
+/upload
+/tmp
+/config.php
+/adminer-9999.php
+/admin/config.php 
+/manager/config.php 
+/image
+/assets/images
+/assets/files

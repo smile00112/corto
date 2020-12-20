@@ -1,0 +1,164 @@
+{{ header }}
+
+<div class="content-wrapper">
+  <div class="center inner">
+    <div class="content">
+      <div class="left-column">
+
+        {{ column_left }}
+
+        {{ column_right }}
+
+
+      </div>
+
+
+      <div class="workarea {{ class }}" id="content">
+        <div class="body_text">
+
+          <div class="breadcrumb-share">
+            <div id="navigation" class="breadcrumb">
+     
+              {% for breadcrumb in breadcrumbs %}
+
+                 <div class="breadcrumb__item"  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                    <span class="breadcrumb__arrow"></span>
+                    {% if breadcrumb.href %} <a class="breadcrumb__link" href="{{ breadcrumb.href }}" title=" " itemprop="url">{% endif %}
+                      <span class="breadcrumb__title" itemprop="title">
+                        {{ breadcrumb.text }}
+                      </span>
+                      {% if breadcrumb.href %}</a>{% endif %}
+                  </div>
+              {% endfor %}
+              
+              <!--
+              <div class="breadcrumb__item"><span class="breadcrumb__arrow"></span><span
+                  class="breadcrumb__title">{{ breadcrumb.text }}</span></div>
+
+              -->
+            </div>
+          </div>
+
+          <h1>{{ heading_title }}</h1>
+          {% if categories %}
+
+          <div class="vendors-section-list">
+            <div class="vendors-section-items">
+
+          {% for category in categories %}
+          
+          {% if category.manufacturer %}
+
+          {% for manufacturers in category.manufacturer|batch(4) %}
+          
+      
+            {% for manufacturer in manufacturers %}
+
+              <div class="vendors-section-item">
+                <a href="{{ manufacturer.href }}">
+                  <span class="item">
+                    <span class="image">
+                                      <img src="{{ manufacturer.image }}" width="69" height="24" alt="{{ manufacturer.name }}">
+                                  </span>
+                    <span class="item-title">{{ manufacturer.name }}</span>
+                  </span>
+                </a>
+              </div>
+
+            {% endfor %} 
+
+          {% endfor %}
+          {% endif %}
+          {% endfor %}
+          {% else %}
+
+          <p>{{ text_empty }}</p>
+          <div class="buttons clearfix">
+            <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+          </div>
+
+
+            </div>
+          </div>
+          {% endif %}
+
+
+
+
+                    
+                  <div class="clr"></div>
+
+                  <div class="vendors-section-descr">		
+                    <h2>Дополнительный текст для SEO H2</h2>
+                <p>Наш магазин инструментов представлен такими мировыми брендами, как Makita, Bosch, Metabo, DeWalt, Sparky, Kress. Они давно успели заработать безупречную репутацию среди профессионалов ремонтных и строительных работ! Качество этих марок подтверждают многие промышленные гиганты, которые работают с ними уже не один десяток лет. Компания «Магазин инструментов» поставляет электроинструмент на условиях официального дилера большинства известных фирм-производителей техники.</p> 
+                <h2>Перфораторы оптом и в розницу в Москве</h2>
+                <p>Качество этих марок подтверждают многие промышленные гиганты, которые работают с ними уже не один десяток лет. Компания «Магазин инструментов» поставляет электроинструмент на условиях официального дилера большинства известных фирм-производителей техники. Качество этих марок подтверждают многие промышленные гиганты, которые работают с ними уже не один десяток лет.</p> 	</div>
+
+   
+  </div>
+  </div>
+  </div>    
+</div>  
+</div>  
+</div>  
+
+
+  {{ footer }}
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+{#}
+
+
+<div id="product-manufacturer" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h1>{{ heading_title }}</h1>
+      {% if categories %}
+      <p><strong>{{ text_index }}</strong> {% for category in categories %}
+        &nbsp;&nbsp;&nbsp;<a href="index.php?route=product/manufacturer#{{ category.name }}">{{ category.name }}</a> {% endfor %} </p>
+      {% for category in categories %}
+      <h2 id="{{ category.name }}">{{ category.name }}</h2>
+      {% if category.manufacturer %}
+      {% for manufacturers in category.manufacturer|batch(4) %}
+      <div class="row"> {% for manufacturer in manufacturers %}
+        <div class="col-sm-3"><a href="{{ manufacturer.href }}">{{ manufacturer.name }}</a></div>
+        {% endfor %} </div>
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+      {% else %}
+      <p>{{ text_empty }}</p>
+      <div class="buttons clearfix">
+        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+      </div>
+      {% endif %}
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+
+#}

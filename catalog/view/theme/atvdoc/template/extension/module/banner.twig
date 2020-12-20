@@ -1,0 +1,190 @@
+    <div id="nav-block" class="cube-wrap col site-pane menu-close">
+      <div class="cube">
+      <div class="front-pane hiddenBackface">
+      	<div class="nav-block__inside">
+      		<div class="logo"><a href="/" class="logo-link"><img src="/assets/images/logo.png" alt="corto"></a></div>
+            <div class="menu-btn-block" id="jsMenuBtnContainer">
+                <div class="menu-btn">
+                    <input type="checkbox" id="menu-btn">
+                    <span></span>
+                </div>
+            </div>
+
+                <div class="menu-block">
+                    <!-- menu -->
+
+                    {% for key, b in banners %}
+
+                     <div class="mod main-nav">
+                        <ul class="nav menu-velo mod-list" id="{{key}}">
+
+                      {% for key, banner in b %}
+
+                        {% if banner.link %}
+                            <li class="parent{% if banner.link == current_page %} active{% endif %}"><a href="{{ banner.link }}">{{ banner.title }}</a></li>
+                        {% else %}
+                        
+                        {# <a href="javascript:void(0);">
+                          <span class="item">
+                            <span class="image">
+                              <img src="{{ banner.image }}" alt="{{ banner.title }}" width="69" height="24" >
+                            </span>
+                            <span class="item-title">{{ banner.title }}</span>
+                          </span>
+                        </a> #}
+                        
+                        {% endif %}
+
+
+                    {% endfor %}
+
+                    {% if key == 'avelo-menu2' %}
+                      <li class="item-189"><a href="#" class="magazin-drop-">Интернет-магазины</a></li>
+                      <li class="item-216"><a href="http://velomarka.ru/" target="_blank" class="magazin-hide- magazin-mright" target="_blank" rel="noopener noreferrer">Веломарка.ру</a></li>
+                      <li class="item-217"><a href="https://bb30.ru/" target="_blank" class="magazin-hide- magazin-mright" target="_blank" rel="noopener noreferrer">ВВ30.ру</a></li>
+                    {% endif %}
+
+                    {% if key == 'info' %}
+                      <li class=""><span data-popup class="span-link">Написать нам</span></li>
+                     
+                    {% endif %}                    
+                     </ul>
+                    </div>
+
+                {% endfor %}
+                    {# <div class="mod main-nav">
+                        <ul class="nav menu-velo mod-list" id="velo-menu">
+                            <li class="item-148 active parent"><a href="/ru/catalog">Велосипеды</a></li>
+                            <li class="item-124"><a href="http://cortobike.ru/ru/catalog#15" target="_blank" rel="noopener noreferrer">Аксессуары</a></li>
+                            <li class="item-126"><a href="/ru/dealers">Где купить</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mod main-nav">
+                        <ul class="nav menu-faq mod-list" id="faq-menu">
+                            <li class="item-196"><a href="/ru/komanda-corto">Команда</a></li>
+                            <li class="item-130 parent"><a href="/ru/corto">О бренде</a></li>
+                            <li class="item-189"><a href="#" class="magazin-drop">Магазин</a></li>
+                            <li class="item-216"><a href="http://velomarka.ru/" class="magazin-hide" target="_blank" rel="noopener noreferrer">Веломарка.ру</a></li>
+                            <li class="item-217"><a href="https://bb30.ru/" class="magazin-hide" target="_blank" rel="noopener noreferrer">ВВ30.ру</a></li>
+                        </ul>
+                    </div>
+ #}
+
+                    <section class="footer-social">
+                        <div class="mod ">
+
+
+                            <div class="custom">
+                                <ul>
+                                    <li><a href="http://vk.com/cortobikes" id="vk"></a></li>
+                                    <li><a href="https://www.facebook.com/cortobike.ru/" id="fb"></a></li>
+                                    <li><a href="http://ok.ru/cortobike" id="ok"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="b-bottom">
+                    <!-- rights -->
+                    <div class="mod copyright">
+
+
+                        <div class="customcopyright">
+                            <p><span style="font-family: 'courier new', courier; color: #808080;"><a href="/ru/?option=com_osmap&amp;view=html&amp;id=0" style="color: #808080;">Карта сайта</a></span></p>
+                            <p><span style="font-family: 'courier new', courier; color: #808080;">2020 (с) Corto</span></p>
+                        </div>
+                    </div>
+                    <div class="mod ">
+
+
+                        <div class="custom">
+                            <script type="text/javascript">
+                                (function(i, s, o, g, r, a, m) {
+                                    i['GoogleAnalyticsObject'] = r;
+                                    i[r] = i[r] || function() {
+                                        (i[r].q = i[r].q || []).push(arguments)
+                                    }, i[r].l = 1 * new Date();
+                                    a = s.createElement(o),
+                                        m = s.getElementsByTagName(o)[0];
+                                    a.async = 1;
+                                    a.src = g;
+                                    m.parentNode.insertBefore(a, m)
+                                })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+                                
+
+                                ga('create', 'UA-71454924-1', 'auto');
+                                ga('send', 'pageview');
+                            </script>
+                            <!-- Yandex.Metrika counter -->
+                            <script type="text/javascript">
+                                (function(d, w, c) {
+                                    (w[c] = w[c] || []).push(function() { try { w.yaCounter34245215 = new Ya.Metrika({ id: 34245215, clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: true }); } catch (e) {} }); var n = d.getElementsByTagName("script")[0],
+                                        s = d.createElement("script"),
+                                        f = function() { n.parentNode.insertBefore(s, n); };
+                                    s.type = "text/javascript";
+                                    s.async = true;
+                                    s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");
+                            </script>
+                            <noscript>
+                                <div><img src="https://mc.yandex.ru/watch/34245215" alt="" style="position: absolute; left: -9999px;" /></div>
+                            </noscript><!-- /Yandex.Metrika counter -->
+                        </div>
+                    </div>
+
+
+                    <!-- lang -->
+                    <div class="mod" style="width: 300px;">
+                        <div class="mod-languages">
+
+                            <ul class="lang-inline">
+
+                                <!-- >>> [FREE] >>> -->
+                                {# <li class="lang-active" dir="ltr">
+                                    <a href="/ru/catalog/cross-country-26/suv">
+                                        <img src="/media/mod_falang/images/ru.gif" alt="Русский (РФ)" title="Русский (РФ)"> </a>
+                                </li> #}
+                                <!-- <<< [FREE] <<< -->
+
+                                <!-- >>> [FREE] >>> -->
+                                {# <li class="" dir="ltr">
+                                    <a href="/en/catalog/cross-country-26/suv">
+                                        <img src="/media/mod_falang/images/en.gif" alt="English (UK)" title="English (UK)"> </a>
+                                </li> #}
+                                <!-- <<< [FREE] <<< -->
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="right-pane hiddenBackface"></div>
+        <div class="left-pane hiddenBackface"></div>
+    </div>
+</div>
+
+
+
+
+
+{#
+<div class="swiper-viewport">
+  <div id="banner{{ module }}" class="swiper-container">
+    <div class="swiper-wrapper">{% for banner in banners %}
+      <div class="swiper-slide">{% if banner.link %}<a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" /></a>{% else %}<img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" />{% endif %}</div>
+      {% endfor %}</div>
+  </div>
+</div>
+<script type="text/javascript"><!--
+$('#banner{{ module }}').swiper({
+	effect: 'fade',
+	autoplay: 2500,
+    autoplayDisableOnInteraction: false
+});
+--></script> 
+
+#}

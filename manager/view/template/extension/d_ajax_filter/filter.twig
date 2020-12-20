@@ -1,0 +1,475 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="form-inline pull-right">
+                <button id="save-form" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary">
+                    <i class="fa fa-save"></i>
+                </button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+            <h1>
+                {{ heading_title }}
+                {{ version }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li>
+                        <a href="{{ breadcrumb.href }}">
+                            {{ breadcrumb.text }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if error.warning %}
+            <div class="alert alert-danger">
+                <i class="fa fa-exclamation-circle"></i>
+                {{ error.warning }}
+                <button class="close" data-dismiss="alert" type="button">&times;</button>
+            </div>
+        {% endif %}
+        {% if success %}
+            <div class="alert alert-success">
+                <i class="fa fa-exclamation-circle"></i>
+                {{ success }}
+                <button class="close" data-dismiss="alert" type="button">&times;</button>
+            </div>
+        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <i class="fa fa-pencil"></i>
+                    {{ text_form }}</h3>
+            </div>
+            <div class="panel-body">
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-filters" class="form-horizontal">
+                    {{ tabs }}
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li class="active">
+                                    <a href="#d_list_filter" data-toggle="tab">
+                                        <span class="fa fa-list fa-fw"></span>
+                                        <span>
+                                            {{ text_list }}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#d_filter_image" data-toggle="tab">
+                                        <i class="fa fa-file-image-o fa-fw"></i>
+                                        <span>
+                                            {{ text_image }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="tab-content main-content">
+                                <div id="d_list_filter" class="tab-pane active">
+                                    <div class="form-group">
+                                        <div class="h3 header-title">
+                                            {{ text_general_filter_setting }}</div>
+                                        <p>
+                                            {{ text_filter_default_general }}
+                                        </p>
+                                        <div>
+                                            <div class="btn-group" data-toggle="buttons">
+                                                <label class="btn btn-success {{ setting.default.status == '1' ? 'active' }}">
+                                                    <input type="radio" name="{{ codename }}_filters[default][status]" value="1" {{ setting.default.status == '1' ? 'checked="checked"' }}/>
+                                                    {{ text_on }}
+                                                </label>
+                                                <label class="btn btn-success {{ setting.default.status == '0' ? 'active' }}">
+                                                    <input type="radio" name="{{ codename }}_filters[default][status]" value="0" {{ setting.default.status == '0' ? 'checked="checked"' }}/>
+                                                    {{ text_off }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="container-fluid" id="filter-default-setting" {{ setting.default.status == '0' ? 'style="display:none;"' }}>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-2">
+                                                            {{ entry_type }}</label>
+                                                        <div class="col-sm-10">
+                                                            <select class="form-control" name="{{ codename }}_filters[default][type]">
+                                                                {% for base_type_key, base_type_title in base_types %}
+                                                                    {% if base_type_key == setting.default.type %}
+                                                                        <option value="{{ base_type_key }}" selected="selected">
+                                                                            {{ base_type_title }}</option>
+                                                                        {% else %}
+                                                                        <option value="{{ base_type_key }}">
+                                                                            {{ base_type_title }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-2">
+                                                            {{ entry_collapse }}</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="hidden" name="{{ codename }}_filters[default][collapse]" value="0"/>
+                                                            <input type="checkbox" class="form-control switcher" data-label-text="{{ text_enabled }}" value="1" name="{{ codename }}_filters[default][collapse]" {{ setting.default.collapse ? 'checked="checked"' }}/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label col-sm-2">
+                                                            {{ entry_sort_order_values }}</label>
+                                                        <div class="col-sm-10">
+                                                            <select class="form-control" name="{{ codename }}_filters[default][sort_order_values]">
+                                                                {% for sort_order_type_key, sort_order_type_title in sort_order_types %}
+                                                                    {% if sort_order_type_key == setting.default.sort_order_values %}
+                                                                        <option value="{{ sort_order_type_key }}" selected="selected">
+                                                                            {{ sort_order_type_title }}</option>
+                                                                        {% else %}
+                                                                        <option value="{{ sort_order_type_key }}">
+                                                                            {{ sort_order_type_title }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="h3 header-title">
+                                            {{ text_individual_filter_setting }}</div>
+                                        <p>
+                                            {{ text_warning_filter_individual }}
+                                        </p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <input class="form-control" name="select_filter_name" type="text"/>
+                                                    <input type="hidden" name="select_filter_group_id"/>
+                                                    <span class="input-group-btn">
+                                                        <a id="add-filter" class="btn btn-default">
+                                                            <i class="fa fa-plus"></i>
+                                                        </a>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <br/>
+                                        <table class="table table-filter-select {{ not setting.filters ? 'hide' }}">
+                                            <thead>
+                                                <tr>
+                                                    <td></td>
+                                                    <td class="text-center">
+                                                        {{ column_status }}</td>
+                                                    <td class="text-center">
+                                                        {{ column_type }}</td>
+                                                    <td class="text-center">
+                                                        {{ column_collapse }}</td>
+                                                    <td class="text-center">
+                                                        {{ column_sort_order_values }}</td>
+                                                    <td></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% if setting.filters %}
+                                                    {% for filter_group_id, filter in setting.filters %}
+                                                        <tr id="element-filters-{{ filter_group_id }}" data-sort-order="{{ filter.sort_order }}">
+                                                            <td style="max-width: 175px;">
+                                                                {{ filter.name }}</td>
+                                                            <td class="text-center {{ filter.status in ['default', '0'] ? 'disabled-next' }}">
+                                                                <input type="hidden" name="{{ codename }}_filters[filters][{{ filter_group_id }}][sort_order]" class="sort-value" value="{{ filter.sort_order }}"/>
+                                                                <div class="btn-group" data-toggle="buttons">
+                                                                    <label class="btn btn-success btn-sm {{ filter.status == '1' ? 'active' }}">
+                                                                        <input type="radio" name="{{ codename }}_filters[filters][{{ filter_group_id }}][status]" value="1" {{ filter.status == '1' ? 'checked="checked"' }}/>
+                                                                        {{ text_yes }}
+                                                                    </label>
+                                                                    <label class="btn btn-success btn-sm {{ filter.status == '0' ? 'active' }}">
+                                                                        <input type="radio" name="{{ codename }}_filters[filters][{{ filter_group_id }}][status]" value="0" {{ filter.status == '0' ? 'checked="checked"' }}/>
+                                                                        {{ text_no }}
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <select class="form-control" name="{{ codename }}_filters[filters][{{ filter_group_id }}][type]">
+                                                                    {% for base_type_key, base_type_title in base_types %}
+                                                                        {% if base_type_key == filter.type %}
+                                                                            <option value="{{ base_type_key }}" selected="selected">
+                                                                                {{ base_type_title }}</option>
+                                                                            {% else %}
+                                                                            <option value="{{ base_type_key }}">
+                                                                                {{ base_type_title }}</option>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input type="hidden" name="{{ codename }}_filters[filters][{{ filter_group_id }}][collapse]" value="0"/>
+                                                                <input type="checkbox" class="form-control switcher" data-label-text="{{ text_enabled }}" value="1" name="{{ codename }}_filters[filters][{{ filter_group_id }}][collapse]" {{ filter.collapse ? 'checked="checked"' }}/>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <select class="form-control" name="{{ codename }}_filters[filters][{{ filter_group_id }}][sort_order_values]">
+                                                                    {% for sort_order_type_key, sort_order_type_title in sort_order_types %}
+                                                                        {% if sort_order_type_key == filter.sort_order_values %}
+                                                                            <option value="{{ sort_order_type_key }}" selected="selected">
+                                                                                {{ sort_order_type_title }}</option>
+                                                                            {% else %}
+                                                                            <option value="{{ sort_order_type_key }}">
+                                                                                {{ sort_order_type_title }}</option>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <a class="delete-element-button" onclick="$(this).closest('tr').remove()">
+                                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div id="d_filter_image" class="tab-pane">
+                                    <div class="bs-callout bs-callout-info">
+                                        {{ text_warning_image_filter }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-1">
+                                            {{ entry_filter }}</label>
+                                        <div class="col-sm-2">
+                                            <select class="form-control" name="filter_languages">
+                                                {% for language in languages %}
+                                                    <option value="{{ language.language_id }}">
+                                                        {{ language.name }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <select class="form-control" name="filter_groups_images">
+                                                <option value="*">
+                                                    {{ text_none }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2" id="filter_group_image">
+                                            <a class="btn btn-primary" id="saveFilterImages" data-toggle="tooltip" data-original-title="{{ button_save }}" style="display: none;">
+                                                <i class="fa fa-save" aria-hidden="true"></i>
+                                            </a>
+                                            <a class="btn btn-danger" id="reset_image_filter_group" data-toggle="tooltip" data-original-title="{{ button_reset_image }}" style="display: none;">
+                                                <i class="fa fa-repeat" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div id="filter_images"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="template-new-element">
+    <tr id="element-<%= key %>-<%= id %>" data-sort-order="0">
+        <td style="max-width: 175px;">
+            <%=name%></td>
+        <td class="text-center disabled-next">
+            <input type="hidden" name="{{ codename }}_filters[<%= key %>][<%= id %>][sort_order]" value="0" class="sort-value"/>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-success btn-sm">
+                    <input type="radio" name="{{ codename }}_filters[<%= key %>][<%= id %>][status]" value="1"/>
+                    {{ text_yes }}
+                </label>
+                <label class="btn btn-success btn-sm active">
+                    <input type="radio" name="{{ codename }}_filters[<%= key %>][<%= id %>][status]" value="0" checked="checked"/>
+                    {{ text_no }}
+                </label>
+            </div>
+        </td>
+        <td class="text-center">
+            <select class="form-control" name="{{ codename }}_filters[<%= key %>][<%= id %>][type]">
+                {% for base_type_key, base_type_title in base_types %}
+                    <option value="{{ base_type_key }}" {{ base_type_key == 'checkbox' ? 'selected="selected"' }}>
+                        {{ base_type_title }}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td class="text-center">
+            <input type="hidden" name="{{ codename }}_filters[<%= key %>][<%= id %>][collapse]" value="0"/>
+            <input type="checkbox" class="form-control switcher" data-label-text="{{ text_enabled }}" value="1" name="{{ codename }}_filters[<%= key %>][<%= id %>][collapse]" checked='checked'/>
+        </td>
+        <td class="text-center">
+            <select class="form-control" name="{{ codename }}_filters[<%= key %>][<%= id %>][sort_order_values]">
+                {% for sort_order_type_key, sort_order_type_title in sort_order_types %}
+                    <option value="{{ sort_order_type_key }}" {{ sort_order_type_key == 'default' ? 'selected="selected"' }}>
+                        {{ sort_order_type_title }}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <a class="delete-element-button" onclick="$(this).closest('tr').remove()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+        </td>
+    </tr>
+</script>
+<script type="text/html" id="template-select-option">
+    <% _.map(values, function(value, key){ %>
+        <option value="<%= value.id %>">
+            <%=value.name%></option>
+    <% }); %>
+</script>
+<script type="text/html" id="template-filemanager">
+    <div id="modal-image" class="modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-hidden="true" class="close" data-dismiss="modal" type="button">X</button>
+                    <h4 class="modal-title">
+                        {{ text_file_manager }}</h4>
+                </div>
+                <div class="modal-body">
+                    <iframe frameborder="no" scrolling="no" src="index.php?route=extension/module/d_ajax_filter/getFileManager&{{ token_url }}&field=<%= field %>&thumb=<%= thumb %>" style="padding:0; margin: 0; display: block; width: 100%; height: 560px;"></iframe>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="template-filter-images">
+    <table id="images" class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <td class="text-left">
+                    {{ entry_additional_image }}</td>
+                <td class="text-left">
+                    {{ entry_filter_value }}</td>
+            </tr>
+        </thead>
+        <tbody>
+            <% _.map(values, function(value, key){ %>
+                <tr id="image-row<%= value.filter_id %>">
+                    <td class="text-left">
+                        <input type="hidden" name="filter_images[<%= value.filter_id %>][image]" value="<%= value.image %>" id="input-image-<%= value.filter_id %>"/>
+                        <img id="thumb-image-<%= value.filter_id %>" src="<%= value.thumb %>" class="img-thumbnail" alt="" title="" data-placeholder="{{ placeholder }}"/><span class="fa fa-close fa-fw delete-image"></span>
+                    </td>
+                    <td>
+                        <%=value.text%></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var setting = {
+            form: $("#form-filters"),
+            token: '{{ token_url }}'
+        };
+        var template = {
+            'new_element': $('#template-new-element'),
+            'options': $("#template-select-option"),
+            'filemanager': $("#template-filemanager"),
+            'filter_images': $("#template-filter-images")
+        };
+        d_ajax_filter = d_ajax_filter || {};
+        d_ajax_filter.init(setting);
+        d_ajax_filter.initTemplate(template);
+        d_ajax_filter.createSortable('table.table-filter-select > tbody', 'tr');
+        $(document).on('click', '#add-attribute', function () {
+            var attribute_id = $('input[name="select_attribute_id"]').val();
+            var attribute_name = $('input[name="select_attribute_name"]').val();
+            d_ajax_filter.addAttribute(attribute_id, attribute_name);
+            $(".switcher").bootstrapSwitch({'onColor': 'success', 'onText': '{{ text_yes }}', 'offText': '{{ text_no }}'});
+        });
+        $(".switcher").bootstrapSwitch({'onColor': 'success', 'onText': '{{ text_yes }}', 'offText': '{{ text_no }}'});
+        $(document).on('change', '[name="{{ codename }}_filters[default][status]"]:radio, [name^="{{ codename }}_filters[filters]"][name$="[status]"]:radio', function () {
+            var value = $(this).val();
+            $(this).closest('td').removeClass('disabled-next');
+            if (value == 'default' || value == '0') {
+                $(this).closest('td').addClass('disabled-next');
+            }
+        });
+        $(document).on('click', '#save-form', function () {
+            d_ajax_filter.save();
+        });
+        $('[name="select_filter_name"]').autocomplete({
+            'source': function (request, response) {
+                $.ajax({
+                    url: 'index.php?route=extension/d_ajax_filter/filter/autocomplete&{{ token_url }}&filter_name=' + encodeURIComponent(request),
+                    dataType: 'json',
+                    success: function (json) {
+                        response($.map(json, function (item) {
+                            return {label: item['name'], value: item['filter_group_id']}
+                        }));
+                    }
+                });
+            },
+            'select': function (item) {
+                $('input[name=\'select_filter_name\']').val(item['label']);
+                $('input[name=\'select_filter_group_id\']').val(item['value']);
+            }
+        });
+        $(document).on('click', '#add-filter', function () {
+            var filter_group_id = $('input[name="select_filter_group_id"]').val();
+            var filter_name = $('input[name="select_filter_name"]').val();
+            if (filter_group_id !== '') {
+                $('.table-filter-select').removeClass('hide');
+                d_ajax_filter.addFilter(filter_group_id, filter_name);
+                d_ajax_filter.updateSortOrder('table.table-filter-select > tbody', 'tr');
+                $(".switcher").bootstrapSwitch({'onColor': 'success', 'onText': '{{ text_yes }}', 'offText': '{{ text_no }}'});
+            }
+        });
+        $(document).on('change', 'select[name=filter_languages]', function () {
+            var language_id = $(this).val();
+            $('select[name="filter_groups_images"] > option[value!="*"]').remove();
+            d_ajax_filter.clearFilterImages();
+            d_ajax_filter.renderFilterGroups(language_id, 'select[name=filter_groups_images]');
+        });
+        $(document).on('click', 'select[name=filter_groups_images]', function () {
+            var filter_group_id = $(this).val();
+            var language_id = $('select[name=filter_languages]').val();
+            if (filter_group_id != '*') {
+                d_ajax_filter.renderFilterImages(filter_group_id, language_id);
+            } else {
+                d_ajax_filter.clearFilterImages();
+            }
+        });
+        $(document).on('click', 'a#saveFilterImages', function () {
+            var language_id = $('select[name=filter_languages]').val();
+            d_ajax_filter.saveFitlerImages(language_id);
+        });
+        $(document).on('click', 'a#reset_image_filter_group', function () {
+            d_ajax_filter.resetImageFilter();
+        });
+        $('select[name="filter_languages"]').trigger('change');
+        $(document).on('change', '[name=\'{{ codename }}_filters[default][status]\']', function (e) {
+            if ($(this).val() != '1') {
+                $('#filter-default-setting').slideUp();
+            } else {
+                $('#filter-default-setting').slideDown();
+            }
+        });
+    });
+    window.selectImage = function () {
+        $('#modal-image').modal('hide');
+    }
+    function addSingleImage(imageName, field, thumb) {
+        $.ajax({
+            url: 'index.php?route=extension/module/d_ajax_filter/getImage&{{ token_url }}&image=' + encodeURIComponent(imageName),
+            dataType: 'text',
+            success: function (imageCacheName) {
+                $('#' + thumb).attr('src', imageCacheName);
+                $('#' + field).val(imageName).trigger('change');
+            }
+        });
+    }
+</script>
+{{ footer }}

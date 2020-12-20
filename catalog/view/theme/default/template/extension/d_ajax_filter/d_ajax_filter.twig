@@ -1,0 +1,126 @@
+{% if mobile %}
+<a href="#" data-toggle="modal" class="d_ajax_filter_popup_button clickable" data-target="#{{ id }}">
+    <i class="fa fa-filter" aria-hidden="true"></i>
+</a>
+{% endif %}
+<div id="{{ id }}" data-is="d_ajax_filter" class="ajax-filter {% if setting.layout_position and setting.layout_position in ['content_top', 'content_bottom'] %} af-horizontal {% endif %} {{id}} {% if mobile %} modal fade {% endif %}" {% if mobile %} role="dialog" style="display:none" {% endif %}></div>
+{# <style>
+    {% if setting.design.header %}
+    .ajax-filter.{{id}} > div > div.panel-heading{
+        color: {{ setting.design.header.text }}!important;
+        background:{{ setting.design.header.background }}!important;
+    }
+    {% endif %}
+    {% if setting.design.product_quantity %}
+    .ajax-filter.{{id}} span.quantity{
+        color:{{setting.design.product_quantity.text}}!important;
+        background:{{setting.design.product_quantity.background}}!important;
+    }
+    {% endif %}
+    {% if setting.design.price_slider %}
+    .ajax-filter.{{id}} .irs-bar {
+        background: {{setting.design.price_slider.area_active}}!important;
+    }
+    .ajax-filter.{{id}} .irs-line {
+        background: {{setting.design.price_slider.background}}!important;
+        border: 1px solid {{setting.design.price_slider.background}}!important;
+    }
+    .ajax-filter.{{id}} .irs-slider{
+        background: {{setting.design.price_slider.handle_background}}!important;
+        border: 1px solid  {{setting.design.price_slider.handle_border}}!important;
+    }
+    {% endif %}
+    {% if setting.design.group_header %}
+    .ajax-filter.{{id}} > .title{
+        color:{{setting.design.group_header.text}}!important;
+        background:{{setting.design.group_header.background}}!important;
+    }
+    .ajax-filter.{{id}} .af-heading,.af-heading:hover{
+        color:{{setting.design.group_header.text}}!important;
+        background:{{setting.design.group_header.background}}!important;
+    }
+    {% endif %}
+    {% if setting.design.button %}
+    .ajax-filter.{{id}} #resetFilter:hover > p{
+        color:{{setting.design.button.button_reset}}!important;
+    }
+    .ajax-filter.{{id}} a#fitlers{
+        background:{{setting.design.button.button_filter}}!important;
+        border:1px solid {{setting.design.button.button_filter}}!important;
+    }
+    .ajax-filter.{{id}} #label_radio_and_image > input:checked+img{
+        border:2px solid {{setting.design.button.border_image}}!important;
+    }
+    .ajax-filter.{{id}} #label_radio_and_image > input+img{
+        border-radius:{{setting.design.button.border_radius_image}}!important;
+    }
+    .ajax-filter.{{id}} #label_checbox_and_image > input:checked+img{
+        border:2px solid {{setting.design.button.border_image}}!important;
+        border-radius:{{setting.design.button.border_radius_image}}!important;
+    }
+
+    .ajax-filter.{{id}} #label_checbox_and_image > input+img{
+        border-radius:{{setting.design.button.border_radius_image}}!important;
+    }
+    .ajax-filter.{{id}} #label_image_checkbox input:checked+img{
+        border:1px solid {{setting.design.button.border_image}}!important;
+    }
+
+    .ajax-filter.{{id}} #label_image_checkbox input+img{
+        border-radius:{{setting.design.button.border_radius_image}}!important;
+    }
+
+    .ajax-filter.{{id}} #label_image_radio input:checked+img{
+        border:1px solid {{setting.design.button.border_image}}!important;
+    }
+
+    .ajax-filter.{{id}} #label_image_radio input+img{
+        border-radius:{{setting.design.button.border_radius_image}}!important;
+    }
+    {% endif %}
+    
+    .ajax-filter.{{id}} .af-container > div:not([id^=price])
+    {
+        overflow-x: hidden;
+        {% if setting.limit_height %}
+        max-height:{{setting.height}}; overflow-y: auto;
+        {% else %}
+        overflow-y: hidden
+        {% endif %}
+    }
+
+    {{custom_style}}
+</style> #}
+
+{% for riot_tag in riot_tags %}
+<script src="{{riot_tag}}" type="riot/tag"></script>
+{% endfor %}
+<script  type="text/javascript">
+
+    {% if mobile %}
+        $('a[data-target="#{{id}}"]').detach().appendTo('body');
+        $('#{{id}}').detach().appendTo('body');
+    {% endif %}
+    d_ajax_filter.initState({{ json|json_encode(constant('JSON_FORCE_OBJECT')) }}) 
+    d_ajax_filter.setGroups('{{id}}',{{ groups }});
+    d_ajax_filter.setSetting('{{id}}',{{ setting|json_encode(constant('JSON_FORCE_OBJECT'))}});
+    riot.mount(document.getElementById('{{id}}'));
+    d_ajax_filter.loadQuantity('{{id}}');
+    
+    {% if setting.submission == '2' %}
+        setInterval(d_ajax_filter.updateContent, {{setting.time}});
+    {% endif %}
+
+    $(document).ready(function(){
+        if (d_ajax_filter.getState().common_setting.display_selected_top == '1') {
+            if($('d_ajax_filter_selected').size() == 0) {
+                $(d_ajax_filter.getState().common_setting.selected_path).before('<d_ajax_filter_selected id="af-selected-wrapper" class="empty-wrapper"></d_ajax_filter_selected>')
+                riot.mount(document.getElementById('af-selected-wrapper'))
+            }
+        }
+    })
+
+
+    {{custom_script}}
+
+</script>

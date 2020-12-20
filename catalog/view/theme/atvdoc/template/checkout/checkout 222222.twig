@@ -1,0 +1,2353 @@
+{{ header }}
+
+<div class="content-wrapper">
+  <div class="center inner">
+    <div class="content">
+      <div class="left-column">
+
+        {{ column_left }}
+
+        {{ column_right }}
+
+
+      </div>
+
+
+      <div class="workarea {{ class }} workarea-order" id="content">
+        <div class="body_text">
+
+          <div class="breadcrumb-share">
+            <div id="navigation" class="breadcrumb">
+              
+              {% for breadcrumb in breadcrumbs %}
+
+                 <div class="breadcrumb__item"  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                    <span class="breadcrumb__arrow"></span>
+                    {% if breadcrumb.href %} <a class="breadcrumb__link" href="{{ breadcrumb.href }}" title="{{ breadcrumb.text1 }}" itemprop="url">{% endif %}
+                      <span class="breadcrumb__title" itemprop="title">
+                        {{ breadcrumb.text }}
+                      </span>
+                      {% if breadcrumb.href %}</a>{% endif %}
+                  </div>
+              {% endfor %}
+              
+              <!--
+              <div class="breadcrumb__item"><span class="breadcrumb__arrow"></span><span
+                  class="breadcrumb__title">{{ breadcrumb.text }}</span></div>
+
+              -->
+            </div>
+          </div>
+
+        <h1 id="pagetitle">{{ heading_title }}</h1>
+        {{ content_top }}
+
+       
+            <form action="" method="POST" name="ORDER_FORM" id="bx-soa-order-form"
+                enctype="multipart/form-data">
+                
+                <div id="bx-soa-order" class="bx-soa-order">
+                    <div class="bx-soa-mainbar">
+
+                        <div id="bx-soa-main-notifications">
+                            <div class="alertMsg bad" style="display:none"></div>
+                            <div data-type="informer" style="display:none"></div>
+                        </div>
+
+
+                        <!--Авторизация / Регистрация-->
+                        <div id="bx-soa-auth" class="bx-soa-section bx-soa-auth bx-active bx-selected" style="" data-visited="true">
+                            <div class="bx-soa-section-title-container">
+                                <div class="bx-soa-section-title">
+                                    <span class="bx-soa-section-title-count"><i class="fa fa-check" aria-hidden="true"></i><i class="fa fa-info"
+                                            aria-hidden="true"></i><i class="fa fa-exclamation-triangle"
+                                            aria-hidden="true"></i></span>Авторизация </div>
+                            </div>
+                            <div class="bx-soa-section-content" id="collapse-checkout-option">
+                        
+                                <div class="panel-body">
+                        
+                                    <div class="alertMsg bad" style="display: none;"></div>
+                                    <div class="bx-soa-authform">
+                                        <div class="bx-soa-authform-formgroup-container">
+                                            <div class="bx-soa-authform-label-container">Логин</div>
+                                            <div class="bx-soa-authform-input-container"><input data-next="USER_PASSWORD" name="USER_LOGIN"
+                                                    type="text"></div>
+                                        </div>
+                                        <div class="bx-soa-authform-formgroup-container">
+                                            <div class="bx-soa-authform-label-container">Пароль</div>
+                                            <div class="bx-soa-authform-input-container"><input data-send="true" name="USER_PASSWORD"
+                                                    type="password"></div>
+                                        </div>
+                                        <div class="bx-soa-authform-formgroup-container">
+                                            <div class="checkbox"><label class="bx-filter-param-label"><input type="checkbox"
+                                                        name="USER_REMEMBER" value="Y"><span class="bx-filter-param-text">Запомнить
+                                                        меня</span></label></div>
+                                        </div>
+                                        <div class="bx-soa-authform-formgroup-container"><input id="do_authorize" type="hidden"
+                                                name="do_authorize" value="N"><input type="submit" class="btn_buy popdef" value="Войти">
+                                        </div><a
+                                            href="/personal/private/?forgot_password=yes&amp;back_url=http%3A%2F%2Felektrosila.altop.ru%2Fpersonal%2Forder%2Fmake%2F">Забыли
+                                            пароль?</a>
+                                    </div>
+                                    <div class="bx-soa-soc-auth-services">
+                                        <p>Войти как пользователь:</p>
+                                        <div class="bx-auth-serv-icons">
+                                            <a title="Livejournal" href="javascript:void(0)"
+                                                onclick="BxShowAuthFloatNew('Livejournal', 'form')"><i class="bx-ss-icon livejournal"></i></a>
+                                            <a title="Mail.Ru" href="javascript:void(0)" onclick="BxShowAuthFloatNew('MailRuOpenID', 'form')"><i
+                                                    class="bx-ss-icon openid-mail-ru"></i></a>
+                                            <a title="Liveinternet" href="javascript:void(0)"
+                                                onclick="BxShowAuthFloatNew('Liveinternet', 'form')"><i class="bx-ss-icon liveinternet"></i></a>
+                                            <a title="Blogger" href="javascript:void(0)" onclick="BxShowAuthFloatNew('Blogger', 'form')"><i
+                                                    class="bx-ss-icon blogger"></i></a>
+                                            <a title="OpenID" href="javascript:void(0)" onclick="BxShowAuthFloatNew('OpenID', 'form')"><i
+                                                    class="bx-ss-icon openid"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="bx-soa-reg-block">
+                                        <p>Если вы впервые на сайте, и хотите что бы мы вас помнили и все ваши заказы сохранялись,
+                                            заполните регистрационную форму.</p><button type="button"
+                                            class="btn_buy popdef">Зарегистрироваться</button>
+                                    </div>
+                                    <div class="bx-soa-reference">Символом "звездочка" (*) отмечены обязательные для заполнения
+                                        поля.<br>После регистрации вы получите информационное письмо.<br>Личные сведения, полученные в
+                                        распоряжение интернет-магазина при регистрации или каким-либо иным образом, не будут без
+                                        разрешения пользователей передаваться третьим организациям и лицам за исключением ситуаций,
+                                        когда этого требует закон или судебное решение.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Авторизация / Регистрация-->
+
+
+
+                        <!--Корзина-->
+                        <div id="bx-soa-total-mobile" class="bx-soa-total-mobile" style="display: none;">
+                            <div class="bx-soa-cart-total">
+                                <div class="bx-soa-cart-total-line"><span class="bx-soa-cart-t">Товары:</span><span
+                                        class="bx-soa-cart-d">13 400 руб.</span></div>
+                                <div class="bx-soa-cart-total-line"><span class="bx-soa-cart-t">Доставка:</span><span
+                                        class="bx-soa-cart-d">310 руб.</span></div>
+                                <div class="bx-soa-cart-total-line bx-soa-cart-total-line-total"><span
+                                        class="bx-soa-cart-t">Итого:</span><span class="bx-soa-cart-d">13 710 руб.</span></div>
+                            </div>
+                        </div>
+                        <div id="bx-soa-basket" data-visited="false" class="bx-soa-section bx-active">
+                            <div class="bx-soa-section-title-container">
+                                <div class="bx-soa-section-title">
+                                    <span class="bx-soa-section-title-count"><i class="fa fa-check" aria-hidden="true"></i><i
+                                            class="fa fa-info" aria-hidden="true"></i><i class="fa fa-exclamation-triangle"
+                                            aria-hidden="true"></i></span>Товары в заказе </div>
+                                <div class="bx-soa-section-edit">
+                                    <a href="javascript:void(0)" class="bx-soa-editstep">изменить</a>
+                                </div>
+                            </div>
+            
+                            <div class="bx-soa-section-content">
+                                <div class="bx-soa-item-table">
+                                    <div class="bx-soa-item-tr">
+                                        <div class="bx-soa-item-td bx-soa-item-image"><img
+                                                src="http://elektrosila.altop.ru/upload/resize_cache/iblock/443/110_110_1/44307ab39edf96c9d706a322552261d8.jpg"
+                                                alt="Газонокосилка электрическая Prorab 8211"></div>
+                                        <div class="bx-soa-item-td bx-soa-item-name"><a
+                                                href="/catalog/elektricheskie-gazonokosilki/gazonokosilka-elektricheskaya-prorab-8211/">Газонокосилка
+                                                электрическая Prorab 8211</a></div>
+                                        <div class="bx-soa-item-td hidden">0%</div>
+                                        <div class="bx-soa-item-td hidden"><span class="bx-price">4 500 руб.</span></div>
+                                        <div class="bx-soa-item-td">1&nbsp;шт</div>
+                                        <div class="bx-soa-item-td"><span class="bx-price">4 500 руб.</span></div>
+                                    </div>
+                                    <div class="bx-soa-item-tr">
+                                        <div class="bx-soa-item-td bx-soa-item-image"><img
+                                                src="http://elektrosila.altop.ru/upload/resize_cache/iblock/c58/110_110_1/c58419857178f04d9d89c5e18b5aceb5.jpg"
+                                                alt="Газонокосилка бензиновая PRORAB GLM 4025"></div>
+                                        <div class="bx-soa-item-td bx-soa-item-name"><a
+                                                href="/catalog/benzinovye-gazonokosilki/gazonokosilka-benzinovaya-prorab-glm-4025/">Газонокосилка
+                                                бензиновая PRORAB GLM 4025</a></div>
+                                        <div class="bx-soa-item-td hidden">0%</div>
+                                        <div class="bx-soa-item-td hidden"><span class="bx-price">8 900 руб.</span></div>
+                                        <div class="bx-soa-item-td">1&nbsp;шт</div>
+                                        <div class="bx-soa-item-td"><span class="bx-price">8 900 руб.</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Корзина-->
+            
+                        <!--Данные плательщика-->
+                        <div id="bx-soa-region" data-visited="true" class="bx-soa-section bx-active bx-selected">
+                            <div class="bx-soa-section-title-container">
+                                <div class="bx-soa-section-title">
+                                    <span class="bx-soa-section-title-count"><i class="fa fa-check" aria-hidden="true"></i><i
+                                            class="fa fa-info" aria-hidden="true"></i><i class="fa fa-exclamation-triangle"
+                                            aria-hidden="true"></i></span>Тип плательщика и регион доставки </div>
+                                <div class="bx-soa-section-edit">
+                                    <a href="javascript:void(0)" class="bx-soa-editstep" style="">изменить</a>
+                                </div>
+                            </div>
+            
+                            <div class="bx-soa-section-content">
+                                <div class="alertMsg bad" style="display: none;"></div>
+                                <div class="bx_soa_location">
+                                    <div class="bx-soa-form-group"><label class="bx-soa-custom-label">Тип плательщика</label>
+                                        <div class="bx-soa-radio-inline"><label><input checked="true" type="radio"
+                                                    name="PERSON_TYPE" value="1"><span class="check-cont"><span class="check"><i
+                                                            class="fa fa-check"></i></span></span><span
+                                                    class="check-title">Физическое лицо</span></label></div>
+                                        <div class="bx-soa-radio-inline"><label><input type="radio" name="PERSON_TYPE"
+                                                    value="2"><span class="check-cont"><span class="check"><i
+                                                            class="fa fa-check"></i></span></span><span
+                                                    class="check-title">Юридическое лицо</span></label></div><input type="hidden"
+                                            name="PERSON_TYPE_OLD" value="1">
+                                    </div>
+                                    <div data-property-id-row="6" class="bx-soa-form-group bx-soa-location-input-container"
+                                        style=""><label class="bx-soa-custom-label" for="soa-property-6">Местоположение <span
+                                                class="bx-soa-authform-starrequired">*</span></label>
+            
+            
+            
+                                        <div id="sls-79879" class="bx-sls ">
+            
+            
+                                            <div class="bx-ui-sls-quick-locations quick-locations">
+            
+                                                <a href="javascript:void(0)" data-id="134" class="quick-location-tag">Москва</a>
+                                                <a href="javascript:void(0)" data-id="135"
+                                                    class="quick-location-tag">Санкт-Петербург</a>
+                                                <a href="javascript:void(0)" data-id="11422" class="quick-location-tag">Минск</a>
+                                                <a href="javascript:void(0)" data-id="41" class="quick-location-tag">Киев</a>
+                                                <a href="javascript:void(0)" data-id="24105" class="quick-location-tag">Астана</a>
+            
+                                            </div>
+            
+            
+                                            <div class="dropdown-block bx-ui-sls-input-block form-control">
+            
+                                                <span class="dropdown-icon"></span>
+                                                <input type="text" autocomplete="off" name="ORDER_PROP_6" value="0000073738"
+                                                    class="dropdown-field" placeholder="Введите название ..."
+                                                    style="display: none;">
+                                                <div class="bx-ui-sls-container"
+                                                    style="margin: 0px; padding: 0px; border: none; position: relative;"><input
+                                                        type="text" disabled="disabled" autocomplete="off" class="bx-ui-sls-route"
+                                                        style="padding: 0px; margin: 0px;"><input type="text" autocomplete="off"
+                                                        value="0000073738" class="bx-ui-sls-fake" placeholder="Введите название ..."
+                                                        title="Москва, Россия"></div>
+            
+                                                <div class="dropdown-fade2white"></div>
+                                                <div class="bx-ui-sls-loader"></div>
+                                                <div class="bx-ui-sls-clear" title="Отменить выбор" style="display: block;"></div>
+                                                <div class="bx-ui-sls-pane"
+                                                    style="overflow-y: auto; overflow-x: hidden; display: none;">
+                                                    <div class="bx-ui-sls-variants"></div>
+                                                </div>
+            
+                                            </div>
+            
+            
+            
+            
+            
+                                            <div class="bx-ui-sls-error-message">
+                                            </div>
+            
+                                        </div>
+            
+            
+            
+                                    </div><input type="hidden" name="RECENT_DELIVERY_VALUE" value="0000073738">
+                                    <div class="bx-soa-form-group bx-soa-location-input-container" data-property-id-row="4"><label
+                                            for="zipProperty" class="bx-soa-custom-label">Индекс <span
+                                                class="bx-soa-authform-starrequired">*</span></label><input id="zipProperty"
+                                            type="text" placeholder="" autocomplete="zip"
+                                            class="form-control bx-soa-customer-input bx-ios-fix" name="ORDER_PROP_4"></div>
+                                    <div class="bx-soa-reference">Выберите свой город в списке. Если вы не нашли свой город,
+                                        выберите "другое местоположение", а город впишите в поле "Город"</div>
+                                </div>
+                                <div class="bx-soa-more"><button type="button" class="btn_buy ppp prev">Назад</button><button
+                                        type="button" class="btn_buy popdef next">Далее</button></div>
+                            </div>
+                        </div>
+                        <!--Данные плательщика-->
+
+            
+                        <!--Доставка-->
+                        <div id="bx-soa-delivery" data-visited="true" class="bx-soa-section bx-active bx-step-completed">
+                            <div class="bx-soa-section-title-container">
+                                <div class="bx-soa-section-title">
+                                    <span class="bx-soa-section-title-count"><i class="fa fa-check" aria-hidden="true"></i><i
+                                            class="fa fa-info" aria-hidden="true"></i><i class="fa fa-exclamation-triangle"
+                                            aria-hidden="true"></i></span>Доставка </div>
+                                <div class="bx-soa-section-edit">
+                                    <a href="javascript:void(0)" class="bx-soa-editstep">изменить</a>
+                                </div>
+                            </div>
+            
+                            <div class="bx-soa-section-content">
+                                <div class="alertMsg bad" style="display: none;"></div>
+                                <div class="bx-soa-pp-company-selected price">
+                                    <div class="bx-soa-pp-company-selected-image"><img
+                                            src="http://elektrosila.altop.ru/upload/resize_cache//var/www/u2741827/data/www/elektrosila.altop.ru/upload/tmp/7169b395b7aed006ea7249cdf108b7c2//logo.png/a24/95_55_1/a246c2f2f8134c2bd1e6f507748103f5.png"
+                                            alt=""></div>
+                                    <div class="bx-soa-pp-company-selected-title">Почта России (EMS)</div>
+                                    <div class="bx-soa-pp-company-selected-price">310 руб.</div>
+                                </div>
+                                <div style="clear: both;"></div>
+                            </div>
+                        </div>
+
+                      
+                        <div id="bx-soa-delivery" data-visited="true" class="bx-soa-section bx-active bx-selected">
+                            <div class="bx-soa-section-title-container">
+                                <div class="bx-soa-section-title">
+                                    <span class="bx-soa-section-title-count"><i class="fa fa-check" aria-hidden="true"></i><i
+                                            class="fa fa-info" aria-hidden="true"></i><i class="fa fa-exclamation-triangle"
+                                            aria-hidden="true"></i></span>Доставка </div>
+                                <div class="bx-soa-section-edit">
+                                    <a href="javascript:void(0)" class="bx-soa-editstep">изменить</a>
+                                </div>
+                            </div>
+            
+                            <div class="bx-soa-section-content">
+                                <div class="alertMsg bad" style="display: none;"></div>
+                                <div class="bx-soa-pp">
+                                    <div class="bx-soa-pp-item-container">
+                                        <div class="bx-soa-pp-company bx-selected">
+                                            <div class="bx-soa-pp-company-graf-container">
+                                                <div class="bx-soa-pp-company-graf">
+                                                    <div class="bx-soa-pp-company-checkbox"><input id="ID_DELIVERY_ID_26"
+                                                            name="DELIVERY_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                            value="26"></div>
+                                                    <div class="bx-soa-pp-company-image"><img
+                                                            src="http://elektrosila.altop.ru/upload/resize_cache//var/www/u2741827/data/www/elektrosila.altop.ru/upload/tmp/7169b395b7aed006ea7249cdf108b7c2//logo.png/a24/95_55_1/a246c2f2f8134c2bd1e6f507748103f5.png"
+                                                            alt="Почта России (EMS)"></div>
+                                                    <div class="bx-soa-pp-company-descr"><label><i class="fa fa-info"></i></label>
+                                                        <div class="pop-up pp-descr">Экспресс-отправления EMS — это самый быстрый и
+                                                            удобный способ доставить письмо или посылку по России и за границу.
+                                                            Курьер заберет отправление в удобном для вас месте и доставит его
+                                                            адресату домой или в офис. Экспресс-отправление является регистрируемым,
+                                                            его доставку и вручение можно отследить с помощью трек-номера. В
+                                                            городах, где нет курьерской службы EMS, отправить и получить
+                                                            экспресс-отправление можно через отделение Почты России</div>
+                                                    </div>
+                                                </div>
+                                            </div><label class="icon"><i class="fa fa-check"></i></label>
+                                            <div class="bx-soa-pp-delivery-cost">310 руб.</div>
+                                            <div class="bx-soa-pp-company-smalltitle">Почта России (EMS)</div>
+                                        </div>
+                                        <div class="bx-soa-pp-company">
+                                            <div class="bx-soa-pp-company-graf-container">
+                                                <div class="bx-soa-pp-company-graf">
+                                                    <div class="bx-soa-pp-company-checkbox"><input id="ID_DELIVERY_ID_2"
+                                                            name="DELIVERY_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                            value="2"></div>
+                                                    <div class="bx-soa-pp-company-image"><img
+                                                            src="http://elektrosila.altop.ru/upload/sale/delivery/logotip/768/76869237350208f456eb446e234892c5.jpg"
+                                                            alt="Доставка курьером"></div>
+                                                    <div class="bx-soa-pp-company-descr"><label><i class="fa fa-info"></i></label>
+                                                        <div class="pop-up pp-descr" style="opacity: 0; z-index: -1;">Доставка
+                                                            осуществляется в течение дня в удобное для вас время.</div>
+                                                    </div>
+                                                </div>
+                                            </div><label class="icon"><i class="fa fa-check"></i></label>
+                                            <div class="bx-soa-pp-company-smalltitle">Доставка курьером</div>
+                                        </div>
+                                        <div class="bx-soa-pp-company">
+                                            <div class="bx-soa-pp-company-graf-container">
+                                                <div class="bx-soa-pp-company-graf">
+                                                    <div class="bx-soa-pp-company-checkbox"><input id="ID_DELIVERY_ID_25"
+                                                            name="DELIVERY_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                            value="25"></div>
+                                                    <div class="bx-soa-pp-company-image"><img
+                                                            src="http://elektrosila.altop.ru/upload/resize_cache//var/www/u2741827/data/www/elektrosila.altop.ru/upload/tmp/7169b395b7aed006ea7249cdf108b7c2//logo.png/a24/95_55_1/a246c2f2f8134c2bd1e6f507748103f5.png"
+                                                            alt="Почта России (Посылка стандарт)"></div>
+                                                    <div class="bx-soa-pp-company-descr"><label><i class="fa fa-info"></i></label>
+                                                        <div class="pop-up pp-descr" style="opacity: 0; z-index: -1;">Посылкой можно
+                                                            отправить вещи по России. У каждой посылки есть трек-номер для
+                                                            отслеживания. С его помощью вы всегда можете узнать местонахождение и
+                                                            статус посылки</div>
+                                                    </div>
+                                                </div>
+                                            </div><label class="icon"><i class="fa fa-check"></i></label>
+                                            <div class="bx-soa-pp-company-smalltitle">Почта России (Посылка стандарт)</div>
+                                        </div>
+                                        <div class="bx-soa-pp-company">
+                                            <div class="bx-soa-pp-company-graf-container">
+                                                <div class="bx-soa-pp-company-graf">
+                                                    <div class="bx-soa-pp-company-checkbox"><input id="ID_DELIVERY_ID_3"
+                                                            name="DELIVERY_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                            value="3"></div>
+                                                    <div class="bx-soa-pp-company-image"><img
+                                                            src="http://elektrosila.altop.ru/upload/sale/delivery/logotip/bb5/bb523485ce9eb225ab3db9d67040b1be.jpg"
+                                                            alt="Самовывоз"></div>
+                                                    <div class="bx-soa-pp-company-descr"><label><i class="fa fa-info"></i></label>
+                                                        <div class="pop-up pp-descr">Вы можете самостоятельно забрать заказ из
+                                                            нашего магазина.</div>
+                                                    </div>
+                                                </div>
+                                            </div><label class="icon"><i class="fa fa-check"></i></label>
+                                            <div class="bx-soa-pp-company-smalltitle">Самовывоз</div>
+                                        </div>
+                                    </div>
+                                    <div class="bx-soa-pp-company-block bx-soa-pp-company-block-s">
+                                        <div class="bx-soa-pp-company-desc"></div>
+                                    </div>
+                                    <div class="bx-soa-pp-desc-period">
+                                        <div class="bx-soa-pp-desc-period-termin">Срок доставки</div>
+                                        <div class="bx-soa-pp-desc-period-description">до 1 раб. дня</div>
+                                    </div>
+                                </div>
+                                <div class="bx-soa-coupon">
+                                    <div class="bx-soa-coupon-block">
+                                        <div class="bx-soa-coupon-input"><input id="coupon" class="form-control bx-ios-fix"
+                                                type="text" placeholder="Введите купон"><button type="button" name="ENTER_COUPON"><i
+                                                    class="fa fa-chevron-right"></i></button>
+                                            <div class="clr"></div>
+                                        </div>
+                                        <div class="bx-soa-coupon-items"></div>
+                                    </div>
+                                </div>
+                                <div class="bx-soa-more"><button type="button" class="btn_buy ppp prev">Назад</button><button
+                                        type="button" class="btn_buy popdef next">Далее</button></div>
+                            </div>
+                        </div>
+                        <!--Доставка-->
+
+
+            
+                        <!--Оплата-->
+                        <div id="bx-soa-paysystem" data-visited="true" class="bx-soa-section bx-active bx-selected">
+                            <div class="bx-soa-section-title-container">
+                                <div class="bx-soa-section-title">
+                                    <span class="bx-soa-section-title-count"><i class="fa fa-check" aria-hidden="true"></i><i
+                                            class="fa fa-info" aria-hidden="true"></i><i class="fa fa-exclamation-triangle"
+                                            aria-hidden="true"></i></span>Оплата </div>
+                                <div class="bx-soa-section-edit">
+                                    <a href="javascript:void(0)" class="bx-soa-editstep">изменить</a>
+                                </div>
+                            </div>
+            
+                            <div class="bx-soa-section-content">
+                                <div class="alertMsg bad" style="display: none;"></div>
+                                <div class="bx-soa-pp">
+                                    <div class="bx-soa-pp-item-container">
+                                        <div class="bx-soa-pp-company bx-selected">
+                                            <div class="bx-soa-pp-company-graf-container">
+                                                <div class="bx-soa-pp-company-graf">
+                                                    <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_3"
+                                                            name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                            value="3"></div>
+                                                    <div class="bx-soa-pp-company-image"><img
+                                                            src="http://elektrosila.altop.ru/upload/resize_cache/sale/paysystem/logotip/05d/95_55_1/05df7c01e4fb7d935e4356734afded1e.png"
+                                                            alt="Яндекс.Деньги"></div>
+                                                    <div class="bx-soa-pp-company-descr"><label><i class="fa fa-info"></i></label>
+                                                        <div class="pop-up pp-descr">Оплата производится Яндекс деньгами, через
+                                                            сервис Яндекс.Касса. Подтверждением вашей оплаты является электронное
+                                                            почтовое уведомление, пришедшее после оплаты.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="bx-soa-pp-company-smalltitle">Яндекс.Деньги</div><label class="icon"><i
+                                                    class="fa fa-check"></i></label>
+                                        </div>
+                                        <div class="bx-soa-pp-company">
+                                            <div class="bx-soa-pp-company-graf-container">
+                                                <div class="bx-soa-pp-company-graf">
+                                                    <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_4"
+                                                            name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                            value="4"></div>
+                                                    <div class="bx-soa-pp-company-image"><img
+                                                            src="http://elektrosila.altop.ru/upload/sale/paysystem/logotip/d2c/d2ced9e048d51977101921452c2529b8.jpg"
+                                                            alt="Банковские карты"></div>
+                                                    <div class="bx-soa-pp-company-descr"><label><i class="fa fa-info"></i></label>
+                                                        <div class="pop-up pp-descr">Оплата производится банковской картой через
+                                                            сервис Яндекс.Касса. Подтверждением вашей оплаты является электронное
+                                                            почтовое уведомление, пришедшее после оплаты.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="bx-soa-pp-company-smalltitle">Банковские карты</div><label class="icon"><i
+                                                    class="fa fa-check"></i></label>
+                                        </div>
+                                        <div class="bx-soa-pp-company">
+                                            <div class="bx-soa-pp-company-graf-container">
+                                                <div class="bx-soa-pp-company-graf">
+                                                    <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_5"
+                                                            name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                            value="5"></div>
+                                                    <div class="bx-soa-pp-company-image"><img
+                                                            src="http://elektrosila.altop.ru/upload/sale/paysystem/logotip/027/02786e2c5d21ffbe77b0ec8471011457.jpg"
+                                                            alt="Терминалы"></div>
+                                                    <div class="bx-soa-pp-company-descr"><label><i class="fa fa-info"></i></label>
+                                                        <div class="pop-up pp-descr" style="opacity: 0; z-index: -1;">Оплата
+                                                            производится через Терминалы с использованием сервиса Яндекс.Касса.
+                                                            Подтверждением вашей оплаты является электронное почтовое уведомление,
+                                                            пришедшее после оплаты.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="bx-soa-pp-company-smalltitle">Терминалы</div><label class="icon"><i
+                                                    class="fa fa-check"></i></label>
+                                        </div>
+                                        <div class="bx-soa-pp-company">
+                                            <div class="bx-soa-pp-company-graf-container">
+                                                <div class="bx-soa-pp-company-graf">
+                                                    <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_1"
+                                                            name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                            value="1"></div>
+                                                    <div class="bx-soa-pp-company-image"><img
+                                                            src="http://elektrosila.altop.ru/upload/sale/paysystem/logotip/916/916be12070f152fb4e12fb3536aa0e4c.jpg"
+                                                            alt="Наличные курьеру"></div>
+                                                    <div class="bx-soa-pp-company-descr"><label><i class="fa fa-info"></i></label>
+                                                        <div class="pop-up pp-descr" style="opacity: 0; z-index: -1;">Оплата
+                                                            производится наличными деньгами, в момент получения заказа.
+                                                            Подтверждением вашей оплаты является фискальный кассовый чек, вручаемый
+                                                            во время получения и оплаты заказа.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="bx-soa-pp-company-smalltitle">Наличные курьеру</div><label class="icon"><i
+                                                    class="fa fa-check"></i></label>
+                                        </div>
+                                        <div class="bx-soa-pp-company">
+                                            <div class="bx-soa-pp-company-graf-container">
+                                                <div class="bx-soa-pp-company-graf">
+                                                    <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_8"
+                                                            name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                            value="8"></div>
+                                                    <div class="bx-soa-pp-company-image"><img
+                                                            src="http://elektrosila.altop.ru/upload/resize_cache/sale/paysystem/logotip/50e/95_55_1/50ef6a621d822e173ce62486346c6133.png"
+                                                            alt="Банковский перевод"></div>
+                                                </div>
+                                            </div>
+                                            <div class="bx-soa-pp-company-smalltitle">Банковский перевод</div><label class="icon"><i
+                                                    class="fa fa-check"></i></label>
+                                        </div>
+                                        <div class="bx-soa-pp-company">
+                                            <div class="bx-soa-pp-company-graf-container">
+                                                <div class="bx-soa-pp-company-graf">
+                                                    <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_2"
+                                                            name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                            value="2"></div>
+                                                    <div class="bx-soa-pp-company-image"><img
+                                                            src="http://elektrosila.altop.ru/upload/resize_cache/sale/paysystem/logotip/a94/95_55_1/a942b483dc196220d251b459287b91db.png"
+                                                            alt="Наложенный платеж"></div>
+                                                    <div class="bx-soa-pp-company-descr"><label><i class="fa fa-info"></i></label>
+                                                        <div class="pop-up pp-descr">Оплата производится в момент получения заказа.
+                                                            Подтверждением вашей оплаты является фискальный кассовый чек, вручаемый
+                                                            во время получения и оплаты заказа.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="bx-soa-pp-company-smalltitle">Наложенный платеж</div><label class="icon"><i
+                                                    class="fa fa-check"></i></label>
+                                        </div>
+                                        <div class="bx-soa-pp-company">
+                                            <div class="bx-soa-pp-company-graf-container">
+                                                <div class="bx-soa-pp-company-graf">
+                                                    <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_7"
+                                                            name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                            value="7"></div>
+                                                    <div class="bx-soa-pp-company-image"><img
+                                                            src="http://elektrosila.altop.ru/upload/sale/paysystem/logotip/8cf/8cf3c65068f21c707c27ece1e69320ec.jpg"
+                                                            alt="Сбербанк"></div>
+                                                    <div class="bx-soa-pp-company-descr"><label><i class="fa fa-info"></i></label>
+                                                        <div class="pop-up pp-descr">Вы можете оплатить заказ в любом отделении
+                                                            Сбербанка. За услугу по переводу денег с Вас возьмут от 3 до 7% от
+                                                            стоимости заказа, в зависимости от региона. Перечисление денег займет до
+                                                            10 дней.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="bx-soa-pp-company-smalltitle">Сбербанк</div><label class="icon"><i
+                                                    class="fa fa-check"></i></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bx-soa-coupon">
+                                    <div class="bx-soa-coupon-block">
+                                        <div class="bx-soa-coupon-input"><input id="coupon" class="form-control bx-ios-fix"
+                                                type="text" placeholder="Введите купон"><button type="button" name="ENTER_COUPON"><i
+                                                    class="fa fa-chevron-right"></i></button>
+                                            <div class="clr"></div>
+                                        </div>
+                                        <div class="bx-soa-coupon-items"></div>
+                                    </div>
+                                </div>
+                                <div class="bx-soa-more"><button type="button" class="btn_buy ppp prev">Назад</button><button
+                                        type="button" class="btn_buy popdef next">Далее</button></div>
+                            </div>
+                        </div>
+                        <!--Оплата-->
+            
+                        
+                        <!--Данные покупателя-->
+                        <div id="bx-soa-properties" data-visited="true" class="bx-soa-section bx-active bx-selected">
+                            <div class="bx-soa-section-title-container">
+                                <div class="bx-soa-section-title">
+                                    <span class="bx-soa-section-title-count"><i class="fa fa-check" aria-hidden="true"></i><i
+                                            class="fa fa-info" aria-hidden="true"></i><i class="fa fa-exclamation-triangle"
+                                            aria-hidden="true"></i></span>Покупатель </div>
+                                <div class="bx-soa-section-edit">
+                                    <a href="javascript:void(0)" class="bx-soa-editstep">изменить</a>
+                                </div>
+                            </div>
+            
+                            <div class="bx-soa-section-content">
+                                <div class="alertMsg bad" style="display: none;"></div>
+                                <div>
+                                    <div class="bx-soa-customer">
+                                        <div class="bx-soa-form-group bx-soa-customer-field has-error" data-property-id-row="1">
+                                            <label for="soa-property-1" class="bx-soa-custom-label">Ф.И.О. <span
+                                                    class="bx-soa-authform-starrequired">*</span></label>
+                                            <div class="soa-property-container"><input type="text" size="40" name="ORDER_PROP_1"
+                                                    id="soa-property-1" autocomplete="name" placeholder=""
+                                                    class="form-control bx-soa-customer-input bx-ios-fix"></div>
+                                        </div>
+                                        <div class="bx-soa-form-group bx-soa-customer-field has-error" data-property-id-row="2">
+                                            <label for="soa-property-2" class="bx-soa-custom-label">E-Mail <span
+                                                    class="bx-soa-authform-starrequired">*</span></label>
+                                            <div class="soa-property-container"><input type="text" size="40" name="ORDER_PROP_2"
+                                                    id="soa-property-2" autocomplete="email" placeholder=""
+                                                    class="form-control bx-soa-customer-input bx-ios-fix"></div>
+                                        </div>
+                                        <div class="bx-soa-form-group bx-soa-customer-field has-error" data-property-id-row="3">
+                                            <label for="soa-property-3" class="bx-soa-custom-label">Телефон <span
+                                                    class="bx-soa-authform-starrequired">*</span></label>
+                                            <div class="soa-property-container"><input type="text" size="30" name="ORDER_PROP_3"
+                                                    id="soa-property-3" autocomplete="tel" placeholder=""
+                                                    class="form-control bx-soa-customer-input bx-ios-fix"></div>
+                                        </div>
+                                        <div class="bx-soa-form-group bx-soa-customer-field has-error" data-property-id-row="7">
+                                            <label for="soa-property-7" class="bx-soa-custom-label">Адрес доставки <span
+                                                    class="bx-soa-authform-starrequired">*</span></label>
+                                            <div class="soa-property-container"><textarea cols="30" rows="3" name="ORDER_PROP_7"
+                                                    id="soa-property-7" placeholder="" class="form-control bx-ios-fix"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bx-soa-form-group bx-soa-customer-field"><label for="orderDescription"
+                                            class="bx-soa-customer-label">Комментарии к заказу:</label><textarea
+                                            id="orderDescription" cols="4" class="form-control bx-soa-customer-textarea bx-ios-fix"
+                                            name="ORDER_DESCRIPTION"></textarea></div>
+                                </div>
+                                <div class="bx-soa-more"><button type="button" class="btn_buy ppp prev">Назад</button></div>
+                            </div>
+                        </div>
+                        <!--Данные покупателя-->
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+                        <div id="bx-soa-region" data-visited="false" class="bx-soa-section bx-active" style="display: none;">
+                            <div class="bx-soa-section-title-container">
+                                <div class="bx-soa-section-title">
+                                    <span class="bx-soa-section-title-count"><i class="fa fa-check" aria-hidden="true"></i><i
+                                            class="fa fa-info" aria-hidden="true"></i><i class="fa fa-exclamation-triangle"
+                                            aria-hidden="true"></i></span>Тип плательщика и регион доставки </div>
+                                <div class="bx-soa-section-edit">
+                                    <a href="javascript:void(0)" class="bx-soa-editstep">изменить</a>
+                                </div>
+                            </div>
+            
+                            <div class="bx-soa-section-content">
+                                <div class="alertMsg bad" style="display: none;"></div><strong>Тип плательщика:</strong> Физическое
+                                лицо<br><strong>Местоположение:</strong> Москва, Россия<br>
+                            </div>
+                        </div>
+                        <div id="bx-soa-delivery" data-visited="false" class="bx-soa-section bx-active" style="display: none;">
+                            <div class="bx-soa-section-title-container">
+                                <div class="bx-soa-section-title">
+                                    <span class="bx-soa-section-title-count"><i class="fa fa-check" aria-hidden="true"></i><i
+                                            class="fa fa-info" aria-hidden="true"></i><i class="fa fa-exclamation-triangle"
+                                            aria-hidden="true"></i></span>Доставка </div>
+                                <div class="bx-soa-section-edit">
+                                    <a href="javascript:void(0)" class="bx-soa-editstep">изменить</a>
+                                </div>
+                            </div>
+            
+                            <div class="bx-soa-section-content">
+                                <div class="alertMsg bad" style="display: none;"></div>
+                                <div class="bx-soa-pp-company-selected price">
+                                    <div class="bx-soa-pp-company-selected-image"><img
+                                            src="http://elektrosila.altop.ru/upload/resize_cache//var/www/u2741827/data/www/elektrosila.altop.ru/upload/tmp/7169b395b7aed006ea7249cdf108b7c2//logo.png/a24/95_55_1/a246c2f2f8134c2bd1e6f507748103f5.png"
+                                            alt=""></div>
+                                    <div class="bx-soa-pp-company-selected-title">Почта России (EMS)</div>
+                                    <div class="bx-soa-pp-company-selected-price">310 руб.</div>
+                                </div>
+                                <div style="clear: both;"></div>
+                            </div>
+                        </div>
+                        <div id="bx-soa-pickup" data-visited="false" class="bx-soa-section bx-soa-pickup" style="display:none">
+                            <div class="bx-soa-section-title-container">
+                                <div class="bx-soa-section-title">
+                                    <span class="bx-soa-section-title-count"><i class="fa fa-check" aria-hidden="true"></i><i
+                                            class="fa fa-info" aria-hidden="true"></i><i class="fa fa-exclamation-triangle"
+                                            aria-hidden="true"></i></span>
+                                </div>
+                                <div class="bx-soa-section-edit">
+                                    <a href="javascript:void(0)" class="bx-soa-editstep">изменить</a>
+                                </div>
+                            </div>
+                            <div class="bx-soa-section-content"></div>
+                        </div>
+                        <div id="bx-soa-paysystem" data-visited="false" class="bx-soa-section bx-active" style="display: none;">
+                            <div class="bx-soa-section-title-container">
+                                <div class="bx-soa-section-title">
+                                    <span class="bx-soa-section-title-count"><i class="fa fa-check" aria-hidden="true"></i><i
+                                            class="fa fa-info" aria-hidden="true"></i><i class="fa fa-exclamation-triangle"
+                                            aria-hidden="true"></i></span>Оплата </div>
+                                <div class="bx-soa-section-edit">
+                                    <a href="javascript:void(0)" class="bx-soa-editstep">изменить</a>
+                                </div>
+                            </div>
+            
+                            <div class="bx-soa-section-content">
+                                <div class="alertMsg bad" style="display: none;"></div>
+                                <div class="bx-soa-pp-company-selected">
+                                    <div class="bx-soa-pp-company-selected-image"><img
+                                            src="http://elektrosila.altop.ru/upload/resize_cache/sale/paysystem/logotip/05d/95_55_1/05df7c01e4fb7d935e4356734afded1e.png"
+                                            alt=""></div>
+                                    <div class="bx-soa-pp-company-selected-title">Яндекс.Деньги</div>
+                                </div>
+                                <div style="clear: both;"></div>
+                            </div>
+                        </div>
+                        <div id="bx-soa-properties" data-visited="false" class="bx-soa-section bx-active" style="display: none;">
+                            <div class="bx-soa-section-title-container">
+                                <div class="bx-soa-section-title">
+                                    <span class="bx-soa-section-title-count"><i class="fa fa-check" aria-hidden="true"></i><i
+                                            class="fa fa-info" aria-hidden="true"></i><i class="fa fa-exclamation-triangle"
+                                            aria-hidden="true"></i></span>Покупатель </div>
+                                <div class="bx-soa-section-edit">
+                                    <a href="javascript:void(0)" class="bx-soa-editstep">изменить</a>
+                                </div>
+                            </div>
+            
+                            <div class="bx-soa-section-content">
+                                <div class="alertMsg bad" style="display: none;"></div>
+                                <div><strong>Ф.И.О.:</strong> не выбрано</div>
+                                <div><strong>E-Mail:</strong> не выбрано</div>
+                                <div><strong>Телефон:</strong> не выбрано</div>
+                            </div>
+                        </div>
+                        <div id="bx-soa-orderSave" class="bx-soa-order-save" style="display: none;">
+                            <button type="button" class="btn_buy popdef" name="order-save">Оформить заказ</button>
+                        </div>
+                        <div style="display: none;">
+                            <div id="bx-soa-basket-hidden" class="bx-soa-section">
+                                <div class="bx-soa-section-content">
+                                    <div class="bx-soa-item-table">
+                                        <div class="bx-soa-item-tr">
+                                            <div class="bx-soa-item-td bx-soa-item-image"><img
+                                                    src="http://elektrosila.altop.ru/upload/resize_cache/iblock/443/110_110_1/44307ab39edf96c9d706a322552261d8.jpg"
+                                                    alt="Газонокосилка электрическая Prorab 8211"></div>
+                                            <div class="bx-soa-item-td bx-soa-item-name"><a
+                                                    href="/catalog/elektricheskie-gazonokosilki/gazonokosilka-elektricheskaya-prorab-8211/">Газонокосилка
+                                                    электрическая Prorab 8211</a></div>
+                                            <div class="bx-soa-item-td hidden">0%</div>
+                                            <div class="bx-soa-item-td hidden"><span class="bx-price">4 500 руб.</span></div>
+                                            <div class="bx-soa-item-td">1&nbsp;шт</div>
+                                            <div class="bx-soa-item-td"><span class="bx-price">4 500 руб.</span></div>
+                                        </div>
+                                        <div class="bx-soa-item-tr">
+                                            <div class="bx-soa-item-td bx-soa-item-image"><img
+                                                    src="http://elektrosila.altop.ru/upload/resize_cache/iblock/c58/110_110_1/c58419857178f04d9d89c5e18b5aceb5.jpg"
+                                                    alt="Газонокосилка бензиновая PRORAB GLM 4025"></div>
+                                            <div class="bx-soa-item-td bx-soa-item-name"><a
+                                                    href="/catalog/benzinovye-gazonokosilki/gazonokosilka-benzinovaya-prorab-glm-4025/">Газонокосилка
+                                                    бензиновая PRORAB GLM 4025</a></div>
+                                            <div class="bx-soa-item-td hidden">0%</div>
+                                            <div class="bx-soa-item-td hidden"><span class="bx-price">8 900 руб.</span></div>
+                                            <div class="bx-soa-item-td">1&nbsp;шт</div>
+                                            <div class="bx-soa-item-td"><span class="bx-price">8 900 руб.</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="bx-soa-coupon">
+                                        <div class="bx-soa-coupon-block">
+                                            <div class="bx-soa-coupon-input"><input id="coupon" class="form-control bx-ios-fix"
+                                                    type="text" placeholder="Введите купон"><button type="button"
+                                                    name="ENTER_COUPON"><i class="fa fa-chevron-right"></i></button>
+                                                <div class="clr"></div>
+                                            </div>
+                                            <div class="bx-soa-coupon-items"></div>
+                                        </div>
+                                    </div>
+                                    <div class="bx-soa-more"><button type="button" class="btn_buy ppp prev">Назад</button><button
+                                            type="button" class="btn_buy popdef next">Далее</button></div>
+                                </div>
+                            </div>
+                            <div id="bx-soa-region-hidden" class="bx-soa-section">
+                                <div class="bx-soa-section-content">
+                                    <div class="alertMsg bad" style="display: none;"></div>
+                                    <div class="bx_soa_location">
+                                        <div class="bx-soa-form-group"><label class="bx-soa-custom-label">Тип плательщика</label>
+                                            <div class="bx-soa-radio-inline"><label><input checked="true" type="radio"
+                                                        name="PERSON_TYPE" value="1"><span class="check-cont"><span class="check"><i
+                                                                class="fa fa-check"></i></span></span><span
+                                                        class="check-title">Физическое лицо</span></label></div>
+                                            <div class="bx-soa-radio-inline"><label><input type="radio" name="PERSON_TYPE"
+                                                        value="2"><span class="check-cont"><span class="check"><i
+                                                                class="fa fa-check"></i></span></span><span
+                                                        class="check-title">Юридическое лицо</span></label></div><input
+                                                type="hidden" name="PERSON_TYPE_OLD" value="1">
+                                        </div>
+                                        <div data-property-id-row="6" class="bx-soa-form-group bx-soa-location-input-container"
+                                            style=""><label class="bx-soa-custom-label" for="soa-property-6">Местоположение <span
+                                                    class="bx-soa-authform-starrequired">*</span></label>
+            
+            
+            
+                                            <div id="sls-99245" class="bx-sls ">
+            
+            
+                                                <div class="bx-ui-sls-quick-locations quick-locations">
+            
+                                                    <a href="javascript:void(0)" data-id="134" class="quick-location-tag">Москва</a>
+                                                    <a href="javascript:void(0)" data-id="135"
+                                                        class="quick-location-tag">Санкт-Петербург</a>
+                                                    <a href="javascript:void(0)" data-id="11422"
+                                                        class="quick-location-tag">Минск</a>
+                                                    <a href="javascript:void(0)" data-id="41" class="quick-location-tag">Киев</a>
+                                                    <a href="javascript:void(0)" data-id="24105"
+                                                        class="quick-location-tag">Астана</a>
+            
+                                                </div>
+            
+            
+                                                <div class="dropdown-block bx-ui-sls-input-block form-control">
+            
+                                                    <span class="dropdown-icon"></span>
+                                                    <input type="text" autocomplete="off" name="ORDER_PROP_6" value="0000073738"
+                                                        class="dropdown-field" placeholder="Введите название ..."
+                                                        style="display: none;">
+                                                    <div class="bx-ui-sls-container"
+                                                        style="margin: 0px; padding: 0px; border: none; position: relative;"><input
+                                                            type="text" disabled="disabled" autocomplete="off"
+                                                            class="bx-ui-sls-route" style="padding: 0px; margin: 0px;"><input
+                                                            type="text" autocomplete="off" value="0000073738" class="bx-ui-sls-fake"
+                                                            placeholder="Введите название ..." title="Москва, Россия"></div>
+            
+                                                    <div class="dropdown-fade2white"></div>
+                                                    <div class="bx-ui-sls-loader"></div>
+                                                    <div class="bx-ui-sls-clear" title="Отменить выбор" style="display: block;">
+                                                    </div>
+                                                    <div class="bx-ui-sls-pane"
+                                                        style="overflow-y: auto; overflow-x: hidden; display: none;">
+                                                        <div class="bx-ui-sls-variants"></div>
+                                                    </div>
+            
+                                                </div>
+            
+            
+            
+            
+            
+                                                <div class="bx-ui-sls-error-message">
+                                                </div>
+            
+                                            </div>
+            
+            
+            
+                                        </div><input type="hidden" name="RECENT_DELIVERY_VALUE" value="0000073738">
+                                        <div class="bx-soa-form-group bx-soa-location-input-container" data-property-id-row="4">
+                                            <label for="zipProperty" class="bx-soa-custom-label">Индекс <span
+                                                    class="bx-soa-authform-starrequired">*</span></label><input id="zipProperty"
+                                                type="text" placeholder="" autocomplete="zip"
+                                                class="form-control bx-soa-customer-input bx-ios-fix" name="ORDER_PROP_4"></div>
+                                        <div class="bx-soa-reference">Выберите свой город в списке. Если вы не нашли свой город,
+                                            выберите "другое местоположение", а город впишите в поле "Город"</div>
+                                    </div>
+                                    <div class="bx-soa-more"><button type="button" class="btn_buy ppp prev">Назад</button><button
+                                            type="button" class="btn_buy popdef next">Далее</button></div>
+                                </div>
+                            </div>
+                            <div id="bx-soa-paysystem-hidden" class="bx-soa-section">
+                                <div class="bx-soa-section-content">
+                                    <div class="alertMsg bad" style="display: none;"></div>
+                                    <div class="bx-soa-pp">
+                                        <div class="bx-soa-pp-item-container">
+                                            <div class="bx-soa-pp-company bx-selected">
+                                                <div class="bx-soa-pp-company-graf-container">
+                                                    <div class="bx-soa-pp-company-graf">
+                                                        <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_3"
+                                                                name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                                value="3"></div>
+                                                        <div class="bx-soa-pp-company-image"><img
+                                                                src="http://elektrosila.altop.ru/upload/resize_cache/sale/paysystem/logotip/05d/95_55_1/05df7c01e4fb7d935e4356734afded1e.png"
+                                                                alt="Яндекс.Деньги"></div>
+                                                        <div class="bx-soa-pp-company-descr"><label><i
+                                                                    class="fa fa-info"></i></label>
+                                                            <div class="pop-up pp-descr">Оплата производится Яндекс деньгами, через
+                                                                сервис Яндекс.Касса. Подтверждением вашей оплаты является
+                                                                электронное почтовое уведомление, пришедшее после оплаты.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="bx-soa-pp-company-smalltitle">Яндекс.Деньги</div><label class="icon"><i
+                                                        class="fa fa-check"></i></label>
+                                            </div>
+                                            <div class="bx-soa-pp-company">
+                                                <div class="bx-soa-pp-company-graf-container">
+                                                    <div class="bx-soa-pp-company-graf">
+                                                        <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_4"
+                                                                name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                                value="4"></div>
+                                                        <div class="bx-soa-pp-company-image"><img
+                                                                src="http://elektrosila.altop.ru/upload/sale/paysystem/logotip/d2c/d2ced9e048d51977101921452c2529b8.jpg"
+                                                                alt="Банковские карты"></div>
+                                                        <div class="bx-soa-pp-company-descr"><label><i
+                                                                    class="fa fa-info"></i></label>
+                                                            <div class="pop-up pp-descr">Оплата производится банковской картой через
+                                                                сервис Яндекс.Касса. Подтверждением вашей оплаты является
+                                                                электронное почтовое уведомление, пришедшее после оплаты.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="bx-soa-pp-company-smalltitle">Банковские карты</div><label
+                                                    class="icon"><i class="fa fa-check"></i></label>
+                                            </div>
+                                            <div class="bx-soa-pp-company">
+                                                <div class="bx-soa-pp-company-graf-container">
+                                                    <div class="bx-soa-pp-company-graf">
+                                                        <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_5"
+                                                                name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                                value="5"></div>
+                                                        <div class="bx-soa-pp-company-image"><img
+                                                                src="http://elektrosila.altop.ru/upload/sale/paysystem/logotip/027/02786e2c5d21ffbe77b0ec8471011457.jpg"
+                                                                alt="Терминалы"></div>
+                                                        <div class="bx-soa-pp-company-descr"><label><i
+                                                                    class="fa fa-info"></i></label>
+                                                            <div class="pop-up pp-descr">Оплата производится через Терминалы с
+                                                                использованием сервиса Яндекс.Касса. Подтверждением вашей оплаты
+                                                                является электронное почтовое уведомление, пришедшее после оплаты.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="bx-soa-pp-company-smalltitle">Терминалы</div><label class="icon"><i
+                                                        class="fa fa-check"></i></label>
+                                            </div>
+                                            <div class="bx-soa-pp-company">
+                                                <div class="bx-soa-pp-company-graf-container">
+                                                    <div class="bx-soa-pp-company-graf">
+                                                        <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_1"
+                                                                name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                                value="1"></div>
+                                                        <div class="bx-soa-pp-company-image"><img
+                                                                src="http://elektrosila.altop.ru/upload/sale/paysystem/logotip/916/916be12070f152fb4e12fb3536aa0e4c.jpg"
+                                                                alt="Наличные курьеру"></div>
+                                                        <div class="bx-soa-pp-company-descr"><label><i
+                                                                    class="fa fa-info"></i></label>
+                                                            <div class="pop-up pp-descr">Оплата производится наличными деньгами, в
+                                                                момент получения заказа. Подтверждением вашей оплаты является
+                                                                фискальный кассовый чек, вручаемый во время получения и оплаты
+                                                                заказа.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="bx-soa-pp-company-smalltitle">Наличные курьеру</div><label
+                                                    class="icon"><i class="fa fa-check"></i></label>
+                                            </div>
+                                            <div class="bx-soa-pp-company">
+                                                <div class="bx-soa-pp-company-graf-container">
+                                                    <div class="bx-soa-pp-company-graf">
+                                                        <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_8"
+                                                                name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                                value="8"></div>
+                                                        <div class="bx-soa-pp-company-image"><img
+                                                                src="http://elektrosila.altop.ru/upload/resize_cache/sale/paysystem/logotip/50e/95_55_1/50ef6a621d822e173ce62486346c6133.png"
+                                                                alt="Банковский перевод"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="bx-soa-pp-company-smalltitle">Банковский перевод</div><label
+                                                    class="icon"><i class="fa fa-check"></i></label>
+                                            </div>
+                                            <div class="bx-soa-pp-company">
+                                                <div class="bx-soa-pp-company-graf-container">
+                                                    <div class="bx-soa-pp-company-graf">
+                                                        <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_2"
+                                                                name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                                value="2"></div>
+                                                        <div class="bx-soa-pp-company-image"><img
+                                                                src="http://elektrosila.altop.ru/upload/resize_cache/sale/paysystem/logotip/a94/95_55_1/a942b483dc196220d251b459287b91db.png"
+                                                                alt="Наложенный платеж"></div>
+                                                        <div class="bx-soa-pp-company-descr"><label><i
+                                                                    class="fa fa-info"></i></label>
+                                                            <div class="pop-up pp-descr">Оплата производится в момент получения
+                                                                заказа. Подтверждением вашей оплаты является фискальный кассовый
+                                                                чек, вручаемый во время получения и оплаты заказа.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="bx-soa-pp-company-smalltitle">Наложенный платеж</div><label
+                                                    class="icon"><i class="fa fa-check"></i></label>
+                                            </div>
+                                            <div class="bx-soa-pp-company">
+                                                <div class="bx-soa-pp-company-graf-container">
+                                                    <div class="bx-soa-pp-company-graf">
+                                                        <div class="bx-soa-pp-company-checkbox"><input id="ID_PAY_SYSTEM_ID_7"
+                                                                name="PAY_SYSTEM_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                                value="7"></div>
+                                                        <div class="bx-soa-pp-company-image"><img
+                                                                src="http://elektrosila.altop.ru/upload/sale/paysystem/logotip/8cf/8cf3c65068f21c707c27ece1e69320ec.jpg"
+                                                                alt="Сбербанк"></div>
+                                                        <div class="bx-soa-pp-company-descr"><label><i
+                                                                    class="fa fa-info"></i></label>
+                                                            <div class="pop-up pp-descr">Вы можете оплатить заказ в любом отделении
+                                                                Сбербанка. За услугу по переводу денег с Вас возьмут от 3 до 7% от
+                                                                стоимости заказа, в зависимости от региона. Перечисление денег
+                                                                займет до 10 дней.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="bx-soa-pp-company-smalltitle">Сбербанк</div><label class="icon"><i
+                                                        class="fa fa-check"></i></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bx-soa-coupon">
+                                        <div class="bx-soa-coupon-block">
+                                            <div class="bx-soa-coupon-input"><input id="coupon" class="form-control bx-ios-fix"
+                                                    type="text" placeholder="Введите купон"><button type="button"
+                                                    name="ENTER_COUPON"><i class="fa fa-chevron-right"></i></button>
+                                                <div class="clr"></div>
+                                            </div>
+                                            <div class="bx-soa-coupon-items"></div>
+                                        </div>
+                                    </div>
+                                    <div class="bx-soa-more"><button type="button" class="btn_buy ppp prev">Назад</button><button
+                                            type="button" class="btn_buy popdef next">Далее</button></div>
+                                </div>
+                            </div>
+                            <div id="bx-soa-delivery-hidden" class="bx-soa-section">
+                                <div class="bx-soa-section-content">
+                                    <div class="alertMsg bad" style="display: none;"></div>
+                                    <div class="bx-soa-pp">
+                                        <div class="bx-soa-pp-item-container">
+                                            <div class="bx-soa-pp-company bx-selected">
+                                                <div class="bx-soa-pp-company-graf-container">
+                                                    <div class="bx-soa-pp-company-graf">
+                                                        <div class="bx-soa-pp-company-checkbox"><input id="ID_DELIVERY_ID_26"
+                                                                name="DELIVERY_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                                value="26"></div>
+                                                        <div class="bx-soa-pp-company-image"><img
+                                                                src="http://elektrosila.altop.ru/upload/resize_cache//var/www/u2741827/data/www/elektrosila.altop.ru/upload/tmp/7169b395b7aed006ea7249cdf108b7c2//logo.png/a24/95_55_1/a246c2f2f8134c2bd1e6f507748103f5.png"
+                                                                alt="Почта России (EMS)"></div>
+                                                        <div class="bx-soa-pp-company-descr"><label><i
+                                                                    class="fa fa-info"></i></label>
+                                                            <div class="pop-up pp-descr">Экспресс-отправления EMS — это самый
+                                                                быстрый и удобный способ доставить письмо или посылку по России и за
+                                                                границу. Курьер заберет отправление в удобном для вас месте и
+                                                                доставит его адресату домой или в офис. Экспресс-отправление
+                                                                является регистрируемым, его доставку и вручение можно отследить с
+                                                                помощью трек-номера. В городах, где нет курьерской службы EMS,
+                                                                отправить и получить экспресс-отправление можно через отделение
+                                                                Почты России</div>
+                                                        </div>
+                                                    </div>
+                                                </div><label class="icon"><i class="fa fa-check"></i></label>
+                                                <div class="bx-soa-pp-delivery-cost">310 руб.</div>
+                                                <div class="bx-soa-pp-company-smalltitle">Почта России (EMS)</div>
+                                            </div>
+                                            <div class="bx-soa-pp-company">
+                                                <div class="bx-soa-pp-company-graf-container">
+                                                    <div class="bx-soa-pp-company-graf">
+                                                        <div class="bx-soa-pp-company-checkbox"><input id="ID_DELIVERY_ID_2"
+                                                                name="DELIVERY_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                                value="2"></div>
+                                                        <div class="bx-soa-pp-company-image"><img
+                                                                src="http://elektrosila.altop.ru/upload/sale/delivery/logotip/768/76869237350208f456eb446e234892c5.jpg"
+                                                                alt="Доставка курьером"></div>
+                                                        <div class="bx-soa-pp-company-descr"><label><i
+                                                                    class="fa fa-info"></i></label>
+                                                            <div class="pop-up pp-descr">Доставка осуществляется в течение дня в
+                                                                удобное для вас время.</div>
+                                                        </div>
+                                                    </div>
+                                                </div><label class="icon"><i class="fa fa-check"></i></label>
+                                                <div class="bx-soa-pp-company-smalltitle">Доставка курьером</div>
+                                            </div>
+                                            <div class="bx-soa-pp-company">
+                                                <div class="bx-soa-pp-company-graf-container">
+                                                    <div class="bx-soa-pp-company-graf">
+                                                        <div class="bx-soa-pp-company-checkbox"><input id="ID_DELIVERY_ID_25"
+                                                                name="DELIVERY_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                                value="25"></div>
+                                                        <div class="bx-soa-pp-company-image"><img
+                                                                src="http://elektrosila.altop.ru/upload/resize_cache//var/www/u2741827/data/www/elektrosila.altop.ru/upload/tmp/7169b395b7aed006ea7249cdf108b7c2//logo.png/a24/95_55_1/a246c2f2f8134c2bd1e6f507748103f5.png"
+                                                                alt="Почта России (Посылка стандарт)"></div>
+                                                        <div class="bx-soa-pp-company-descr"><label><i
+                                                                    class="fa fa-info"></i></label>
+                                                            <div class="pop-up pp-descr">Посылкой можно отправить вещи по России. У
+                                                                каждой посылки есть трек-номер для отслеживания. С его помощью вы
+                                                                всегда можете узнать местонахождение и статус посылки</div>
+                                                        </div>
+                                                    </div>
+                                                </div><label class="icon"><i class="fa fa-check"></i></label>
+                                                <div class="bx-soa-pp-company-smalltitle">Почта России (Посылка стандарт)</div>
+                                            </div>
+                                            <div class="bx-soa-pp-company">
+                                                <div class="bx-soa-pp-company-graf-container">
+                                                    <div class="bx-soa-pp-company-graf">
+                                                        <div class="bx-soa-pp-company-checkbox"><input id="ID_DELIVERY_ID_3"
+                                                                name="DELIVERY_ID" type="checkbox" class="bx-soa-pp-company-input"
+                                                                value="3"></div>
+                                                        <div class="bx-soa-pp-company-image"><img
+                                                                src="http://elektrosila.altop.ru/upload/sale/delivery/logotip/bb5/bb523485ce9eb225ab3db9d67040b1be.jpg"
+                                                                alt="Самовывоз"></div>
+                                                        <div class="bx-soa-pp-company-descr"><label><i
+                                                                    class="fa fa-info"></i></label>
+                                                            <div class="pop-up pp-descr">Вы можете самостоятельно забрать заказ из
+                                                                нашего магазина.</div>
+                                                        </div>
+                                                    </div>
+                                                </div><label class="icon"><i class="fa fa-check"></i></label>
+                                                <div class="bx-soa-pp-company-smalltitle">Самовывоз</div>
+                                            </div>
+                                        </div>
+                                        <div class="bx-soa-pp-company-block bx-soa-pp-company-block-s">
+                                            <div class="bx-soa-pp-company-desc"></div>
+                                        </div>
+                                        <div class="bx-soa-pp-desc-period">
+                                            <div class="bx-soa-pp-desc-period-termin">Срок доставки</div>
+                                            <div class="bx-soa-pp-desc-period-description">до 1 раб. дня</div>
+                                        </div>
+                                    </div>
+                                    <div class="bx-soa-coupon">
+                                        <div class="bx-soa-coupon-block">
+                                            <div class="bx-soa-coupon-input"><input id="coupon" class="form-control bx-ios-fix"
+                                                    type="text" placeholder="Введите купон"><button type="button"
+                                                    name="ENTER_COUPON"><i class="fa fa-chevron-right"></i></button>
+                                                <div class="clr"></div>
+                                            </div>
+                                            <div class="bx-soa-coupon-items"></div>
+                                        </div>
+                                    </div>
+                                    <div class="bx-soa-more"><button type="button" class="btn_buy ppp prev">Назад</button><button
+                                            type="button" class="btn_buy popdef next">Далее</button></div>
+                                </div>
+                            </div>
+                            <div id="bx-soa-pickup-hidden" class="bx-soa-section"></div>
+                            <div id="bx-soa-properties-hidden" class="bx-soa-section">
+                                <div class="bx-soa-section-content">
+                                    <div class="alertMsg bad" style="display: none;"></div>
+                                    <div>
+                                        <div class="bx-soa-customer">
+                                            <div class="bx-soa-form-group bx-soa-customer-field" data-property-id-row="1"><label
+                                                    for="soa-property-1" class="bx-soa-custom-label">Ф.И.О. <span
+                                                        class="bx-soa-authform-starrequired">*</span></label>
+                                                <div class="soa-property-container"><input type="text" size="40" name="ORDER_PROP_1"
+                                                        id="soa-property-1" autocomplete="name" placeholder=""
+                                                        class="form-control bx-soa-customer-input bx-ios-fix"></div>
+                                            </div>
+                                            <div class="bx-soa-form-group bx-soa-customer-field" data-property-id-row="2"><label
+                                                    for="soa-property-2" class="bx-soa-custom-label">E-Mail <span
+                                                        class="bx-soa-authform-starrequired">*</span></label>
+                                                <div class="soa-property-container"><input type="text" size="40" name="ORDER_PROP_2"
+                                                        id="soa-property-2" autocomplete="email" placeholder=""
+                                                        class="form-control bx-soa-customer-input bx-ios-fix"></div>
+                                            </div>
+                                            <div class="bx-soa-form-group bx-soa-customer-field" data-property-id-row="3"><label
+                                                    for="soa-property-3" class="bx-soa-custom-label">Телефон <span
+                                                        class="bx-soa-authform-starrequired">*</span></label>
+                                                <div class="soa-property-container"><input type="text" size="30" name="ORDER_PROP_3"
+                                                        id="soa-property-3" autocomplete="tel" placeholder=""
+                                                        class="form-control bx-soa-customer-input bx-ios-fix"></div>
+                                            </div>
+                                            <div class="bx-soa-form-group bx-soa-customer-field" data-property-id-row="7"><label
+                                                    for="soa-property-7" class="bx-soa-custom-label">Адрес доставки <span
+                                                        class="bx-soa-authform-starrequired">*</span></label>
+                                                <div class="soa-property-container"><textarea cols="30" rows="3" name="ORDER_PROP_7"
+                                                        id="soa-property-7" placeholder=""
+                                                        class="form-control bx-ios-fix"></textarea></div>
+                                            </div>
+                                        </div>
+                                        <div class="bx-soa-form-group bx-soa-customer-field"><label for="orderDescription"
+                                                class="bx-soa-customer-label">Комментарии к заказу:</label><textarea
+                                                id="orderDescription" cols="4"
+                                                class="form-control bx-soa-customer-textarea bx-ios-fix"
+                                                name="ORDER_DESCRIPTION"></textarea></div>
+                                    </div>
+                                    <div class="bx-soa-more"><button type="button" class="btn_buy ppp prev">Назад</button></div>
+                                </div>
+                            </div>
+                            <div id="bx-soa-auth-hidden" class="bx-soa-section">
+                                <div class="bx-soa-section-content reg">
+                                    <div class="alertMsg bad" style="display: none;"></div>
+                                    <div class="bx-soa-authform">
+                                        <div class="bx-soa-authform-formgroup-container">
+                                            <div class="bx-soa-authform-label-container">Имя<span
+                                                    class="bx-soa-authform-starrequired">*</span></div>
+                                            <div class="bx-soa-authform-input-container"><input data-next="NEW_LAST_NAME"
+                                                    name="NEW_NAME" type="text" size="40"></div>
+                                        </div>
+                                        <div class="bx-soa-authform-formgroup-container">
+                                            <div class="bx-soa-authform-label-container">Фамилия<span
+                                                    class="bx-soa-authform-starrequired">*</span></div>
+                                            <div class="bx-soa-authform-input-container"><input data-next="NEW_EMAIL"
+                                                    name="NEW_LAST_NAME" type="text" size="40"></div>
+                                        </div>
+                                        <div class="bx-soa-authform-formgroup-container">
+                                            <div class="bx-soa-authform-label-container">E-mail<span
+                                                    class="bx-soa-authform-starrequired">*</span></div>
+                                            <div class="bx-soa-authform-input-container"><input data-next="captcha_word"
+                                                    name="NEW_EMAIL" type="text" size="40"></div>
+                                        </div>
+                                        <div class="bx-soa-authform-formgroup-container"><label><input id="NEW_GENERATE_N"
+                                                    type="radio" name="NEW_GENERATE" value="N">Задать логин и
+                                                пароль</label><br><label><input checked="true" id="NEW_GENERATE_Y" type="radio"
+                                                    name="NEW_GENERATE" value="Y">Сгенерировать логин и пароль</label></div>
+                                        <div class="generated" style="display: none;">
+                                            <div class="bx-soa-authform-formgroup-container">
+                                                <div class="bx-soa-authform-label-container">Логин<span
+                                                        class="bx-soa-authform-starrequired">*</span></div>
+                                                <div class="bx-soa-authform-input-container"><input name="NEW_LOGIN" type="text"
+                                                        size="30"></div>
+                                            </div>
+                                            <div class="bx-soa-authform-formgroup-container">
+                                                <div class="bx-soa-authform-label-container">Пароль<span
+                                                        class="bx-soa-authform-starrequired">*</span></div>
+                                                <div class="bx-soa-authform-input-container"><input name="NEW_PASSWORD"
+                                                        type="password" size="30"></div>
+                                            </div>
+                                            <div class="bx-soa-authform-formgroup-container">
+                                                <div class="bx-soa-authform-label-container">Повтор пароля<span
+                                                        class="bx-soa-authform-starrequired">*</span></div>
+                                                <div class="bx-soa-authform-input-container"><input name="NEW_PASSWORD_CONFIRM"
+                                                        type="password" size="30"></div>
+                                            </div>
+                                        </div>
+                                        <div class="bx-soa-authform-formgroup-container">
+                                            <div class="bx-soa-authform-label-container">Введите слово на картинке<span
+                                                    class="bx-soa-authform-starrequired">*</span>
+                                                <div class="bx-captcha"><input name="captcha_sid" type="hidden"
+                                                        value="0a98ed15c43de53c0917ad9f65fdaf1b"><img
+                                                        src="/bitrix/tools/captcha.php?captcha_sid=0a98ed15c43de53c0917ad9f65fdaf1b"
+                                                        alt=""></div>
+                                            </div>
+                                            <div class="bx-soa-authform-input-container"><input data-send="true" name="captcha_word"
+                                                    type="text" size="30"></div>
+                                        </div>
+                                        <div class="hint_agreement" id="hint_agreement"><input type="hidden" name="PERSONAL_DATA"
+                                                id="PERSONAL_DATA_order" value="N">
+                                            <div class="checkbox"><span class="input-checkbox" id="input-checkbox_order"></span>
+                                            </div>
+                                            <div class="label">При отправке данной формы Вы подтверждаете свою дееспособность и
+                                                согласие на <a href="/about/agreement.php" target="_blank">обработку персональных
+                                                    данных.</a></div>
+                                        </div>
+                                        <div class="bx-soa-authform-formgroup-container"><input id="do_register" name="do_register"
+                                                type="hidden" value="N"><input type="submit" class="btn_buy popdef"
+                                                value="Регистрация" id="submit"></div><a href="">Авторизоваться</a>
+                                    </div>
+                                    <div class="bx-soa-reference">Символом "звездочка" (*) отмечены обязательные для заполнения
+                                        поля.<br>После регистрации вы получите информационное письмо.<br>Личные сведения, полученные
+                                        в распоряжение интернет-магазина при регистрации или каким-либо иным образом, не будут без
+                                        разрешения пользователей передаваться третьим организациям и лицам за исключением ситуаций,
+                                        когда этого требует закон или судебное решение.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="bx-soa-total" class="bx-soa-sidebar">
+                        <div class="bx-soa-cart-total-ghost" style="padding-top: 0px;"></div>
+                        <div class="bx-soa-cart-total">
+                            <div class="bx-soa-cart-total-line"><span class="bx-soa-cart-t">Товары:</span><span
+                                    class="bx-soa-cart-d">13 400 руб.</span></div>
+                            <div class="bx-soa-cart-total-line"><span class="bx-soa-cart-t">Доставка:</span><span
+                                    class="bx-soa-cart-d">310 руб.</span></div>
+                            <div class="bx-soa-cart-total-line bx-soa-cart-total-line-total"><span
+                                    class="bx-soa-cart-t">Итого:</span><span class="bx-soa-cart-d">13 710 руб.</span></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+
+
+
+
+
+
+   
+
+
+
+
+        {{ content_bottom }}
+      
+   
+  </div>
+  </div>
+  </div>    
+</div>  
+
+<div id="fastview_modal"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div id="product-category" class="container">
+ 
+    <div class="row">
+    
+      <div id="content" class="{{ class }}">{{ content_top }}
+        <h1>{{ heading_title }}</h1>
+        {% if thumb or description %}
+        <div class="row"> {% if thumb %}
+          <div class="col-sm-2"><img src="{{ thumb }}" alt="{{ heading_title }}" title="{{ heading_title }}"
+              class="img-thumbnail" /></div>
+          {% endif %}
+          {% if description %}
+          <div class="col-sm-10">{{ description }}</div>
+          {% endif %}</div>
+        <hr>
+        {% endif %}
+        {% if categories %}
+        <h3>{{ text_refine }}</h3>
+        {% if categories|length <= 5 %}
+        <div class="row">
+          <div class="col-sm-3">
+            <ul>
+              {% for category in categories %}
+              <li><a href="{{ category.href }}">{{ category.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        {% else %}
+        <div class="row">{% for category in categories|batch((categories|length / 4)|round(1, 'ceil')) %}
+          <div class="col-sm-3">
+            <ul>
+              {% for child in category %}
+              <li><a href="{{ child.href }}">{{ child.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endfor %}</div>
+        <br />
+        {% endif %}
+        {% endif %}
+        {% if products %}
+        <div class="row">
+          <div class="col-md-2 col-sm-6 hidden-xs">
+            <div class="btn-group btn-group-sm">
+              <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip"
+                title="{{ button_list }}"><i class="fa fa-th-list"></i></button>
+              <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip"
+                title="{{ button_grid }}"><i class="fa fa-th"></i></button>
+            </div>
+          </div>
+          <div class="col-md-3 col-sm-6">
+            <div class="form-group"><a href="{{ compare }}" id="compare-total"
+                class="btn btn-link">{{ text_compare }}</a></div>
+          </div>
+          <div class="col-md-4 col-xs-6">
+            <div class="form-group input-group input-group-sm">
+              <label class="input-group-addon" for="input-sort">{{ text_sort }}</label>
+              <select id="input-sort" class="form-control" onchange="location = this.value;">
+
+
+
+                {% for sorts in sorts %}
+                {% if sorts.value == '%s-%s'|format(sort, order) %}
+
+
+
+                <option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
+
+
+
+                {% else %}
+
+
+
+                <option value="{{ sorts.href }}">{{ sorts.text }}</option>
+
+
+
+                {% endif %}
+                {% endfor %}
+
+
+
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-6">
+            <div class="form-group input-group input-group-sm">
+              <label class="input-group-addon" for="input-limit">{{ text_limit }}</label>
+              <select id="input-limit" class="form-control" onchange="location = this.value;">
+
+
+
+                {% for limits in limits %}
+                {% if limits.value == limit %}
+
+
+
+                <option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
+
+
+
+                {% else %}
+
+
+
+                <option value="{{ limits.href }}">{{ limits.text }}</option>
+
+
+
+                {% endif %}
+                {% endfor %}
+
+
+
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row"> {% for product in products %}
+          <div class="product-layout product-list col-xs-12">
+            <div class="product-thumb">
+              <div class="image"><a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}"
+                    title="{{ product.name }}" class="img-responsive" /></a></div>
+              <div>
+                <div class="caption">
+                  <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                  <p>{{ product.description }}</p>
+                  {% if product.price %}
+                  <p class="price"> {% if not product.special %}
+                    {{ product.price }}
+                    {% else %} <span class="price-new">{{ product.special }}</span> <span
+                      class="price-old">{{ product.price }}</span> {% endif %}
+                    {% if product.tax %} <span class="price-tax">{{ text_tax }} {{ product.tax }}</span> {% endif %}
+                  </p>
+                  {% endif %}
+                  {% if product.rating %}
+                  <div class="rating"> {% for i in 1..5 %}
+                    {% if product.rating < i %} <span class="fa fa-stack"><i
+                        class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i
+                        class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>{% endif %}
+                    {% endfor %} </div>
+                  {% endif %}
+                </div>
+                <div class="button-group">
+                  <button type="button" onclick="cart.add('{{ product.product_id }}', '{{ product.minimum }}');"><i
+                      class="fa fa-shopping-cart"></i> <span
+                      class="hidden-xs hidden-sm hidden-md">{{ button_cart }}</span></button>
+                  <button type="button" data-toggle="tooltip" title="{{ button_wishlist }}"
+                    onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+                  <button type="button" data-toggle="tooltip" title="{{ button_compare }}"
+                    onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %} </div>
+        <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+        {% endif %}
+        {% if not categories and not products %}
+        <p>{{ text_empty }}</p>
+        <div class="buttons">
+          <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+        </div>
+        {% endif %}
+        {{ content_bottom }}
+      </div>
+    </div>
+  </div>
+
+
+  #}
+
+
+
+
+
+<div id="checkout-checkout" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  {% if error_warning %}
+  <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+  </div>
+  {% endif %}
+  <div class="row">
+   
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h1>{{ heading_title }}</h1>
+      <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">{{ text_checkout_option }}</h4>
+          </div>
+          <div class="panel-collapse collapse" id="collapse-checkout-option2">
+            <div class="panel-body"></div>
+          </div>
+        </div>
+        {% if not logged and account != 'guest' %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">{{ text_checkout_account }}</h4>
+          </div>
+          <div class="panel-collapse collapse" id="collapse-payment-address">
+            <div class="panel-body"></div>
+          </div>
+        </div>
+        {% else %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">{{ text_checkout_payment_address }}</h4>
+          </div>
+          <div class="panel-collapse collapse" id="collapse-payment-address">
+            <div class="panel-body"></div>
+          </div>
+        </div>
+        {% endif %}
+        {% if shipping_required %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">{{ text_checkout_shipping_address }}</h4>
+          </div>
+          <div class="panel-collapse collapse" id="collapse-shipping-address">
+            <div class="panel-body"></div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">{{ text_checkout_shipping_method }}</h4>
+          </div>
+          <div class="panel-collapse collapse" id="collapse-shipping-method">
+            <div class="panel-body"></div>
+          </div>
+        </div>
+        {% endif %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">{{ text_checkout_payment_method }}</h4>
+          </div>
+          <div class="panel-collapse collapse" id="collapse-payment-method">
+            <div class="panel-body"></div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">{{ text_checkout_confirm }}</h4>
+          </div>
+          <div class="panel-collapse collapse" id="collapse-checkout-confirm">
+            <div class="panel-body"></div>
+          </div>
+        </div>
+      </div>
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+<script type="text/javascript"><!--
+$(document).on('change', 'input[name=\'account\']', function() {
+	if ($('#collapse-payment-address').parent().find('.panel-heading .panel-title > *').is('a')) {
+		if (this.value == 'register') {
+			$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_account }} <i class="fa fa-caret-down"></i></a>');
+		} else {
+			$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_payment_address }} <i class="fa fa-caret-down"></i></a>');
+		}
+	} else {
+		if (this.value == 'register') {
+			$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('{{ text_checkout_account }}');
+		} else {
+			$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('{{ text_checkout_payment_address }}');
+		}
+	}
+});
+
+{% if not logged %}
+$(document).ready(function() {
+    $.ajax({
+        url: 'index.php?route=checkout/login',
+        dataType: 'html',
+        success: function(html) {
+           $('#collapse-checkout-option .panel-body').html(html);
+
+			$('#collapse-checkout-option').parent().find('.panel-heading .panel-title').html('<a href="#collapse-checkout-option" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_option }} <i class="fa fa-caret-down"></i></a>');
+
+			$('a[href=\'#collapse-checkout-option\']').trigger('click');
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+{% else %}
+$(document).ready(function() {
+    $.ajax({
+        url: 'index.php?route=checkout/payment_address',
+        dataType: 'html',
+        success: function(html) {
+            $('#collapse-payment-address .panel-body').html(html);
+
+			$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_payment_address }} <i class="fa fa-caret-down"></i></a>');
+
+			$('a[href=\'#collapse-payment-address\']').trigger('click');
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+{% endif %}
+
+// Checkout
+$(document).delegate('#button-account', 'click', function() {
+    $.ajax({
+        url: 'index.php?route=checkout/' + $('input[name=\'account\']:checked').val(),
+        dataType: 'html',
+        beforeSend: function() {
+        	$('#button-account').button('loading');
+		},
+        complete: function() {
+			$('#button-account').button('reset');
+        },
+        success: function(html) {
+            $('.alert-dismissible, .text-danger').remove();
+			$('.form-group').removeClass('has-error');
+
+            $('#collapse-payment-address .panel-body').html(html);
+
+			if ($('input[name=\'account\']:checked').val() == 'register') {
+				$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_account }} <i class="fa fa-caret-down"></i></a>');
+			} else {
+				$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_payment_address }} <i class="fa fa-caret-down"></i></a>');
+			}
+
+			$('a[href=\'#collapse-payment-address\']').trigger('click');
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+// Checkout register
+$(document).delegate('#button-show-reg', 'click', function() {
+    $.ajax({
+        url: 'index.php?route=checkout/register',
+        dataType: 'html',
+        beforeSend: function() {
+            view_preloder(true);
+        	$('#button-account').button('loading');
+		},
+        complete: function() {
+            view_preloder(false);
+			$('#button-account').button('reset');
+        },
+        success: function(html) {
+            $('.alert-dismissible, .text-danger').remove();
+			$('.form-group').removeClass('has-error');
+
+            $('#collapse-payment-address .panel-body').html(html);
+/*
+			if ($('input[name=\'account\']:checked').val() == 'register') {
+				$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_account }} <i class="fa fa-caret-down"></i></a>');
+			} else {
+				$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_payment_address }} <i class="fa fa-caret-down"></i></a>');
+			}
+*/
+			$('a[href=\'#collapse-payment-address\']').trigger('click');
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+// Login
+$(document).delegate('#button-login', 'click', function() {
+    $.ajax({
+        url: 'index.php?route=checkout/login/save',
+        type: 'post',
+        data: $('#collapse-checkout-option :input'),
+        dataType: 'json',
+        beforeSend: function() {
+        	$('#button-login').button('loading');
+		},
+        complete: function() {
+            $('#button-login').button('reset');
+        },
+        success: function(json) {
+            $('.alert-dismissible, .text-danger').remove();
+            $('.form-group').removeClass('has-error');
+
+            if (json['redirect']) {
+                location = json['redirect'];
+            } else if (json['error']) {
+                $('#collapse-checkout-option .panel-body').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+				// Highlight any found errors
+				$('input[name=\'email\']').parent().addClass('has-error');
+				$('input[name=\'password\']').parent().addClass('has-error');
+		   }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+// Register
+$(document).delegate('#button-register', 'click', function() {
+    $.ajax({
+        url: 'index.php?route=checkout/register/save',
+        type: 'post',
+        data: $('#collapse-payment-address input[type=\'text\'], #collapse-payment-address input[type=\'date\'], #collapse-payment-address input[type=\'datetime-local\'], #collapse-payment-address input[type=\'time\'], #collapse-payment-address input[type=\'password\'], #collapse-payment-address input[type=\'hidden\'], #collapse-payment-address input[type=\'checkbox\']:checked, #collapse-payment-address input[type=\'radio\']:checked, #collapse-payment-address textarea, #collapse-payment-address select'),
+        dataType: 'json',
+        beforeSend: function() {
+			$('#button-register').button('loading');
+		},
+        success: function(json) {
+            $('.alert-dismissible, .text-danger').remove();
+            $('.form-group').removeClass('has-error');
+
+            if (json['redirect']) {
+                location = json['redirect'];
+            } else if (json['error']) {
+                $('#button-register').button('reset');
+
+                if (json['error']['warning']) {
+                    $('#collapse-payment-address .panel-body').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> ' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                }
+
+				for (i in json['error']) {
+					var element = $('#input-payment-' + i.replace('_', '-'));
+
+					if ($(element).parent().hasClass('input-group')) {
+						$(element).parent().after('<div class="text-danger">' + json['error'][i] + '</div>');
+					} else {
+						$(element).after('<div class="text-danger">' + json['error'][i] + '</div>');
+					}
+				}
+
+				// Highlight any found errors
+				$('.text-danger').parent().addClass('has-error');
+            } else {
+                {% if shipping_required %}
+                var shipping_address = $('#payment-address input[name=\'shipping_address\']:checked').prop('value');
+
+                if (shipping_address) {
+                    $.ajax({
+                        url: 'index.php?route=checkout/shipping_method',
+                        dataType: 'html',
+                        success: function(html) {
+							// Add the shipping address
+                            $.ajax({
+                                url: 'index.php?route=checkout/shipping_address',
+                                dataType: 'html',
+                                success: function(html) {
+                                    $('#collapse-shipping-address .panel-body').html(html);
+
+									$('#collapse-shipping-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-shipping-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_shipping_address }} <i class="fa fa-caret-down"></i></a>');
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                }
+                            });
+
+							$('#collapse-shipping-method .panel-body').html(html);
+
+							$('#collapse-shipping-method').parent().find('.panel-heading .panel-title').html('<a href="#collapse-shipping-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_shipping_method }} <i class="fa fa-caret-down"></i></a>');
+
+   							$('a[href=\'#collapse-shipping-method\']').trigger('click');
+
+							$('#collapse-shipping-method').parent().find('.panel-heading .panel-title').html('{{ text_checkout_shipping_method }}');
+							$('#collapse-payment-method').parent().find('.panel-heading .panel-title').html('{{ text_checkout_payment_method }}');
+							$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('{{ text_checkout_confirm }}');
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: 'index.php?route=checkout/shipping_address',
+                        dataType: 'html',
+                        success: function(html) {
+                            $('#collapse-shipping-address .panel-body').html(html);
+
+							$('#collapse-shipping-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-shipping-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_shipping_address }} <i class="fa fa-caret-down"></i></a>');
+
+							$('a[href=\'#collapse-shipping-address\']').trigger('click');
+
+							$('#collapse-shipping-method').parent().find('.panel-heading .panel-title').html('{{ text_checkout_shipping_method }}');
+							$('#collapse-payment-method').parent().find('.panel-heading .panel-title').html('{{ text_checkout_payment_method }}');
+							$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('{{ text_checkout_confirm }}');
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                        }
+                    });
+                }
+                {% else %}
+                $.ajax({
+                    url: 'index.php?route=checkout/payment_method',
+                    dataType: 'html',
+                    success: function(html) {
+                        $('#collapse-payment-method .panel-body').html(html);
+
+						$('#collapse-payment-method').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_payment_method }} <i class="fa fa-caret-down"></i></a>');
+
+						$('a[href=\'#collapse-payment-method\']').trigger('click');
+
+						$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('{{ text_checkout_confirm }}');
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+                {% endif %}
+
+                $.ajax({
+                    url: 'index.php?route=checkout/payment_address',
+                    dataType: 'html',
+                    complete: function() {
+                        $('#button-register').button('reset');
+                    },
+                    success: function(html) {
+                        $('#collapse-payment-address .panel-body').html(html);
+
+						$('#collapse-payment-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_payment_address }} <i class="fa fa-caret-down"></i></a>');
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+// Payment Address
+$(document).delegate('#button-payment-address', 'click', function() {
+    $.ajax({
+        url: 'index.php?route=checkout/payment_address/save',
+        type: 'post',
+        data: $('#collapse-payment-address input[type=\'text\'], #collapse-payment-address input[type=\'date\'], #collapse-payment-address input[type=\'datetime-local\'], #collapse-payment-address input[type=\'time\'], #collapse-payment-address input[type=\'password\'], #collapse-payment-address input[type=\'checkbox\']:checked, #collapse-payment-address input[type=\'radio\']:checked, #collapse-payment-address input[type=\'hidden\'], #collapse-payment-address textarea, #collapse-payment-address select'),
+        dataType: 'json',
+        beforeSend: function() {
+        	$('#button-payment-address').button('loading');
+		},
+        complete: function() {
+			$('#button-payment-address').button('reset');
+        },
+        success: function(json) {
+            $('.alert-dismissible, .text-danger').remove();
+			$('.form-group').removeClass('has-error');
+
+            if (json['redirect']) {
+                location = json['redirect'];
+            } else if (json['error']) {
+                if (json['error']['warning']) {
+                    $('#collapse-payment-address .panel-body').prepend('<div class="alert alert-warning alert-dismissible">' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                }
+
+				for (i in json['error']) {
+					var element = $('#input-payment-' + i.replace('_', '-'));
+
+					if ($(element).parent().hasClass('input-group')) {
+						$(element).parent().after('<div class="text-danger">' + json['error'][i] + '</div>');
+					} else {
+						$(element).after('<div class="text-danger">' + json['error'][i] + '</div>');
+					}
+				}
+
+				// Highlight any found errors
+				$('.text-danger').parent().parent().addClass('has-error');
+            } else {
+                {% if shipping_required %}
+                $.ajax({
+                    url: 'index.php?route=checkout/shipping_address',
+                    dataType: 'html',
+                    success: function(html) {
+                        $('#collapse-shipping-address .panel-body').html(html);
+
+						$('#collapse-shipping-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-shipping-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_shipping_address }} <i class="fa fa-caret-down"></i></a>');
+
+						$('a[href=\'#collapse-shipping-address\']').trigger('click');
+
+						$('#collapse-shipping-method').parent().find('.panel-heading .panel-title').html('{{ text_checkout_shipping_method }}');
+						$('#collapse-payment-method').parent().find('.panel-heading .panel-title').html('{{ text_checkout_payment_method }}');
+						$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('{{ text_checkout_confirm }}');
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                }).done(function() {
+					$.ajax({
+						url: 'index.php?route=checkout/payment_address',
+						dataType: 'html',
+						success: function(html) {
+							$('#collapse-payment-address .panel-body').html(html);
+						},
+						error: function(xhr, ajaxOptions, thrownError) {
+							alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+						}
+					});
+				});
+                {% else %}
+                $.ajax({
+                    url: 'index.php?route=checkout/payment_method',
+                    dataType: 'html',
+                    success: function(html) {
+                        $('#collapse-payment-method .panel-body').html(html);
+
+						$('#collapse-payment-method').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_payment_method }} <i class="fa fa-caret-down"></i></a>');
+
+						$('a[href=\'#collapse-payment-method\']').trigger('click');
+
+						$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('{{ text_checkout_confirm }}');
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                }).done(function() {
+					$.ajax({
+						url: 'index.php?route=checkout/payment_address',
+						dataType: 'html',
+						success: function(html) {
+							$('#collapse-payment-address .panel-body').html(html);
+						},
+						error: function(xhr, ajaxOptions, thrownError) {
+							alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+						}
+					});				
+				});
+                {% endif %}
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+// Shipping Address
+$(document).delegate('#button-shipping-address', 'click', function() {
+    $.ajax({
+        url: 'index.php?route=checkout/shipping_address/save',
+        type: 'post',
+        data: $('#collapse-shipping-address input[type=\'text\'], #collapse-shipping-address input[type=\'date\'], #collapse-shipping-address input[type=\'datetime-local\'], #collapse-shipping-address input[type=\'time\'], #collapse-shipping-address input[type=\'password\'], #collapse-shipping-address input[type=\'checkbox\']:checked, #collapse-shipping-address input[type=\'radio\']:checked, #collapse-shipping-address textarea, #collapse-shipping-address select'),
+        dataType: 'json',
+        beforeSend: function() {
+			$('#button-shipping-address').button('loading');
+	    },
+        success: function(json) {
+            $('.alert-dismissible, .text-danger').remove();
+			$('.form-group').removeClass('has-error');
+
+            if (json['redirect']) {
+                location = json['redirect'];
+            } else if (json['error']) {
+                $('#button-shipping-address').button('reset');
+
+                if (json['error']['warning']) {
+                    $('#collapse-shipping-address .panel-body').prepend('<div class="alert alert-warning alert-dismissible">' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                }
+
+				for (i in json['error']) {
+					var element = $('#input-shipping-' + i.replace('_', '-'));
+
+					if ($(element).parent().hasClass('input-group')) {
+						$(element).parent().after('<div class="text-danger">' + json['error'][i] + '</div>');
+					} else {
+						$(element).after('<div class="text-danger">' + json['error'][i] + '</div>');
+					}
+				}
+
+				// Highlight any found errors
+				$('.text-danger').parent().parent().addClass('has-error');
+            } else {
+                $.ajax({
+                    url: 'index.php?route=checkout/shipping_method',
+                    dataType: 'html',
+                    complete: function() {
+                        $('#button-shipping-address').button('reset');
+                    },
+                    success: function(html) {
+                        $('#collapse-shipping-method .panel-body').html(html);
+
+						$('#collapse-shipping-method').parent().find('.panel-heading .panel-title').html('<a href="#collapse-shipping-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_shipping_method }} <i class="fa fa-caret-down"></i></a>');
+
+						$('a[href=\'#collapse-shipping-method\']').trigger('click');
+
+						$('#collapse-payment-method').parent().find('.panel-heading .panel-title').html('{{ text_checkout_payment_method }}');
+						$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('{{ text_checkout_confirm }}');
+						
+                        $.ajax({
+                            url: 'index.php?route=checkout/shipping_address',
+                            dataType: 'html',
+                            success: function(html) {
+                                $('#collapse-shipping-address .panel-body').html(html);
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                            }
+                        });
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                }).done(function() {
+					$.ajax({
+						url: 'index.php?route=checkout/payment_address',
+						dataType: 'html',
+						success: function(html) {
+							$('#collapse-payment-address .panel-body').html(html);
+						},
+						error: function(xhr, ajaxOptions, thrownError) {
+							alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+						}
+					});
+				});
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+// Guest
+$(document).delegate('#button-guest', 'click', function() {
+    $.ajax({
+        url: 'index.php?route=checkout/guest/save',
+        type: 'post',
+        data: $('#collapse-payment-address input[type=\'text\'], #collapse-payment-address input[type=\'date\'], #collapse-payment-address input[type=\'datetime-local\'], #collapse-payment-address input[type=\'time\'], #collapse-payment-address input[type=\'checkbox\']:checked, #collapse-payment-address input[type=\'radio\']:checked, #collapse-payment-address input[type=\'hidden\'], #collapse-payment-address textarea, #collapse-payment-address select'),
+        dataType: 'json',
+        beforeSend: function() {
+       		$('#button-guest').button('loading');
+	    },
+        success: function(json) {
+            $('.alert-dismissible, .text-danger').remove();
+			$('.form-group').removeClass('has-error');
+
+            if (json['redirect']) {
+                location = json['redirect'];
+            } else if (json['error']) {
+                $('#button-guest').button('reset');
+
+                if (json['error']['warning']) {
+                    $('#collapse-payment-address .panel-body').prepend('<div class="alert alert-warning alert-dismissible">' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                }
+
+				for (i in json['error']) {
+					var element = $('#input-payment-' + i.replace('_', '-'));
+
+					if ($(element).parent().hasClass('input-group')) {
+						$(element).parent().after('<div class="text-danger">' + json['error'][i] + '</div>');
+					} else {
+						$(element).after('<div class="text-danger">' + json['error'][i] + '</div>');
+					}
+				}
+
+				// Highlight any found errors
+				$('.text-danger').parent().addClass('has-error');
+            } else {
+                {% if shipping_required %}
+                var shipping_address = $('#collapse-payment-address input[name=\'shipping_address\']:checked').prop('value');
+
+                if (shipping_address) {
+                    $.ajax({
+                        url: 'index.php?route=checkout/shipping_method',
+                        dataType: 'html',
+                        complete: function() {
+                            $('#button-guest').button('reset');
+                        },
+                        success: function(html) {
+							// Add the shipping address
+                            $.ajax({
+                                url: 'index.php?route=checkout/guest_shipping',
+                                dataType: 'html',
+                                success: function(html) {
+                                    $('#collapse-shipping-address .panel-body').html(html);
+
+									$('#collapse-shipping-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-shipping-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_shipping_address }} <i class="fa fa-caret-down"></i></a>');
+                                },
+                                error: function(xhr, ajaxOptions, thrownError) {
+                                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                                }
+                            });
+
+						    $('#collapse-shipping-method .panel-body').html(html);
+
+							$('#collapse-shipping-method').parent().find('.panel-heading .panel-title').html('<a href="#collapse-shipping-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_shipping_method }} <i class="fa fa-caret-down"></i></a>');
+
+							$('a[href=\'#collapse-shipping-method\']').trigger('click');
+
+							$('#collapse-payment-method').parent().find('.panel-heading .panel-title').html('{{ text_checkout_payment_method }}');
+							$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('{{ text_checkout_confirm }}');
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        url: 'index.php?route=checkout/guest_shipping',
+                        dataType: 'html',
+                        complete: function() {
+                            $('#button-guest').button('reset');
+                        },
+                        success: function(html) {
+                            $('#collapse-shipping-address .panel-body').html(html);
+
+							$('#collapse-shipping-address').parent().find('.panel-heading .panel-title').html('<a href="#collapse-shipping-address" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_shipping_address }} <i class="fa fa-caret-down"></i></a>');
+
+							$('a[href=\'#collapse-shipping-address\']').trigger('click');
+
+							$('#collapse-shipping-method').parent().find('.panel-heading .panel-title').html('{{ text_checkout_shipping_method }}');
+							$('#collapse-payment-method').parent().find('.panel-heading .panel-title').html('{{ text_checkout_payment_method }}');
+							$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('{{ text_checkout_confirm }}');
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                        }
+                    });
+                }
+                {% else %}
+                $.ajax({
+                    url: 'index.php?route=checkout/payment_method',
+                    dataType: 'html',
+                    complete: function() {
+                        $('#button-guest').button('reset');
+                    },
+                    success: function(html) {
+                        $('#collapse-payment-method .panel-body').html(html);
+
+						$('#collapse-payment-method').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_payment_method }} <i class="fa fa-caret-down"></i></a>');
+
+						$('a[href=\'#collapse-payment-method\']').trigger('click');
+
+						$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('{{ text_checkout_confirm }}');
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+                {% endif %}
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+// Guest Shipping
+$(document).delegate('#button-guest-shipping', 'click', function() {
+    $.ajax({
+        url: 'index.php?route=checkout/guest_shipping/save',
+        type: 'post',
+        data: $('#collapse-shipping-address input[type=\'text\'], #collapse-shipping-address input[type=\'date\'], #collapse-shipping-address input[type=\'datetime-local\'], #collapse-shipping-address input[type=\'time\'], #collapse-shipping-address input[type=\'password\'], #collapse-shipping-address input[type=\'checkbox\']:checked, #collapse-shipping-address input[type=\'radio\']:checked, #collapse-shipping-address textarea, #collapse-shipping-address select'),
+        dataType: 'json',
+        beforeSend: function() {
+        	$('#button-guest-shipping').button('loading');
+		},
+        success: function(json) {
+            $('.alert-dismissible, .text-danger').remove();
+			$('.form-group').removeClass('has-error');
+
+            if (json['redirect']) {
+                location = json['redirect'];
+            } else if (json['error']) {
+                $('#button-guest-shipping').button('reset');
+
+                if (json['error']['warning']) {
+                    $('#collapse-shipping-address .panel-body').prepend('<div class="alert alert-danger alert-dismissible">' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                }
+
+				for (i in json['error']) {
+					var element = $('#input-shipping-' + i.replace('_', '-'));
+
+					if ($(element).parent().hasClass('input-group')) {
+						$(element).parent().after('<div class="text-danger">' + json['error'][i] + '</div>');
+					} else {
+						$(element).after('<div class="text-danger">' + json['error'][i] + '</div>');
+					}
+				}
+
+				// Highlight any found errors
+				$('.text-danger').parent().addClass('has-error');
+            } else {
+                $.ajax({
+                    url: 'index.php?route=checkout/shipping_method',
+                    dataType: 'html',
+                    complete: function() {
+                        $('#button-guest-shipping').button('reset');
+                    },
+                    success: function(html) {
+                        $('#collapse-shipping-method .panel-body').html(html);
+
+						$('#collapse-shipping-method').parent().find('.panel-heading .panel-title').html('<a href="#collapse-shipping-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_shipping_method }} <i class="fa fa-caret-down"></i>');
+
+						$('a[href=\'#collapse-shipping-method\']').trigger('click');
+
+						$('#collapse-payment-method').parent().find('.panel-heading .panel-title').html('{{ text_checkout_payment_method }}');
+						$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('{{ text_checkout_confirm }}');
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+$(document).delegate('#button-shipping-method', 'click', function() {
+    $.ajax({
+        url: 'index.php?route=checkout/shipping_method/save',
+        type: 'post',
+        data: $('#collapse-shipping-method input[type=\'radio\']:checked, #collapse-shipping-method textarea'),
+        dataType: 'json',
+        beforeSend: function() {
+        	$('#button-shipping-method').button('loading');
+		},
+        success: function(json) {
+            $('.alert-dismissible, .text-danger').remove();
+
+            if (json['redirect']) {
+                location = json['redirect'];
+            } else if (json['error']) {
+                $('#button-shipping-method').button('reset');
+
+                if (json['error']['warning']) {
+                    $('#collapse-shipping-method .panel-body').prepend('<div class="alert alert-danger alert-dismissible">' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                }
+            } else {
+                $.ajax({
+                    url: 'index.php?route=checkout/payment_method',
+                    dataType: 'html',
+                    complete: function() {
+                        $('#button-shipping-method').button('reset');
+                    },
+                    success: function(html) {
+                        $('#collapse-payment-method .panel-body').html(html);
+
+						$('#collapse-payment-method').parent().find('.panel-heading .panel-title').html('<a href="#collapse-payment-method" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_payment_method }} <i class="fa fa-caret-down"></i></a>');
+
+						$('a[href=\'#collapse-payment-method\']').trigger('click');
+
+						$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('{{ text_checkout_confirm }}');
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+$(document).delegate('#button-payment-method', 'click', function() {
+    $.ajax({
+        url: 'index.php?route=checkout/payment_method/save',
+        type: 'post',
+        data: $('#collapse-payment-method input[type=\'radio\']:checked, #collapse-payment-method input[type=\'checkbox\']:checked, #collapse-payment-method textarea'),
+        dataType: 'json',
+        beforeSend: function() {
+         	$('#button-payment-method').button('loading');
+		},
+        success: function(json) {
+            $('.alert-dismissible, .text-danger').remove();
+
+            if (json['redirect']) {
+                location = json['redirect'];
+            } else if (json['error']) {
+                $('#button-payment-method').button('reset');
+                
+                if (json['error']['warning']) {
+                    $('#collapse-payment-method .panel-body').prepend('<div class="alert alert-danger alert-dismissible">' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                }
+            } else {
+                $.ajax({
+                    url: 'index.php?route=checkout/confirm',
+                    dataType: 'html',
+                    complete: function() {
+                        $('#button-payment-method').button('reset');
+                    },
+                    success: function(html) {
+                        $('#collapse-checkout-confirm .panel-body').html(html);
+
+						$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('<a href="#collapse-checkout-confirm" data-toggle="collapse" data-parent="#accordion" class="accordion-toggle">{{ text_checkout_confirm }} <i class="fa fa-caret-down"></i></a>');
+
+						$('a[href=\'#collapse-checkout-confirm\']').trigger('click');
+					},
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+            }
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+//--></script>
+
+
+
+
+
+
+
+{{ footer }}
+

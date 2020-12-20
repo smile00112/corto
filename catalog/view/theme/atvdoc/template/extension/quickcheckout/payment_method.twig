@@ -1,0 +1,124 @@
+{% if error_warning %} 
+<div class="alert alert-danger">{{ error_warning }}</div>
+{% endif %} 
+{% if payment_methods %}
+<p>{{ text_payment_method }}</p>
+{% if payment %}
+<table class="table" style="margin-bottom:0">
+  {% for payment_method in payment_methods %} 
+  <tr>
+    <td>{% if payment_method.code == code %} 
+      <input type="radio" name="payment_method" value="{{ payment_method.code }}" id="{{ payment_method.code }}" checked="checked" />
+      {% else %}   
+      <input type="radio" name="payment_method" value="{{ payment_method.code }}" id="{{ payment_method.code }}" />
+      {% endif %}</td>
+    <td><label for="{{ payment_method.code }}">{{ payment_method.title }}</label></td>
+	{% if payment_logo[payment_method.code] %} 
+	<td style="padding:1px!important"><img style="max-width: 45px;" src="{{ payment_logo[payment_method.code] }}" alt="{{ payment_method.title }}" /></td>
+	{% else %}
+	<td></td>
+	{% endif %} 
+  </tr>
+  {% endfor %}
+</table>
+{% else %}   
+  <select name="payment_method" class="form-control">
+  {% for payment_method in payment_methods %} 
+	{% if payment_method.code == code %} 
+      <option value="{{ payment_method.code }}" selected="selected">
+      {% else %}   
+      <option value="{{ payment_method.code }}">
+      {% endif %} 
+    {{ payment_method.title }}</option>
+  {% endfor %}
+  </select><br />
+{% endif %}
+
+{% endif %}
+{% if survey_survey %}
+{% if payment %}
+<hr>
+{% endif %}
+<div{{ survey_required ? ' class="required"' }}>
+  <label class="control-label"><strong>{{ text_survey }}</strong></label>
+  {% if survey_type %} 
+  <select name="survey" class="form-control">
+    <option value=""></option>
+    {% for survey_answer in survey_answers %} 
+    {% if survey_answer[language_id] %} 
+	  {% if survey == survey_answer[language_id] %} 
+      <option value="{{ survey_answer[language_id] }}" selected="selected">{{ survey_answer[language_id] }}</option>
+      {% else %}   
+	  <option value="{{ survey_answer[language_id] }}">{{ survey_answer[language_id] }}</option>
+      {% endif %} 
+	{% endif %} 
+  {% endfor %}</select><br />
+  {% else %}   
+  <textarea name="survey" class="form-control" rows="1">{{ survey }}</textarea><br /><br />
+  {% endif %}
+</div>
+{% else %}   
+<textarea name="survey" class="hide">{{ survey }}</textarea>
+{% endif %}
+{% if field_comment.display %} 
+<strong>{% if field_comment.required %}<span class="required">*</span> {% endif %}{{ text_comments }}</strong>
+<textarea name="comment" rows="8" class="form-control" placeholder="{{ field_comment.placeholder ? field_comment.placeholder }}">{{ comment ? comment : field_comment.default }}</textarea>
+{% else %}   
+<textarea name="comment" class="hide"></textarea>
+{% endif %}
+
+<script type="text/javascript"><!--
+$('#payment-method input[name=\'payment_method\'], #payment-method select[name=\'payment_method\']').on('change', function() {
+	{% if not logged %}
+		$.ajax({
+			url: 'index.php?route=extension/quickcheckout/payment_method/set',
+			type: 'post',
+			data: $('#payment-address input[type=\'text\'], #payment-address input[type=\'checkbox\']:checked, #payment-address input[type=\'radio\']:checked, #payment-address input[type=\'hidden\'], #payment-address select, #payment-method input[type=\'text\'], #payment-method input[type=\'checkbox\']:checked, #payment-method input[type=\'radio\']:checked, #payment-method input[type=\'hidden\'], #payment-method select, #payment-method textarea'),
+			dataType: 'html',
+			cache: false,
+			success: function(html) {
+				{% if cart and payment_reload %} 
+				loadCart();
+				{% endif %} 
+			},
+			{% if debug %} 
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+			{% endif %} 
+		});
+	{% else %}   
+		if ($('#payment-address input[name=\'payment_address\']:checked').val() == 'new') {
+			var url = 'index.php?route=extension/quickcheckout/payment_method/set';
+			var post_data = $('#payment-address input[type=\'text\'], #payment-address input[type=\'checkbox\']:checked, #payment-address input[type=\'radio\']:checked, #payment-address input[type=\'hidden\'], #payment-address select, #payment-method input[type=\'text\'], #payment-method input[type=\'checkbox\']:checked, #payment-method input[type=\'radio\']:checked, #payment-method input[type=\'hidden\'], #payment-method select, #payment-method textarea');
+		} else {
+			var url = 'index.php?route=extension/quickcheckout/payment_method/set&address_id=' + $('#payment-address select[name=\'address_id\']').val();
+			var post_data = $('#payment-method input[type=\'text\'], #payment-method input[type=\'checkbox\']:checked, #payment-method input[type=\'radio\']:checked, #payment-method input[type=\'hidden\'], #payment-method select, #payment-method textarea');
+		}
+		
+		$.ajax({
+			url: url,
+			type: 'post',
+			data: post_data,
+			dataType: 'html',
+			cache: false,
+			success: function(html) {
+				{% if cart and payment_reload %} 
+				loadCart();
+				{% endif %} 
+			},
+			{% if debug %} 
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+			{% endif %} 
+		});
+	{% endif %}
+});
+
+{% if payment_reload %} 
+$(document).ready(function() {
+	$('#payment-method input[name=\'payment_method\']:checked, #payment-method select[name=\'payment_method\']').trigger('change');
+});
+{% endif %} 
+//--></script>

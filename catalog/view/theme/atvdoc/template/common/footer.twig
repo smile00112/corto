@@ -1,0 +1,186 @@
+{#
+<footer>
+  <div class="container">
+    <div class="row">
+      {% if informations %}
+      <div class="col-sm-3">
+        <h5>{{ text_information }}</h5>
+        <ul class="list-unstyled">
+         {% for information in informations %}
+          <li><a href="{{ information.href }}">{{ information.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      <div class="col-sm-3">
+        <h5>{{ text_service }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ contact }}">{{ text_contact }}</a></li>
+          <li><a href="{{ return }}">{{ text_return }}</a></li>
+          <li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-3">
+        <h5>{{ text_extra }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+          <li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+          <li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+          <li><a href="{{ special }}">{{ text_special }}</a></li>
+        </ul>
+      </div>
+      <div class="col-sm-3">
+        <h5>{{ text_account }}</h5>
+        <ul class="list-unstyled">
+          <li><a href="{{ account }}">{{ text_account }}</a></li>
+          <li><a href="{{ order }}">{{ text_order }}</a></li>
+          <li><a href="{{ wishlist }}">{{ text_wishlist }}</a></li>
+          <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr>
+    <p>{{ powered }}</p>
+  </div>
+</footer>
+
+
+
+</div>
+</section>
+<section class="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+					<div class="footer__conteiner">
+						<div class="footer__block-1">
+							<p><a href=""><img src="img/logo-footer.png" alt=""></a></p>
+							<p class="footer__info-p"><i class="sl15"></i><span>+7 495 234 32 12</span></p>
+							<p class="footer__info-p"><i class="sl16"></i><span>1@aksess.ru</span></p>
+							<p class="footer__info-p"><i class="sl17"></i><span>Пн-вс: 10-00 до 19-00</span></p>
+						</div>
+						<div class="footer__block-2">
+							<h3>Каталог</h3>
+							<ul>
+                {% for category in categories %}
+                <li>
+                  <a href="{{ category.href }}" class="hvr-underline-from-left">
+                    {{ category.name }}
+                  </a> 
+                </li>
+
+                {% endfor %}
+
+							</ul>
+						</div>
+						<div class="footer__block-2">
+							<h3>Покупателю</h3>
+							<ul>
+								<li><a href="/about" class="hvr-underline-from-left">О нас</a></li>
+								<li><a href="/oplata/" class="hvr-underline-from-left">Доставка и оплата</a></li>
+								<li><a href="/garanty/" class="hvr-underline-from-left">Гарантии</a></li>
+								<li><a href="/contacts/" class="hvr-underline-from-left">Контакты</a></li>
+
+							</ul>
+						</div>
+						<div class="footer__block-4 footer__block-2">
+							<h3>Мы в соцсетях</h3><div class="menu__socseti">
+							<a href=""><i class="sl2"></i></a>
+							<a href=""><i class="sl2"></i></a>
+							<a href=""><i class="sl2"></i></a>
+							<a href=""><i class="sl2"></i></a>
+						</div>
+						</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+#}
+
+</div>
+</div> 
+<!-- Форма  вопроса -->
+      <div style="display:none" id="hidden_message" data-src="#hidden_message"> 
+        <div class="page-block__inside">
+
+            <div id="easybook">
+                <h2 class="content-title">Сообщение</h2>
+                <div id="system-message-container2"></div>
+                <div class="easybook-form">
+                    <form class="easybook__form-add" name="messageForm" action="" target="_top" method="post">
+                        <div class="row-input clearfix">
+
+                            <div class="col">
+                                <label for="gbname">Имя</label>
+                                <input class="inputbox" type="text" name="gbname" id="gbname" value="" required="">
+                                <input class="inputbox faqqq" type="text" name="fio" id="fio" value="">
+                            </div>
+
+
+                            <div class="col">
+                                <label for="gbmail">E-mail</label>
+                                <input class="inputbox" type="text" name="gbmail" id="gbmail" value="" required="">
+                            </div>
+
+
+                            <div class="col">
+                                <label class="control-label" for="gbloca">Город</label>
+                                <input class="inputbox" type="text" name="gbloca" id="gbloca" value="" required="">
+                            </div>
+                        </div>
+
+                        <div class="b-textarea">
+                            <label for="gbtext">Сообщение</label>
+                            <textarea name="gbtext" id="gbtext" rows="10" required=""></textarea>
+                        </div>
+
+                        <div class="row-input clearfix">
+
+                            <div class="col" style="width:55%">
+                                <p class="ps">Все поля обязательные для заполнения</p>
+                            </div>
+                            <div class="col" style="float: right;">
+                                <button type="submit" name="send" class="btn" value="">Отправить</button>
+                            </div>
+
+                        </div>
+                    </form>
+
+                    <div class="easy_small_notice">
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+<!---------Форма  вопроса -->
+      <div style="display:none" id="hidden_post_message" data-src="#hidden_post_message"> 
+        <div class="page-block__inside">
+
+            <div id="easybook">
+                <!--<h2 class="content-title">Сообщение</h2>-->
+                <div id="system-message-container2"></div>
+                <div class="easybook-form">
+					<p>Ваше сообщение отправлено.</p>
+                    <div class="easy_small_notice">
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+	  
+<script src="/catalog/view/javascript/magnific-popup/jquery.magnific-popup.min.js" type="text/javascript"></script>
+<script src="/assets/js/fancybox/jquery.fancybox.min.js" type="text/javascript"></script> 
+<script src="/assets/js/lib/modernizr.js" type="text/javascript"></script> 
+<script src="/assets/js/jquery.cookie.js" type="text/javascript"></script> 
+<script src="/assets/js/plugins.js" type="text/javascript"></script>
+<script src="/assets/js/main.js?t=12345" type="text/javascript"></script> 
+
+{% for script in scripts %}
+	<script src="{{ script }}" type="text/javascript"></script>
+{% endfor %}
+
+</body>
+
+</html>

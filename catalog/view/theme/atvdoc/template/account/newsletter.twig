@@ -1,0 +1,191 @@
+{{ header }}
+
+<div class="content-wrapper">
+  <div class="center inner">
+    <div class="content">
+      <div class="left-column">
+
+        {{ column_left }}
+
+        {{ column_right }}
+
+
+      </div>
+
+
+      <div class="workarea {{ class }}" id="content">
+        <div class="body_text">
+
+          <div class="breadcrumb-share">
+            <div id="navigation" class="breadcrumb">
+
+              {% for breadcrumb in breadcrumbs %}
+
+                 <div class="breadcrumb__item"  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                    <span class="breadcrumb__arrow"></span>
+                    {% if breadcrumb.href %} <a class="breadcrumb__link" href="{{ breadcrumb.href }}" title="{{ breadcrumb.text1 }}" itemprop="url">{% endif %}
+                      <span class="breadcrumb__title" itemprop="title">
+                        {{ breadcrumb.text }}
+                      </span>
+                      {% if breadcrumb.href %}</a>{% endif %}
+                  </div>
+              {% endfor %}
+
+            </div>
+          </div>
+
+        <h1 id="pagetitle">Сообщения</h1>
+      
+        {{ content_top }}
+
+        <div class="order-list">
+            Сообщений нет
+			
+	<div class="order-list">
+    
+        {% for message in messages %}
+		
+            <div class="cart-items">
+              <div class="equipment-order list">
+                <div class="thead">					
+                  <div class="cart-item-number-date">Номер и дата</div>
+                  <div class="cart-item-status">Тема</div>
+
+
+                </div>
+                <div class="tbody">
+                  
+
+                    <div class="tr                                                        ">
+                      <div class="tr_into">
+                        <div class="tr_into_in">
+                          <div class="cart-item-plus-minus">
+                            <script type="text/javascript">
+                              $(document).ready(function () {
+                                $("#plus-minus-{{ message.id }}").click(function () {
+                                  var clickitem = $(this);
+                                  if (clickitem.hasClass("plus")) {
+                                    clickitem.removeClass().addClass("minus active");
+									$(".cart-items.basket.{{ message.id }}").fadeIn();
+                                  } else {
+                                    clickitem.removeClass().addClass("plus");
+									$(".cart-items.basket.{{ message.id }}").fadeOut();
+                                  }
+                                  
+                                });
+                              });
+                            </script>
+                            <a href="javascript:void(0)" id="plus-minus-{{ message.id }}" class="plus" data-order_id="{{ message.id }}"><i class="fa fa-plus-circle"></i><i class="fa fa-minus-circle"></i></a>
+                          </div>
+                          <div class="cart-item-number-date">
+                            <span class="cart-item-number">№{{ message.num }}</span>{{ message.date_added }}</div>
+                         
+                          
+              
+                     
+                          
+                          <div class="cart-item-summa">
+                            <center><span class="sum">{{ message.title }}</span></center>
+                          </div>
+                        </div>
+                    
+                        <div class="cart-items basket {{ message.id }}" style="display: none;">
+                          <div class="equipment-order basket">
+                            <div class="thead">
+								<center>Текст</center>
+                            </div>
+                            <div class="tbody" data-load="0" style="    display: table-cell;    max-width: 100%;    padding: 20px;">
+
+								{{ message.message }}
+							
+							</div>
+                        </div>
+                        </div>
+                    
+                        
+						<br>
+                        <br>
+                      </div>
+                    </div>
+                    
+
+       
+
+                          </div>
+              </div>
+            </div>	
+{% endfor %}
+
+
+			
+          </div>
+			
+        </div>  
+
+        {{ content_bottom }}
+
+      
+   
+  </div>
+  </div>
+  </div>    
+</div>  
+
+
+
+{{ footer }}
+
+
+
+
+{#
+<div id="account-newsletter" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h1>{{ heading_title }}</h1>
+      <form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+        <fieldset>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_newsletter }}</label>
+            <div class="col-sm-10">
+              {% if newsletter %}
+              <label class="radio-inline">
+                <input type="radio" name="newsletter" value="1" checked="checked" />
+                {{ text_yes }} </label>
+              <label class="radio-inline">
+                <input type="radio" name="newsletter" value="0" />
+                {{ text_no }}</label>
+              {% else %}
+              <label class="radio-inline">
+                <input type="radio" name="newsletter" value="1" />
+                {{ text_yes }} </label>
+              <label class="radio-inline">
+                <input type="radio" name="newsletter" value="0" checked="checked" />
+                {{ text_no }}</label>
+              {% endif %}
+            </div>
+          </div>
+        </fieldset>
+        <div class="buttons clearfix">
+          <div class="pull-left"><a href="{{ back }}" class="btn btn-default">{{ button_back }}</a></div>
+          <div class="pull-right">
+            <input type="submit" value="{{ button_continue }}" class="btn btn-primary" />
+          </div>
+        </div>
+      </form>
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+#}

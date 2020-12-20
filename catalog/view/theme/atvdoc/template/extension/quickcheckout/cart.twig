@@ -1,0 +1,73 @@
+<div id="stock_warning">
+{% if error_warning_stock %}
+	<div class="alert alert-danger" style=""><i class="fa fa-exclamation-circle"></i> {{ error_stock }}</div>
+{% endif %}
+</div>
+<table class="table quickcheckout-cart">
+  <thead>
+	<tr>
+	  <td class="image">{{ column_image }}</td>
+	  <td class="name">{{ column_name }}</td>
+	  <td class="quantity">{{ column_quantity }}</td>
+	  <td class="price1 hidden-xs">{{ column_price }}</td>
+	  <td class="total hidden-xs">{{ column_total }}</td>
+	</tr>
+  </thead>
+  {% if products or vouchers %}
+	<tbody>
+      {% for product in products %}
+        <tr {% if not product.stock %} class="warning" {% endif %}>
+          <td class="image">{% if product.thumb %} 
+            <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" /></a>
+            {% endif %}</td>
+          <td class="name"><a href="{{ product.href }}">{{ product.name }}</a> {% if not product.stock %} <span class="text-danger">***</span> {% endif %}
+            <div>
+              {% for option in product.option %} 
+              <small>{{ option.name }}: {{ option.value }}</small><br />
+			  {% endfor %}
+			  {% if product.reward %} 
+			  <br />
+			  <small>{{ product.reward }}</small>
+			  {% endif %}
+			  {% if product.recurring %} 
+			  <br />
+			  <span class="label label-info">{{ text_recurring_item }}</span> <small>{{ product.recurring }}</small>
+			  {% endif %}
+            </div></td>
+          <td class="quantity">{% if edit_cart %} 
+		    <div class="input-group input-group-sm">
+				<span class="input-group-btn">
+					<button class="btn btn-primary button-update" data-type="decrease" data-product="{{ product.key }}">-</button>
+				</span>            
+				<input type="text" data-mask="9?999999999999999" value="{{ product.quantity }}" class="qc-product-qantity form-control text-center" name="quantity[{{ product.key }}]">
+				<span class="input-group-btn">
+					<button class="btn btn-primary button-update" data-type="increase" data-product="{{ product.key }}">+</button>
+					<button class="btn btn-danger button-remove" data-product="{{ product.key }}" data-remove="{{ product.key }}" title="{{ button_remove }}"><i class="glyph-icon icon-cancel">&#xe80f;</i></button>
+				</span>
+			</div>
+			{% else %}
+			x&nbsp;{{ product.quantity }} 
+			{% endif %}</td>
+		  <td class="price1 hidden-xs">{{ product.price }}</td>
+          <td class="total hidden-xs">{{ product.total }}</td>
+        </tr>
+        {% endfor %}
+        {% for voucher in vouchers %} 
+        <tr>
+          <td class="image"></td>
+          <td class="name">{{ voucher.description }}</td>
+          <td class="quantity">x&nbsp;1</td>
+		  <td class="price1">{{ voucher.amount }}</td>
+          <td class="total">{{ voucher.amount }}</td>
+        </tr>
+        {% endfor %} 
+	</tbody>
+  {% endif %}
+</table>
+<div id="totals-wrap">
+	{% for total in totals %} 
+	<div class="total-wrap">
+	  <div class="text-right"><b>{{ total.title }}:</b> <span>{{ total.text }}</span></div>
+	</div>
+    {% endfor %}
+</div> 

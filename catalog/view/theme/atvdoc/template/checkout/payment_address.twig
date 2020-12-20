@@ -1,0 +1,258 @@
+<form class="form-horizontal">
+  <div class="bx-soa-form-group bx-soa-customer-field has-error" data-property-id-row="3">
+    <label for="input-payment-order-phone" class="bx-soa-custom-label">Телефон <span
+        class="bx-soa-authform-starrequired">*</span></label>
+    <div class="soa-property-container"><input type="text" size="30" name="order_phone" id="input-payment-order-phone"
+        autocomplete="tel" placeholder="" class="form-control bx-soa-customer-input bx-ios-fix" value="{% if order_phone %}{{ order_phone }}{% else %}{{ user.telephone }}{% endif %}"></div>
+  </div>
+  
+  <div class="bx-soa-form-group bx-soa-customer-field has-error" data-property-id-row="2">
+    <label for="soa-property-2" class="bx-soa-custom-label">E-Mail </label>
+    <div class="soa-property-container"><input type="text" size="40" name="order_email" id="soa-property-2"
+        autocomplete="email" placeholder="" class="form-control bx-soa-customer-input bx-ios-fix" value="{% if order_email %}{{ order_email }}{% else %}{{ user.email }}{% endif %}"></div>
+  </div>
+
+  <div class="bx-soa-form-group bx-soa-customer-field"><label for="orderDescription"
+      class="bx-soa-customer-label">Комментарии к заказу:</label><textarea id="orderDescription" cols="4"
+      class="form-control bx-soa-customer-textarea bx-ios-fix" name="order_comment">{% if order_comment %}{{ order_comment }}{% endif %}</textarea>
+  </div>
+
+  {% if addresses %}
+  <div class="bx-soa-form-group bx-soa-customer-field has-error">  
+  <div class="radio">
+    <label>
+      <input type="radio" name="payment_address" value="existing" checked="checked" />
+      {{ text_address_existing }}</label>
+  </div>
+  <div id="payment-existing">
+    <select name="address_id" class="form-control">
+     {% for address in addresses %}
+      {% if address['address_id'] == address_id %}
+      <option value="{{ address.address_id }}" selected="selected">{{ address.firstname }} {{ address.lastname }}, {{ address.address_1 }}, {{ address.city }}, {{ address.zone }}, {{ address.country }}</option>
+      {% else %}
+      <option value="{{ address.address_id }}">{{ address.firstname }} {{ address.lastname }}, {{ address.address_1 }}, {{ address.city }}, {{ address.zone }}, {{ address.country }}</option>
+      {% endif %}
+      {% endfor %}
+    </select>
+  </div>
+  <div class="radio">
+    <label>
+      <input type="radio" name="payment_address" value="new" />
+      {{ text_address_new }}</label>
+  </div>
+  </div>
+  
+  {% endif %}
+  <br />
+  <div id="payment-new" style="display: {% if addresses %}none{% else %}block{% endif %};">
+
+
+    <div class="bx-soa-form-group bx-soa-customer-field has-error">
+      <label class="bx-soa-custom-label" for="input-payment-firstname">{{ entry_firstname }} <span class="bx-soa-authform-starrequired">*</span> </label>
+      <div class="soa-property-container">
+        <input type="text" name="firstname" value="{{ user.firstname }}" placeholder="{{ entry_firstname }}" id="input-payment-firstname" class="form-control bx-soa-customer-input bx-ios-fix" />
+      </div>
+    </div>
+    <div class="bx-soa-form-group bx-soa-customer-field has-error">
+      <label class="col-sm-2 control-label" for="input-payment-lastname">{{ entry_lastname }}</label>
+      <div class="col-sm-10">
+        <input type="text" name="lastname" value="{{ user.lastname }}" placeholder="{{ entry_lastname }}" id="input-payment-lastname" class="form-control" />
+      </div>
+    </div>
+    <div class="form-group" style="display:none">
+      <label class="col-sm-2 control-label" for="input-payment-company" >{{ entry_company }}</label>
+      <div class="col-sm-10">
+        <input type="text" name="company" value="" placeholder="{{ entry_company }}" id="input-payment-company" class="form-control" />
+      </div>
+    </div>
+ 
+    <div class="bx-soa-form-group bx-soa-customer-field has-errord" style="display:none">
+      <label class="col-sm-2 control-label" for="input-payment-country">{{ entry_country }}</label>
+      <div class="col-sm-10">
+        <select name="country_id" id="input-payment-country" class="form-control">
+          <option value="">{{ text_select }}</option>
+         {% for country in countries %}
+          {% if country.country_id == country_id %}
+          <option value="{{ country.country_id }}" selected="selected">{{ country.name }}</option>
+          {% else %}
+          <option value="{{ country.country_id }}">{{ country.name }}</option>
+          {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="bx-soa-form-group bx-soa-customer-field has-error">
+      <label class="col-sm-2 control-label" for="input-payment-zone">{{ entry_zone }}</label>
+      <div class="col-sm-10">
+        <select name="zone_id" id="input-payment-zone" class="form-control">
+        </select>
+      </div>
+    </div>
+
+    <div class="bx-soa-form-group bx-soa-customer-field has-error">
+      <label class="col-sm-2 control-label" for="input-payment-city">{{ entry_city }}</label>
+      <div class="col-sm-10">
+        <input type="text" name="city" value="" placeholder="{{ entry_city }}" id="input-payment-city" class="form-control" />
+      </div>
+    </div>
+
+    <div class="bx-soa-form-group bx-soa-customer-field has-error">
+      <label class="col-sm-2 control-label" for="input-payment-address-1">Адрес доставки</label>
+      <div class="col-sm-10">
+        <input type="text" name="address_1" value="" placeholder="Адрес доставки" id="input-payment-address-1" class="form-control" />
+      </div>
+    </div>
+
+    <div class="form-group" style="display:none">
+      <label class="col-sm-2 control-label" for="input-payment-address-2">{{ entry_address_2 }}</label>
+      <div class="col-sm-10">
+        <input type="text" name="address_2" value="" placeholder="{{ entry_address_2 }}" id="input-payment-address-2" class="form-control" />
+      </div>
+    </div>
+
+    <div class="bx-soa-form-group bx-soa-customer-field has-error" style="display:none">
+      <label class="col-sm-2 control-label" for="input-payment-postcode">{{ entry_postcode }}</label>
+      <div class="col-sm-10">
+        <input type="text" name="postcode" value="" placeholder="{{ entry_postcode }}" id="input-payment-postcode" class="form-control" />
+      </div>
+    </div>
+  </div>
+ <div class="bx-soa-more">
+  <button type="button" class="btn_buy ppp prev">Назад</button><button type="button" value="{{ button_continue }}" id="button-payment-address" data-loading-text="{{ text_loading }}" class="btn_buy popdef next">Далее</button>
+  </div>
+ 
+
+</form>
+
+
+<script type="text/javascript"><!--
+$('input[name=\'payment_address\']').on('change', function() {
+	if (this.value == 'new') {
+		$('#payment-existing').hide();
+		$('#payment-new').show();
+	} else {
+		$('#payment-existing').show();
+		$('#payment-new').hide();
+	}
+});
+//--></script>
+<script type="text/javascript"><!--
+// Sort the custom fields
+$('#customer__address .form-group[data-sort]').detach().each(function() {
+	if ($(this).attr('data-sort') >= 0 && $(this).attr('data-sort') <= $('#customer__address .form-group').length-2) {
+		$('#customer__address .form-group').eq(parseInt($(this).attr('data-sort'))+2).before(this);
+	}
+
+	if ($(this).attr('data-sort') > $('#customer__address .form-group').length-2) {
+		$('#customer__address .form-group:last').after(this);
+	}
+
+	if ($(this).attr('data-sort') == $('#customer__address .form-group').length-2) {
+		$('#customer__address .form-group:last').after(this);
+	}
+
+	if ($(this).attr('data-sort') < -$('#customer__address .form-group').length-2) {
+		$('#customer__address .form-group:first').before(this);
+	}
+});
+//--></script>
+<script type="text/javascript"><!--
+$('#customer__address button[id^=\'button-payment-custom-field\']').on('click', function() {
+	var element = this;
+
+	$('#form-upload').remove();
+
+	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+
+	$('#form-upload input[name=\'file\']').trigger('click');
+
+	if (typeof timer != 'undefined') {
+    	clearInterval(timer);
+	}
+
+	timer = setInterval(function() {
+		if ($('#form-upload input[name=\'file\']').val() != '') {
+			clearInterval(timer);
+
+			$.ajax({
+				url: 'index.php?route=tool/upload',
+				type: 'post',
+				dataType: 'json',
+				data: new FormData($('#form-upload')[0]),
+				cache: false,
+				contentType: false,
+				processData: false,
+				beforeSend: function() {
+					$(element).button('loading');
+				},
+				complete: function() {
+					$(element).button('reset');
+				},
+				success: function(json) {
+					$(element).parent().find('.text-danger').remove();
+
+					if (json['error']) {
+						$(element).parent().find('input[name^=\'custom_field\']').after('<div class="text-danger">' + json['error'] + '</div>');
+					}
+
+					if (json['success']) {
+						alert(json['success']);
+
+						$(element).parent().find('input[name^=\'custom_field\']').val(json['code']);
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		}
+	}, 500);
+});
+//--></script>
+<script type="text/javascript"><!--
+
+//--></script>
+<script type="text/javascript"><!--
+$('#customer__address select[name=\'country_id\']').on('change', function() {
+	$.ajax({
+		url: 'index.php?route=checkout/checkout/country&country_id=' + this.value,
+		dataType: 'json',
+		beforeSend: function() {
+			$('#customer__address select[name=\'country_id\']').prop('disabled', true);
+		},
+		complete: function() {
+			$('#customer__address select[name=\'country_id\']').prop('disabled', false);
+		},
+		success: function(json) {
+			if (json['postcode_required'] == '1') {
+				$('#customer__address input[name=\'postcode\']').parent().parent().addClass('required');
+			} else {
+				$('#customer__address input[name=\'postcode\']').parent().parent().removeClass('required');
+			}
+
+			html = '<option value="">{{ text_select }}</option>';
+
+			if (json['zone'] && json['zone'] != '') {
+				for (i = 0; i < json['zone'].length; i++) {
+					html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+
+					if (json['zone'][i]['zone_id'] == '{{ zone_id }}') {
+						html += ' selected="selected"';
+					}
+
+					html += '>' + json['zone'][i]['name'] + '</option>';
+				}
+			} else {
+				html += '<option value="0" selected="selected">{{ text_none }}</option>';
+			}
+
+			$('#customer__address select[name=\'zone_id\']').html(html);
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+});
+
+$('#customer__address select[name=\'country_id\']').trigger('change');
+//--></script>

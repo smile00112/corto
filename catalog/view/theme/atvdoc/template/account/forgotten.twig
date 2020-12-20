@@ -1,0 +1,157 @@
+{{ header }}
+
+<div class="content-wrapper">
+  <div class="center inner">
+    <div class="content">
+      <div class="left-column">
+
+        {{ column_left }}
+
+        {{ column_right }}
+
+
+      </div>
+
+
+      <div class="workarea {{ class }}" id="content">
+        <div class="body_text">
+
+          <div class="breadcrumb-share">
+            <div id="navigation" class="breadcrumb">
+
+              {% for breadcrumb in breadcrumbs %}
+
+                 <div class="breadcrumb__item"  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                    <span class="breadcrumb__arrow"></span>
+                    {% if breadcrumb.href %} <a class="breadcrumb__link" href="{{ breadcrumb.href }}" title="{{ breadcrumb.text1 }}" itemprop="url">{% endif %}
+                      <span class="breadcrumb__title" itemprop="title">
+                        {{ breadcrumb.text }}
+                      </span>
+                      {% if breadcrumb.href %}</a>{% endif %}
+                  </div>
+              {% endfor %}
+
+            </div>
+          </div>
+
+        <h1 id="pagetitle">Запрос пароля</h1>
+        {{ content_top }}
+
+
+          <div class="content-form login-form">
+            <div class="fields">
+
+
+              {% if success %}
+              <span class="alertMsg ">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                <span class="text">{{ success }}<br></span>
+              </span>
+              {% endif %}
+              {% if error_warning %}
+              <span class="alertMsg bad">
+                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                <span class="text">{{ error_warning }}<br></span>
+              </span>
+              {% endif %}
+
+
+              <form name="form_auth" method="post" target="_top" action="{{ action }}">
+                <div class="field">
+                  Если вы забыли пароль, введите логин или E-Mail.
+                  <br>Контрольная строка для смены пароля, а также ваши регистрационные данные, будут высланы вам по E-Mail.			
+                </div>
+
+                <div class="field field-h">
+                  <label class="field-title">Имя</label>
+                  <div class="form-input"><input type="text"  name="user_name" value="" class="input-field"></div>
+                </div>   
+
+                <div class="field">
+                  <label class="field-title">Логин</label>
+                  <div class="form-input"><input type="text"  name="email" value="{{ email }}" class="input-field"></div>
+                </div>
+             
+              {#}  
+                <div class="field field-option">
+                  <input type="checkbox" id="USER_REMEMBER" name="USER_REMEMBER" value="Y"><label
+                    for="USER_REMEMBER">&nbsp;Запомнить меня</label>
+                </div>
+              #}
+                <div class="field field-button">
+                  <button type="submit" name="Login" class="btn_buy popdef" value="Войти">Выслать</button>
+                </div>
+
+                <div class="field">
+                  <a class="btn_buy boc_anch" href="{{ login }}"><i class="fa fa-user"></i>Авторизация</a>
+                </div>
+
+               
+              </form>
+    
+            </div>
+       
+         
+          </div>
+
+
+
+        {{ content_bottom }}
+      
+   
+  </div>
+  </div>
+  </div>    
+</div>  
+
+<div id="fastview_modal"></div>
+
+{{ footer }}
+
+
+
+
+
+
+{#}
+<div id="account-forgotten" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  {% if error_warning %}
+  <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+  {% endif %}
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h1>{{ heading_title }}</h1>
+      <p>{{ text_email }}</p>
+      <form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+        <fieldset>
+          <legend>{{ text_your_email }}</legend>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-email">{{ entry_email }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+            </div>
+          </div>
+        </fieldset>
+        <div class="buttons clearfix">
+          <div class="pull-left"><a href="{{ back }}" class="btn btn-default">{{ button_back }}</a></div>
+          <div class="pull-right">
+            <input type="submit" value="{{ button_continue }}" class="btn btn-primary" />
+          </div>
+        </div>
+      </form>
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+#}

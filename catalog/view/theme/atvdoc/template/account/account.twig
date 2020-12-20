@@ -1,0 +1,231 @@
+{{ header }}
+
+<div class="content-wrapper">
+  <div class="center inner">
+    <div class="content">
+      <div class="left-column">
+
+        {{ column_left }}
+
+        {{ column_right }}
+
+
+      </div>
+
+
+      <div class="workarea {{ class }}" id="content">
+        <div class="body_text">
+
+          <div class="breadcrumb-share">
+            <div id="navigation" class="breadcrumb">
+
+              {% for breadcrumb in breadcrumbs %}
+
+                 <div class="breadcrumb__item"  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                    <span class="breadcrumb__arrow"></span>
+                    {% if breadcrumb.href %} <a class="breadcrumb__link" href="{{ breadcrumb.href }}" title="{{ breadcrumb.text1 }}" itemprop="url">{% endif %}
+                      <span class="breadcrumb__title" itemprop="title">
+                        {{ breadcrumb.text }}
+                      </span>
+                      {% if breadcrumb.href %}</a>{% endif %}
+                  </div>
+              {% endfor %}
+
+            </div>
+          </div>
+
+        <h1 id="pagetitle">{{ heading_title }}</h1>
+      
+        {{ content_top }}
+
+          <div class="sale-personal-section__list">
+            <div class="sale-personal-section__item">
+              <a class="sale-personal-section__item-link" href="{{ order_new }}">
+                <span class="sale-personal-section__item-icon">
+                  <i class="fa fa-list" aria-hidden="true"></i> </span>
+                <span class="sale-personal-section__item-title">
+                  Текущие заказы <span class="sale-personal-section__item-count">{{ current_orders_num }}</span>
+                </span>
+              </a>
+            </div>
+            <div class="sale-personal-section__item">
+              <a class="sale-personal-section__item-link" href="{{ cart }}">
+                <span class="sale-personal-section__item-icon">
+                  <i class="fa fa-shopping-cart" aria-hidden="true"></i> </span>
+                <span class="sale-personal-section__item-title">
+                  Моя корзина <span class="sale-personal-section__item-count">{{ cart_product_count }}</span>
+                </span>
+              </a>
+            </div>
+            <div class="sale-personal-section__item">
+              <a class="sale-personal-section__item-link" href="{{ wishlist }}">
+                <span class="sale-personal-section__item-icon">
+                  <i class="fa fa-heart" aria-hidden="true"></i> </span>
+                <span class="sale-personal-section__item-title">
+                  Отложенные <span class="sale-personal-section__item-count">{{ wishlist_product_count }}</span>
+                </span>
+              </a>
+            </div>
+
+            <div class="sale-personal-section__item">
+              <a class="sale-personal-section__item-link" href="{{ order_old }}">
+                <span class="sale-personal-section__item-icon">
+                  <i class="fa fa-list-alt" aria-hidden="true"></i> </span>
+                <span class="sale-personal-section__item-title">
+                  Архив заказов <span class="sale-personal-section__item-count">{{ order_total }}</span>
+                </span>
+              </a>
+            </div>
+
+            <div class="sale-personal-section__item">
+              <a class="sale-personal-section__item-link" href="{{ edit }}">
+                <span class="sale-personal-section__item-icon">
+                  <i class="fa fa-user" aria-hidden="true"></i> </span>
+                <span class="sale-personal-section__item-title">
+                  Личные данные </span>
+              </a>
+            </div>
+            <div class="sale-personal-section__item">
+              <a class="sale-personal-section__item-link" href="{{ shet }}">
+                <span class="sale-personal-section__item-icon">
+                  <i class="fa fa-credit-card" aria-hidden="true"></i> <span class="sale-personal-section__item-sum-wrap">
+                    <span class="sale-personal-section__item-sum">{{ perconal_shet }}</span>
+                  </span>
+                </span>
+                <span class="sale-personal-section__item-title">
+                  Личный счет </span>
+              </a>
+            </div>
+
+            <div class="sale-personal-section__item">
+              <a class="sale-personal-section__item-link" href="{{ newsletter }}">
+                <span class="sale-personal-section__item-icon">
+                  <i class="fa fa-envelope-o" aria-hidden="true"></i> </span>
+                  <span class="sale-personal-section__item-sum">{{ messages_count }}</span>
+                <span class="sale-personal-section__item-title">
+                  Сообщения </span>
+              </a>
+            </div>
+{#
+            <div class="sale-personal-section__item">
+              <a class="sale-personal-section__item-link" href="/contacts/">
+                <span class="sale-personal-section__item-icon">
+                  <i class="fa fa-info-circle" aria-hidden="true"></i> </span>
+                <span class="sale-personal-section__item-title">
+                  Контакты </span>
+              </a>
+            </div>
+#}
+            <div class="sale-personal-section__item">
+              <a class="sale-personal-section__item-link" href="{{ logout }}">
+                <span class="sale-personal-section__item-icon">
+                  <i class="fa fa-sign-out" aria-hidden="true"></i> </span>
+                <span class="sale-personal-section__item-title">
+                  Выйти </span>
+              </a>
+            </div>
+          
+          </div>
+
+{#            
+            <div class="sale-personal-section__item">
+              <a class="sale-personal-section__item-link" href="/personal/profiles/">
+                <span class="sale-personal-section__item-icon">
+                  <i class="fa fa-users" aria-hidden="true"></i> </span>
+                <span class="sale-personal-section__item-title">
+                  Профили заказов </span>
+              </a>
+            </div>
+#}         
+
+{#
+            <div class="sale-personal-section__item">
+              <a class="sale-personal-section__item-link" href="/personal/subscribe/">
+                <span class="sale-personal-section__item-icon">
+                  <i class="fa fa-clock-o" aria-hidden="true"></i> </span>
+                <span class="sale-personal-section__item-title">
+                  Ожидаемые <span class="sale-personal-section__item-count">0</span>
+                </span>
+              </a>
+            </div>
+#}
+
+        {{ content_bottom }}
+
+      
+   
+  </div>
+  </div>
+  </div>    
+</div>  
+
+
+
+{{ footer }}
+
+
+
+
+{#
+
+<div id="account-account" class="container hide">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  {% if success %}
+  <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}</div>
+  {% endif %}
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h2>{{ text_my_account }}</h2>
+      <ul class="list-unstyled">
+        <li><a href="{{ edit }}">{{ text_edit }}</a></li>
+        <li><a href="{{ password }}">{{ text_password }}</a></li>
+        <li><a href="{{ address }}">{{ text_address }}</a></li>
+        <li><a href="{{ wishlist }}">{{ text_account_wishlist }}</a></li>
+      </ul>
+      {% if credit_cards %}
+      <h2>{{ text_credit_card }}</h2>
+      <ul class="list-unstyled">
+        {% for credit_card in credit_cards %}
+        <li><a href="{{ credit_card.href }}">{{ credit_card.name }}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      <h2>{{ text_my_orders }}</h2>
+      <ul class="list-unstyled">
+        <li><a href="{{ order }}">{{ text_order }}</a></li>
+        <li><a href="{{ download }}">{{ text_download }}</a></li>
+        {% if reward %}
+        <li><a href="{{ reward }}">{{ text_reward }}</a></li>
+        {% endif %}
+        <li><a href="{{ return }}">{{ text_return }}</a></li>
+        <li><a href="{{ transaction }}">{{ text_transaction }}</a></li>
+        <li><a href="{{ recurring }}">{{ text_recurring }}</a></li>
+      </ul>
+      <h2>{{ text_my_affiliate }}</h2>
+      <ul class="list-unstyled">
+        {% if not tracking %}
+        <li><a href="{{ affiliate }}">{{ text_affiliate_add }}</a></li>
+        {% else %}
+        <li><a href="{{ affiliate }}">{{ text_affiliate_edit }}</a></li>
+        <li><a href="{{ tracking }}">{{ text_tracking }}</a></li>
+        {% endif %}
+      </ul>
+      <h2>{{ text_my_newsletter }}</h2>
+      <ul class="list-unstyled">
+        <li><a href="{{ newsletter }}">{{ text_newsletter }}</a></li>
+      </ul>
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+#}

@@ -1,0 +1,71 @@
+<div class="h3">Каталог товаров</div>
+<div>
+<ul class="left-menu" >
+
+  {% for category in categories %}
+  <li class="parent">
+      <a href="{{ category.href }}" class="list-group-item active">{{ category.name }}</a> 
+
+      {% if category.children %}
+      <ul class="submenu">
+        {% for child in category.children %}
+          <li class="parent">
+              {% if child.category_id == child_id %}
+                  <a href="{{ child.href }}" class="list-group-item active">{{ child.name }}</a> 
+                {% else %} 
+                  <a href="{{ child.href }}" class="list-group-item">{{ child.name }}</a>
+              {% endif %}
+
+              {% if child.children %}
+                <ul class="submenu">
+                  {% for child_lv3 in child.children %}
+                      <li>
+                        {% if child_lv3.category_id == child_id %}
+                            <a href="{{ child_lv3.href }}" class="list-group-item active">{{ child_lv3.name }}</a> 
+                          {% else %} 
+                            <a href="{{ child_lv3.href }}" class="list-group-item">{{ child_lv3.name }}</a>
+                        {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %} 
+
+          </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+  </li>
+   {# if category.category_id == category_id %} 111 {% else %} 
+      <a href="{{ category.href }}" class="list-group-item">{{ category.name }}++</a>
+    {% endif #}
+
+    
+  {% endfor %}
+
+</ul>
+
+
+<script type="text/javascript">
+    //<![CDATA[
+    $(function() {
+      $("ul.left-menu").children(".parent").on({
+    mouseenter: function() {
+                var pos = $(this).position(),
+          dropdownMenu = $(this).children(".submenu"),
+          dropdownMenuLeft = pos.left + $(this).width() + 9 + "px",
+          dropdownMenuTop = pos.top - 5 + "px";
+        if(pos.top + dropdownMenu.outerHeight() > $(window).height() + $(window).scrollTop() - 46) {
+          dropdownMenuTop = pos.top - dropdownMenu.outerHeight() + $(this).outerHeight() + 5;
+          dropdownMenuTop = (dropdownMenuTop < 0 ? $(window).scrollTop() : dropdownMenuTop) + "px";
+        }
+        dropdownMenu.css({"left": dropdownMenuLeft, "top": dropdownMenuTop ,"z-index" : "9999"});
+        dropdownMenu.stop(true, true).delay(200).fadeIn(150);
+            },
+    mouseleave: function() {
+      $(this).children(".submenu").stop(true, true).delay(200).fadeOut(150);
+            }
+    });
+    });
+    //]]>
+  </script>  
+</div>

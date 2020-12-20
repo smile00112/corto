@@ -1,0 +1,81 @@
+<div class="title-search-result aj-search-result">
+ 
+	<a href="javascript:void(0)" class="search_close"><i class="fa fa-times"></i></a>
+	{% if emptysearch %}
+	<div id="catalog_search_empty">По вашему запросу ничего не найдено.</div>
+	{% else %}
+	<div id="catalog_search">
+
+		{% if categoryes|length %}	{% endif %}
+
+			{% for category in categoryes %}	
+				<div class="tvr_search">
+					
+					<a class="image" href="{{ category.href }}">
+						<img src="{{ category.thumb }}" width="50"
+							height="50" alt="{{ category.name }}" title="{{ category.name }}">
+					</a>
+					<div class="cat_title">
+						<a href="{{ category.href }}">{{ category.name }}</a>
+					</div>
+
+				</div>
+			{% endfor %}
+
+	
+
+			
+	
+			{% for product in products %}
+				<div class="tvr_search">
+
+					<a class="image" href="{{ product.href }}">
+						<img src="{{ product.thumb }}"
+							width="178" height="178" alt="{{ product.name }}"
+							title="{{ product.name }}">
+					</a>
+					<div class="item_title">
+						<a href="{{ product.href }}">{{ product.name }}</a>
+					</div>
+					<div class="search_price">
+
+						<span class="price">
+							{{ product.price_not_formated }} <span class="unit">
+								руб. <span>за шт</span>
+							</span>
+						</span>
+					</div>
+					<div class="buy_more" syule="width: 145px;padding: 2px 10px 2px 15px;">
+						<div class="add2basket_block2">
+
+							<form action="" class="add2basket_search_form">
+								<div class="qnt_cont">
+								  <a href="javascript:void(0)" class="minus" ><span>-</span></a>
+								  <input type="text" name="quantity" class="quantity" id="product_{{ product.product_id }}_quantity" max="777" data-limit="777" class="quantity" value="1">
+								  <a href="javascript:void(0)" class="plus"
+									><span>+</span></a>
+								</div>
+								<input type="hidden" name="ID" value="{{ product.product_id }}">
+								<button type="button" 
+								  class="btn_buy"
+								  id = "product_{{ product.product_id }}_addbtn"
+								  name="add2basket"
+								  onclick="cart.add('{{ product.product_id }}', '1');">
+								  <i class="fa fa-shopping-cart"></i>
+								</button> 
+								
+							</form>
+
+						</div>
+					</div>
+
+				</div>
+			{% endfor %}	
+			
+			{% if products|length %}
+			{% endif %}
+		<a class="search_all" href="/catalog/?search={{ search }}">Все результаты</a>
+	</div>
+	{% endif %}
+
+</div>

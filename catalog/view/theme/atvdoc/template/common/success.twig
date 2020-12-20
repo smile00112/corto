@@ -1,0 +1,70 @@
+{{ header }}
+
+<section class="content main__content">
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<div class="breads">
+         
+            <a href="/">Главная</a>
+            <i class="sl20"></i>
+            <span>Заказ сформирван</span> 
+          
+          
+
+				</div>
+
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+        <h1 class="h1__main h1__margin">{{ heading_title }}</h1>
+
+        {{ content_top }}
+
+        {{ text_message }}
+        <div class="buttons">
+          <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+        </div>
+
+        {{ content_bottom }}
+
+			
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+{{ footer }}
+
+
+
+{#
+<div id="common-success" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h1>{{ heading_title }}</h1>
+      {{ text_message }}
+      <div class="buttons">
+        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+      </div>
+      {{ content_bottom }}</div>
+    {{ column_right }}</div>
+</div>
+
+#}

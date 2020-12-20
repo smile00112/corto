@@ -1,0 +1,25 @@
+{% for product in products %}
+
+      <div class="bx-soa-item-tr" id="{{ product.cart_id }}">
+        <div class="bx-soa-item-td bx-soa-item-image">
+          {% if product.thumb %} <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></a> {% endif %}
+        </div>
+        <div class="bx-soa-item-td bx-soa-item-name">
+          <a href="{{ product.href }}">{{ product.name }}</a>
+        </div>
+        <!--<div class="bx-soa-item-td hidden">0%</div>-->
+        <div class="bx-soa-item-td hidden"><span class="bx-price"> {{ product.price }}</span></div>
+        <div class="bx-soa-item-td">{{ product.quantity }}&nbsp;шт</div>
+        <div class="bx-soa-item-td"><span class="bx-price"> {{ product.total }}</span></div>
+      </div>
+
+{% endfor %}
+
+<div class="h-cart">
+  {% for total in totals %}
+
+  <div class="bx-soa-cart-total-line {% if total.code == 'total' %}bx-soa-cart-total-line-total{% endif %}"><span class="bx-soa-cart-t">{{ total.title }}:</span><span class="bx-soa-cart-d">{{ total.text }}</span></div>
+
+  
+  {% endfor %}
+</div>

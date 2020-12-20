@@ -1,0 +1,805 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button type="button" id="save_form" form="form-auspost" value="save" name="action" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a id="quick_save" onclick="return false;" data-toggle="tooltip" title="{{ button_save_continue }}" id="quick_save" class="btn btn-info"><i class="fa fa-clipboard"></i></a>&nbsp;
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+        <h1>{{ heading_title }}</h1>
+        <ul class="breadcrumb">
+          {% for breadcrumb in breadcrumbs %}
+            <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="container-fluid">
+      {% if error_warning %}
+        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      {% endif %}
+      {% if success %}
+        <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> {{ success }}
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+      {% endif %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+        </div>
+        <div class="panel-body">
+          <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-auspost" class="form-horizontal">
+            <input type="file" class="import-csv" accept="text/csv" name="file" />
+            <div class="row">
+              <div class="col-sm-3">
+                <ul id="method-list" class="nav nav-pills nav-stacked">
+                  <li class="active"><a href="#tab-general" class="global" data-toggle="tab">{{ tab_general }}</a></li>
+                  {% for no_of_tab, name in methods %}
+                    <li><a class="tab{{ no_of_tab }}" href="#shipping-{{ no_of_tab }}"  data-toggle="tab">
+                    {{ name }}</a></li>
+                  {% endfor %}
+                </ul>
+                
+                <button class="btn btn-success add-new" data-toggle="tooltip" form="form-auspost" type="button"  data-placement="bottom"  data-original-title="{{ text_add_new_method }}"><i class="fa fa-plus"></i></button>
+              </div>
+              
+              <div class="col-sm-9">
+                <div id="shipping-container" class="tab-content">
+                  <div class="tab-pane active global-tab-content" id="tab-general">
+                    <ul class="nav nav-tabs" id="language-heading">
+                      {% for language in languages %}
+                        <li {% if loop.first %} active {% endif %}><a href="#language{{ language.language_id }} heading" data-toggle="tab"><img src="{{ language_dir }}{{ language.image }}" title="{{ language.name }}" /> {{ language.name }}</a></li>
+                      {% endfor %}
+                    </ul>
+                    
+                    <div class="tab-content global-heading">
+                      {% for language in languages %}
+                        <div class="tab-pane {% if loop.first %} active {% endif %}" id="language{{ language.language_id }}heading">
+                        <div class="form-group required">
+                          <label class="col-sm-2 control-label" for="lang-heading{{ language.language_id }}"><span data-toggle="tooltip" title="{{ tip_heading }}">{{ text_heading }} </span></label>
+                          <div class="col-sm-10">
+                            <input type="text" name="shipping_xshippingpro_heading[{{ language.language_id }}]" value="{{ shipping_xshippingpro_heading[language.language_id] }}" placeholder="{{ text_heading }}" id="lang-heading{{ language.language_id }}" class="form-control" />
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </div>
+                  
+                  <ul class="nav nav-tabs">
+                    <li class="active"><a href="#global-general" data-toggle="tab">{{ tab_general_general }}</a></li>
+                    <li><a href="#global-group" data-toggle="tab">{{ tab_general_global }}</a></li>
+                    <li><a href="#global-export" data-toggle="tab">{{ tab_import_export }}</a></li>
+                  </ul>
+                  
+                  <div class="tab-content">
+                    <div class="tab-pane active" id="global-general">
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-sort-order"><span data-toggle="tooltip" title="{{ tip_sorting_global }}">{{ entry_sort_order }} </span></label>
+                        <div class="col-sm-10">
+                          <input type="text" name="shipping_xshippingpro_sort_order" value="{{ shipping_xshippingpro_sort_order }}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control" />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="shipping_xshippingpro_desc_mail" class="col-sm-2 control-label">{{ text_description }} </label>
+                        <div class="col-sm-10">
+                          <input {% if shipping_xshippingpro_desc_mail %} checked {% endif %} type="checkbox" name="shipping_xshippingpro_desc_mail" value="1" id="shipping_xshippingpro_desc_mail" />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-group-sorting"><span data-toggle="tooltip" title="{{ tip_text_sort_type }}">{{ text_sort_type }}</span></label>
+                        <div class="col-sm-10">
+                          <select name="shipping_xshippingpro_sorting" id="input-group-sorting" class="form-control">
+                            {% for sort_option_key, sort_option_value in sort_options  %}
+                              <option value="{{ sort_option_key }}" {% if shipping_xshippingpro_sorting == sort_option_key %} selected {% endif %}>{{ sort_option_value }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-status"><span data-toggle="tooltip" title="{{ tip_status_global }}">{{ module_status }}</span></label>
+                        <div class="col-sm-10">
+                          <select name="shipping_xshippingpro_status" id="input-status" class="form-control">
+                            {% if shipping_xshippingpro_status %}
+                              <option value="1" selected="selected">{{ text_enabled }}</option>
+                              <option value="0">{{ text_disabled }}</option>
+                            {% else %}
+                              <option value="1">{{ text_enabled }}</option>
+                              <option value="0" selected="selected">{{ text_disabled }}</option>
+                            {% endif %}
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="shipping_xshippingpro_debug"><span data-toggle="tooltip" title="{{ tip_debug }}">{{ text_debug }}</span></label>
+                        <div class="col-sm-10">
+                          <select name="shipping_xshippingpro_debug" id="shipping_xshippingpro_debug" class="form-control">
+                            {% if shipping_xshippingpro_debug %}
+                              <option value="1" selected="selected">{{ text_enabled }}</option>
+                              <option value="0">{{ text_disabled }}</option>
+                            {% else %}
+                              <option value="1">{{ text_enabled }}</option>
+                              <option value="0" selected="selected">{{ text_disabled }}</option>
+                            {% endif %}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane" id="global-export">
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-import"><span data-toggle="tooltip" title="{{ tip_import }}">{{ text_import }}</span></label>
+                        <div class="col-sm-8">
+                          <input type="file" class="form-control" id="input-import" accept="text/txt" name="file_import" />
+                        </div>
+                        <div class="col-sm-2">
+                          <button type="submit" form="form-auspost" data-toggle="tooltip" name="action" title="{{ text_import }}" value="import" class="btn btn-primary"><i class="fa fa-upload"></i></button>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-export"><span data-toggle="tooltip" title="{{ tip_export }}">{{ text_export }}</span></label>
+                        <div class="col-sm-10">
+                          <a href="{{ export }}" target="_blank" class="btn btn-primary">{{ text_export }}</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane" id="global-group">
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-method-group"><span data-toggle="tooltip" title="{{ tip_method_group }}"> {{ text_method_group }} </span></label>
+                        <div class="col-sm-10">
+                          <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                              <thead>
+                                <tr>
+                                  <td class="text-left">
+                                    {{ text_group_name }}
+                                  </td>
+                                  <td class="text-left">
+                                    {{ text_group_type }}
+                                  </td>
+                                  <td class="text-left">
+                                    <span data-toggle="tooltip" title="{{ tip_group_limit }}">{{ text_group_limit }}</span>
+                                  </td>
+                                  <td class="text-left">
+                                    <span data-toggle="tooltip" title="{{ tip_group_name }}">{{ entry_group_name }}</span>
+                                  </td>
+                                  <td class="text-left"></td>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {{ sub_groups }}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label" for="input-group"><span data-toggle="tooltip" title="{{ tip_grouping }}">{{ text_group_shipping_mode }}</span></label>
+                        <div class="col-sm-10">
+                          <select name="shipping_xshippingpro_group" id="input-group" class="form-control shipping_xshippingpro_group">
+                            {% for type, name in group_options if type !='and' %}
+                              <option value="{{ type }}" {% if shipping_xshippingpro_group == type %} selected {% endif %}>{{ name }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+                      <div {% if shipping_xshippingpro_group != 'lowest' and shipping_xshippingpro_group!='highest' %} style="display:none;" {% endif %} id="group-limit" class="form-group">
+                      <label class="col-sm-2 control-label" for="input-group-limit"><span data-toggle="tooltip" title="{{ tip_group_limit }}">{{ text_group_limit }}</span></label>
+                      <div class="col-sm-10">
+                        <select name="shipping_xshippingpro_group_limit" id="input-group-limit" class="form-control">
+                          {% for gi in 1..5 %}
+                            <option {% if shipping_xshippingpro_group_limit == gi %} selected {% endif %} value="{{ gi }}">  {{ gi }}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{ form_data }}
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+
+<style type="text/css"> 
+    .xshipping-checkbox label{ margin-right: 15px;}
+    .xshipping-checkbox label input {
+        margin-right: 5px;
+    }
+    .well-sm{ display:none;}
+    .well-days, .well-desc, .product-category, .product-product, .product-option, .hide-methods{ display:block;}
+    div.category, div.product, div.option, div.postal-option, div.range-option, div.coupon-option, div.manufacturer-option, div.dimensional-option, div.city-option{ display:none;}
+    label.any-class {
+        margin-top: 4px;
+    }
+    div.range-option textarea{height: 45px;}
+    .tbl-wrapper{ width:99%;}
+    .import-btn-wrapper{width:99%; height:auto; overflow:hidden; margin-bottom:10px;}
+    .import-btn-wrapper a.btn{ float:right;margin-right: 5px;}
+    input.import-csv[type="file"]{ display:none;}
+    div.shipping {
+        position: relative;
+    }
+    .action-btn {
+        position: absolute;
+        right: 10px;
+        top: 0;
+    }
+    .action-btn button {
+        margin-left: 5px;
+    }
+    button.add-new {
+        margin-top: 10px;
+    }
+
+    div.tooltip div.tooltip-inner{ font-weight:normal !important; text-align:left !important;}
+    div.tooltip div.tooltip-inner b{ display:block !important;}
+    .global-waiting{display:block;position:fixed; width:124px; height:34px; text-align:center;font-size:16px;font-weight:bold; color:#ffffff;background-color:#D96E7C; border-radius:5px;padding-top:5px;}
+    .fa-minus-circle{ cursor:pointer;}
+    /* End of new*/
+
+    /*tab related*/
+    .global-tab-content{margin-top:15px;}
+    #shipping-container {
+      border: 1px solid #ddd;
+      padding: 0 15px 15px;
+    }
+    .global-heading {
+        margin-bottom: 30px;
+        border-bottom: 1px solid #efefef;
+        padding-bottom: 15px;
+    }
+    #method-list > li > a.global{
+      text-transform: uppercase;
+      background-color: #c7c7c7;
+      color: #555;
+      font-weight: bold;
+    }
+    #method-list > li > a {
+        background-color: #f7f7f7;
+        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        margin-bottom: 2px;
+        border-right:1px solid #ccc;
+    }
+    #method-list > li.active > a, #method-list > li > a:hover {
+      background-color: #1e91cf;
+      color: #fff;
+    }
+    #method-list > li.active a.global {background-color: #FF5722 !important;}
+    .display-name-row {
+        background: #f7f7f7;
+        margin-bottom: 11px;
+        border-bottom: 1px solid #d7d7d7;
+    }
+    .method-tab {
+      background: #f7f7f7;
+       margin-bottom: 0;
+    }
+    .method-content {
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-top: none;
+    }
+</style>
+
+<script type="text/javascript"><!--
+var current_tab=1; 
+var save_type = '';   
+var range ='<tr>'; 
+    range += '    <td class="text-left"><input size="15" type="text" name="xshippingpro[rate_start][]" class="form-control" value="__VALUE_START__" /></td>';
+    range += '    <td class="text-left"><input size="15" type="text" name="xshippingpro[rate_end][]" class="form-control" value="__VALUE_END__" /></td>';
+    range += '    <td class="text-left"><input size="15" type="text" name="xshippingpro[rate_total][]" class="form-control" value="__VALUE_COST__" /></td>';
+    range += '    <td class="text-left"><input size="6" type="text" name="xshippingpro[rate_block][]" class="form-control" value="__VALUE_PG__" /></td>';
+	range += '    <td class="text-left"><select name="xshippingpro[rate_partial][]"><option __VALUE_PA1__ value="1">{{ text_yes }}</option><option __VALUE_PA2__ value="0">{{ text_no }}</option></select></td>';
+    range += '    <td class="text-right"><a class="btn btn-danger remove-row">{{ text_remove }}</a></td>';
+    range += '  </tr>';
+       
+    
+var tmp= '{{ tpl|escape('js') }}';
+
+ var shipping_methods = [];
+ var auto_complete_cat={
+				'source': function(request, response) {
+					$.ajax({
+						url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+						dataType: 'json',			
+						success: function(json) {
+							response($.map(json, function(item) {
+								return {
+									label: item['name'],
+									value: item['category_id']
+								}
+							}));
+						}
+					});
+				},
+				'select': function(item) {
+					
+					var my_method_area=$('#shipping-'+current_tab);
+					$('input[name=\'category\']',my_method_area).val('');
+					$('.product-category' + item['value'],my_method_area).remove();
+					$('.product-category',my_method_area).append('<div class="product-category' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="xshippingpro[product_category][]" value="' + item['value'] + '" /></div>');	
+					
+				}
+	};
+	
+ var auto_complete_prod={
+	 'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',			
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['product_id']
+					}
+				}));
+			}
+		});
+	},
+	 'select': function(item) {
+		 
+		var my_method_area=$('#shipping-'+current_tab); 
+		$('input[name=\'product\']', my_method_area).val('');
+		$('.product-product' + item['value'], my_method_area).remove();
+		$('.product-product', my_method_area).append('<div class="product-product' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="xshippingpro[product_product][]" value="' + item['value'] + '" /></div>');	
+	  }	
+  };
+  
+  var auto_complete_option={
+	 'source': function(request, response) {
+		$.ajax({
+			url: 'index.php?route=extension/shipping/xshippingpro/getOption&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+			dataType: 'json',			
+			success: function(json) {
+				response($.map(json, function(item) {
+					return {
+						label: item['name'],
+						value: item['option_value_id']
+					}
+				}));
+			}
+		});
+	},
+	 'select': function(item) {
+		 
+		var my_method_area=$('#shipping-'+current_tab); 
+		$('input[name=\'option\']', my_method_area).val('');
+		$('.product-option' + item['value'], my_method_area).remove();
+		$('.product-option', my_method_area).append('<div class="product-option' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="xshippingpro[product_option][]" value="' + item['value'] + '" /></div>');	
+	  }	
+  };
+  
+  var auto_complete_methods={
+	 'source': function(request, response) {
+		var methods = [];
+		$('#shipping-container').find('div.shipping').each(function(){
+    			   var name,
+    			   	   tab_id,
+    			   	   $this = $(this);
+    			   tab_id = $this.attr('id');
+    			   tab_id = parseInt(tab_id.replace('shipping-',''));
+    			   name = $this.find('input.display-name').val();
+    		     if (!name) name = 'Untitled Method'+tab_id;
+    			   if (current_tab != tab_id && name.toLowerCase().indexOf(request) != -1) {
+      			   	  methods.push({
+  						    label: name,
+  						    value: tab_id
+					      });
+    		      }
+    	});
+		response(methods);
+		
+	},
+	 'select': function(item) {
+		 
+		var my_method_area=$('#shipping-'+current_tab); 
+		$('input.hide-shipping', my_method_area).val('');
+		$('.hide-method' + item['value'], my_method_area).remove();
+		$('.hide-methods', my_method_area).append('<div class="hide-method' + item['value'] + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="xshippingpro[hide][]" value="' + item['value'] + '" /></div>');	
+	  }	
+  };
+
+   
+$(document).ready(function () {		
+ 
+	 /* Enable tab*/
+	 $('#method-list a:first').tab('show');
+	 $('#language-heading a:first').tab('show');
+	 
+	 $("#method-list").on("click","li",function(){
+		 current_tab=$(this).find('a').attr('href').replace('#shipping-','');  
+	 });
+	 
+	 /* Creating New method*/
+	 $('.add-new').on('click',function(e) {
+		  e.preventDefault();
+		  $this=$(this);
+		  var no_of_tab=$('#shipping-container').find('div.shipping').length;
+		  no_of_tab=parseInt(no_of_tab)+1;
+		  //finding qnique id
+		  while($('#shipping-'+no_of_tab).length!=0)
+		   {
+		     no_of_tab++;
+		   }
+		  var tab_html=tmp;
+		  tab_html=tab_html.replace('__ID__','shipping-'+no_of_tab);
+		  tab_html=tab_html.replace(/__INDEX__/g, no_of_tab);
+		  $('#shipping-container').append(tab_html);
+		  
+		  $('#method-list').append('<li><a data-toggle="tab" class="tab'+no_of_tab+'" href="#shipping-'+no_of_tab+'">Untitled Method '+no_of_tab+'</a></li>');
+		   enableEvents(no_of_tab); 
+		   current_tab=no_of_tab;
+      });
+	 /* End of creating new*/
+	 
+	 $("#shipping-container").on('click','button.btn-delete', function() { 
+		  if(confirm('Are you sure to delete this method?')){
+		              deleteMethod(current_tab);
+					  $('a.tab'+current_tab).remove();
+					  $('#shipping-'+current_tab).remove();
+					  $('#method-list a:first').tab('show');
+				}
+	 });
+	 
+	 $("#shipping-container").on('click','button.btn-copy', function() { 
+		  if(confirm('Are you sure to copy this method?')){
+					  copyMethod(current_tab);
+				}
+	 });
+	 
+	 
+	   $('.shipping_xshippingpro_group').change(function(){
+		   if($(this).val()=='lowest' || $(this).val()=='highest') {
+			  $('#group-limit').show();  
+		   }else{
+			  $('#group-limit').hide();     
+		   }  
+		});
+		
+		$("select[class^='shipping_xshippingpro_sub_group']").change(function(){
+		   var groupid = $(this).attr('class').replace('shipping_xshippingpro_sub_group','');
+		   if($(this).val()=='lowest' || $(this).val()=='highest') {
+			  $('.shipping_xshippingpro_sub_group_limit'+parseInt(groupid)).show();  
+		   }else{
+			   $('.shipping_xshippingpro_sub_group_limit'+parseInt(groupid)).hide();     
+		   }  
+		
+		});
+	   
+       
+	   $("#shipping-container").on('keyup','input.display-name', function() {		
+		  var method_name=$(this).val();
+		  if(method_name=='') method_name='Untitled Method '+current_tab;
+		  $('a.tab'+current_tab).html(method_name);
+	   }); 
+	   
+	   
+	    $("#shipping-container").on('change','select.selection', function() {
+		    
+			var relto=$(this).attr('rel');
+			 if($(this).val()=='1'){
+			    $(this).closest('div.form-group').siblings('div.'+relto).hide();  
+			 }else{
+			    $(this).closest('div.form-group').siblings('div.'+relto).show();  
+			 }
+		 }); 
+		 
+		 $('#shipping-container').delegate('.fa-minus-circle', 'click', function() {
+			  $(this).parent().remove();
+	     });
+		
+		  // Category selection 
+		  $('input[name=\'category\']').autocomplete(auto_complete_cat);
+		  $('input[name=\'product\']').autocomplete(auto_complete_prod);
+		  $('input[name=\'option\']').autocomplete(auto_complete_option);
+		  $('input.hide-shipping').autocomplete(auto_complete_methods);
+			
+		  $("#shipping-container").on('click', '.choose-any', function() {
+				 if($(this).prop('checked')){
+					 $(this).parent().next('div.well-sm').slideUp();  
+				 }else{
+					 $(this).parent().next('div.well-sm').slideDown();
+				}
+			});
+			
+		  $("#shipping-container").on('click', '.choose-any-with', function() {
+                var relto=$(this).attr('rel');
+				  
+				  if(relto=='manufacturer-option') {
+					 if($(this).prop('checked')){
+						 $(this).parent().next('div.well-sm').slideUp();  
+					 }else{
+						 $(this).parent().next('div.well-sm').slideDown();
+					 }
+				  }
+				 	
+				 if($(this).prop('checked')){
+					 $(this).closest('div.form-group').siblings('div.'+relto).hide();  
+				 }else{
+					$(this).closest('div.form-group').siblings('div.'+relto).show();  
+				}
+			});
+                
+		
+        $("#shipping-container").on('change', 'select.rate-selection', function() {
+		      
+			if($(this).val()=='flat'){
+			   $(this).closest('div.form-group').siblings('div.single-option').show();
+               $(this).closest('div.form-group').siblings('div.range-option').hide();
+			   $(this).closest('div.form-group').siblings('div.dimensional-option').hide();
+			   
+			}
+		   else if($(this).val()=='dimensional' || $(this).val()=='dimensional_method' || $(this).val()=='volume' || $(this).val()=='volume_method'){
+			   $(this).closest('div.form-group').siblings('div.single-option').hide();
+			   $(this).closest('div.form-group').siblings('div.dimensional-option').show();
+			   $(this).closest('div.form-group').siblings('div.range-option').show();
+			  
+			 }
+		   else 
+		    {
+			  $(this).closest('div.form-group').siblings('div.single-option').hide();
+			  $(this).closest('div.form-group').siblings('div.dimensional-option').hide();
+             $(this).closest('div.form-group').siblings('div.range-option').show();
+            
+			 }
+		});
+                
+                
+     /* Range Options */
+	 $("#shipping-container").on('click','a.add-row',function(){
+	          
+	          var tpl=range;
+			  tpl=tpl.replace(/__INDEX__/g, current_tab);
+			  tpl=tpl.replace(/__VALUE_START__/g, '0');
+			  tpl=tpl.replace(/__VALUE_END__/g, '0');
+			  tpl=tpl.replace(/__VALUE_COST__/g, '0');
+			  tpl=tpl.replace(/__VALUE_PG__/g, '0');
+			  tpl=tpl.replace(/__VALUE_PA1__/g, '0');
+			  tpl=tpl.replace(/__VALUE_PA2__/g, '0');
+             
+			  $(this).closest('table').find('tbody tr.no-row').remove();     
+		      $(this).closest('table').find('tbody').append(tpl);		  
+        });
+		
+		 $("#shipping-container").on('click','a.remove-row',function(){									  
+	        $(this).closest('tr').remove();	
+			 if($('#shipping-'+current_tab).find('.tbl-wrapper tbody tr').length==0){
+			  $('#shipping-'+current_tab).find('.tbl-wrapper tbody').append('<tr class="no-row"><td colspan="6">{{ no_unit_row }}</td></tr>');     	
+		    }									  
+        });
+        
+        $("#shipping-container").on('click','a.delete-all',function(){									  
+	       $(this).closest('div.tbl-wrapper').find('tbody > tr').remove();	
+		   if($('#shipping-'+current_tab).find('.tbl-wrapper tbody tr').length==0) {
+			  $('#shipping-'+current_tab).find('.tbl-wrapper tbody').append('<tr class="no-row"><td colspan="6">{{ no_unit_row }}</td></tr>');     	
+		    }										  
+        });
+        
+		/* CSV upload*/
+		$("#shipping-container").on('click', 'a.import-btn', function() {
+		    $('input.import-csv:file').trigger('click');      
+		});
+		
+		$("input.import-csv:file").change(function (){
+		    var file = $('input.import-csv:file').get(0).files[0];
+			
+           var fd = new FormData();
+           fd.append('file', file);
+		    $.ajax({
+					url: 'index.php?route=extension/shipping/xshippingpro/csv_upload&user_token={{ user_token }}',
+					dataType: 'json',
+                  	data:fd,
+				    processData: false,
+                  	contentType: false,
+                  	type:'POST',
+				    beforeSend: function(){
+				      showLoader();
+					},
+					success: function(json) {		
+					  
+					   if (json['data']) {
+							   for(i=0;i<json['data'].length;i++) {
+								  var data=json['data'][i];
+								  var tpl=range;
+								  var pa1=1, pa2=0;
+								  if(data.pa=='1') pa1='selected';
+								  if(data.pa=='0') pa2='selected';
+								  tpl=tpl.replace(/__INDEX__/g, current_tab);
+								  tpl=tpl.replace(/__VALUE_START__/g, data.start);
+								  tpl=tpl.replace(/__VALUE_END__/g, data.end);
+								  tpl=tpl.replace(/__VALUE_COST__/g, data.cost);
+								  tpl=tpl.replace(/__VALUE_PG__/g, data.pg);
+								  tpl=tpl.replace(/__VALUE_PA1__/g, pa1);
+								  tpl=tpl.replace(/__VALUE_PA2__/g, pa2);
+								  $('#shipping-'+current_tab).find('.tbl-wrapper tbody').append(tpl);	
+							  }
+                       }
+					    if (json['error']) {
+                            alert(json['error']);
+                        }
+                      $('.global-waiting').remove();	  
+					}
+			 }); 
+		});
+          
+        /* End of CSV upload*/
+         
+        /*Quick save*/
+        $('#quick_save, #save_form').click(function(){
+    			
+    			save_type = $(this).attr('id');
+    			
+    			$('#shipping-container').find('div.shipping').each(function(){
+    			   var data,
+    			   	   tab_id,
+    			   	   $this = $(this);
+    			   tab_id = $this.attr('id');
+    			   tab_id = tab_id.replace('shipping-','');
+    			   data = $this.find(':input').serialize();
+    			   shipping_methods.push({
+    			     tab_id:tab_id,
+    			     data: data
+    			   });
+    			});
+    			
+    			var general_data = $('#tab-general :input').serialize();
+    			saveGeneral(general_data);
+    			
+    			if(shipping_methods.length > 0) {
+			    	showLoader();
+			    	saveMethod();
+			    }
+		});           
+       
+	    
+ });
+ 
+ 
+ function saveGeneral(data) {
+   
+   if(data) {
+   
+  		$.ajax({
+			url: 'index.php?route=extension/shipping/xshippingpro/save_general&user_token={{ user_token }}',
+			dataType: 'json',
+        	data:data,
+        	type:'POST',
+			success: function(json) {		
+			  if (json['error']) {
+                 alert(json['error']);
+                 $('.global-waiting').remove();
+               } 
+			}
+		});
+	}
+ }
+ 
+ function saveMethod() {
+   
+   if(shipping_methods.length > 0) {
+   
+   		var method_data = shipping_methods.pop();
+  		$.ajax({
+			url: 'index.php?route=extension/shipping/xshippingpro/quick_save&user_token={{ user_token }}&tab_id='+method_data.tab_id,
+			dataType: 'json',
+        	data:method_data.data,
+        	type:'POST',
+			success: function(json) {		
+			  if (json['error']) {
+                 alert(json['error']);
+                 $('.global-waiting').remove();
+               }
+               else {
+               	 if (shipping_methods.length === 0) {
+               	   $('.global-waiting').remove();
+               	   
+               	   if(save_type === 'save_form') {
+               	     location = "{{ cancel|replace({'&amp;': '&'}) }}";
+               	   }
+               	   	
+               	 } else {
+               	   saveMethod();
+               	 }
+               }   
+			}
+		});
+	 }
+ }
+ 
+ function deleteMethod(tab_id) {
+   
+   if(tab_id) {
+   		showLoader();
+  		$.ajax({
+			url: 'index.php?route=extension/shipping/xshippingpro/delete&user_token={{ user_token }}&tab_id='+tab_id,
+			dataType: 'json',
+        	type:'GET',
+			success: function(json) {		
+			  if (json['error']) {
+                 alert(json['error']);
+               } 
+               $('.global-waiting').remove();	  
+			}
+		});
+	}
+ }
+ 
+ function showLoader() {
+   $('body').append('<div class="global-waiting">Processing...</div>');
+   $('.global-waiting').css({top:'50%',left:'50%',marginTop:'-40px',marginLeft:'-75px'});
+ }
+ 
+ function enableEvents(no_of_tab){ 
+		  /* new */
+		  var my_method_area=$('#shipping-'+no_of_tab);
+         $('#method-list a.tab'+no_of_tab).trigger('click');
+		  $('#language'+no_of_tab+' li:first-child').trigger('click');
+		  $('#method-tab-'+no_of_tab+' li:first-child').trigger('click');
+		  $("[data-toggle='tooltip']",my_method_area).tooltip(); 
+		  $('input[name=\'category\']', my_method_area).autocomplete(auto_complete_cat);
+		  $('input[name=\'product\']', my_method_area).autocomplete(auto_complete_prod);
+		  $('input[name=\'option\']', my_method_area).autocomplete(auto_complete_option); 
+		  $('input.hide-shipping', my_method_area).autocomplete(auto_complete_methods);
+ }
+ 
+ function copyMethod(tabId) {
+   
+	      var no_of_tab=$('#shipping-container').find('div.shipping').length;
+	      no_of_tab=parseInt(no_of_tab)+1;
+	      //finding qnique id
+	      while($('#shipping-'+no_of_tab).length!=0)
+	      {
+		   no_of_tab++;
+	      }
+          
+          var tab_item=$('#shipping-'+tabId).clone()
+          var tab_html='<div id="shipping-'+no_of_tab+'" class="tab-pane shipping">'+tab_item.html()+'</div>';
+          
+		   
+ 		  tab_html = tab_html.replace(/xshippingpro\[([a-z_]+)\]/igm, 'xshippingpro[$1]');
+ 		  tab_html = tab_html.replace(/_(\d+)/g, '_'+no_of_tab); 
+          
+		  $('#shipping-container').append(tab_html); 
+		  
+		  var inputs_text = $('#shipping-'+tabId+' input[type="text"]');
+		  var inputs_text_new = $('#shipping-'+no_of_tab+' input[type="text"]');
+		  
+		  var inputs_checkboxes = $('#shipping-'+tabId+' input[type="checkbox"]');
+		  var inputs_checkboxes_new = $('#shipping-'+no_of_tab+' input[type="checkbox"]');
+		  
+		  var inputs_selects = $('#shipping-'+tabId+' select');
+		  var inputs_selects_new = $('#shipping-'+no_of_tab+' select');
+		  
+		  inputs_text.each(function(index) {
+              inputs_text_new.eq(index).val($(this).val());
+          });
+          
+          inputs_selects.each(function(index) {
+              inputs_selects_new.eq(index).val($(this).val());
+          });
+          
+          inputs_checkboxes.each(function(index) {
+              if($(this).prop('checked')) {
+                inputs_checkboxes_new.eq(index).prop('checked','checked');
+              } else {
+                inputs_checkboxes_new.eq(index).removeAttr('checked');
+              }   
+          });
+	
+	
+		  $('#method-list').append('<li><a data-toggle="tab" class="tab'+no_of_tab+'" href="#shipping-'+no_of_tab+'">'+$('a.tab'+tabId).html()+'</a></li>');
+		  enableEvents(no_of_tab);
+		  current_tab=no_of_tab;
+ }
+ 
+//--></script>
+</div>
+{{ footer }}

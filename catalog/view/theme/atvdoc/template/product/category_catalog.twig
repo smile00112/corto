@@ -1,0 +1,116 @@
+{{ header }}
+
+{{ column_left }}
+
+{{ column_right }}
+
+<div id="pic-block" class="cube-wrap col site-pane">
+    <div class="cube">
+        <div class="front-pane hiddenBackface ">
+            <div class="pic-block__inside">
+                  <div class="mod ">
+                      <div class="m-info-carousel">
+                          <div class="category-info " style="background-image: url(/assets/images/slide2.jpg)">
+                              <div class="category-info__desc b-bottom">
+                                  <p>Выбирайте велосипед в соответствии с предпочтениями и взглядом в ближайшее будущее.</p>
+                              </div>
+                          </div>
+
+                          <div class="category-info " style="background-image: url(/assets/images/2colimgs/Women.png)">
+                              <div class="category-info__desc b-bottom">
+                                  
+                              </div>
+                          </div>
+
+                          <div class="category-info " style="background-image: url(/assets/images/2colimgs/Extreme.png)">
+                              <div class="category-info__desc b-bottom">
+                              </div>
+                          </div>
+
+                          <div class="category-info " style="background-image: url(/assets/images/2colimgs/Folding.png)">
+                              <div class="category-info__desc b-bottom">
+
+                              </div>
+                          </div>
+
+                          <div class="category-info " style="background-image: url(/assets/images/2colimgs/Five.png)">
+                              <div class="category-info__desc b-bottom">
+
+                              </div>
+                          </div>
+
+                          <div class="category-info " style="background-image: url(/assets/images/2colimgs/Four.png)">
+                              <div class="category-info__desc b-bottom">
+
+                              </div>
+                          </div>
+                      </div>
+                        <div class="m-info-pager"></div>
+
+                  </div>    
+
+            </div>
+        </div>
+        <div class="right-pane hiddenBackface"></div>
+        <div class="left-pane hiddenBackface"></div>
+    </div>
+</div>
+
+ 
+
+
+<div id="page-block" class="cube-wrap-с site-pane" style="opacity: 0;">
+    <div class="cube-с">
+        <div class="right-pane hiddenBackface"></div>
+        <div class="left-pane hiddenBackface"></div>
+        <div class="front-pane hiddenBackface item-page">
+            <div class="page-block__inside">
+                <div id="system-message-container">
+                </div>
+
+
+                <!-- download catalog btn -->
+                <div class="mod mod-cat-download">
+
+
+                    <div class="custommod-cat-download">
+                        <p><a href="/assets/images/files/catalog2016.pdf" target="_blank">Скачать каталог</a></p>
+                    </div>
+                </div>
+
+
+                <div class="jshop shop-maincategory" id="comjshop">
+
+                    {% for category_name, productCat in products %}
+
+                              <div class="shop-category-count" id="1">{{ category_name }}</div>
+                              <div class="shop-category-products">
+                                  <ul class="products-list">
+                                    {% for product in productCat %}
+                                        <li class="cat-item prod-4">
+                                            <div class="cat-item__img"><a href="{{ product.href }}">
+                                                    <img class="jshop_img" src="{{ product.image }}" alt="{{ product.name }}" title="{{ product.name }}">
+                                                </a>
+                                            </div>
+                                            <span class="cat-item__title">{{ product.name }}</span>
+                                            <a href="{{ product.href }}" class="cat-item__hover">характеристики</a>
+                                        </li>
+                                    {% endfor %}
+
+                                  </ul>
+                              </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{{ footer }}

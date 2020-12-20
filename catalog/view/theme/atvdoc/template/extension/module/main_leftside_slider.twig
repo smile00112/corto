@@ -1,0 +1,50 @@
+    <!-- pic panel -->
+    <div id="pic-block" class="cube-wrap col site-pane">
+        <div class="cube">
+            <div class="front-pane hiddenBackface">
+                <div class="pic-block__inside">
+                    <div class="mod" style="width: 300px;">
+                        <div class="m-info-carousel" style="width: 300px;">
+                        {% for key, b in banners %}
+                            {% for key, banner in b %}
+                                <div class="category-info" style="background-image: url({{ banner.image }});">
+                                    <div class="category-info__desc b-bottom">
+                                        <h2>{{ banner.title }}</h2>
+                                        <p>{{ banner.link }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        </div>
+                        <div class="m-info-pager"></div>
+                    </div>        
+                </div>
+            </div>
+            <div class="right-pane hiddenBackface"></div>
+            <div class="left-pane hiddenBackface"></div>
+        </div>
+    </div><!-- pic panel END -->
+
+
+
+
+
+
+
+    {#
+<div class="swiper-viewport">
+  <div id="banner{{ module }}" class="swiper-container">
+    <div class="swiper-wrapper">{% for banner in banners %}
+      <div class="swiper-slide">{% if banner.link %}<a href="{{ banner.link }}"><img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" /></a>{% else %}<img src="{{ banner.image }}" alt="{{ banner.title }}" class="img-responsive" />{% endif %}</div>
+      {% endfor %}</div>
+  </div>
+</div>
+<script type="text/javascript"><!--
+$('#banner{{ module }}').swiper({
+	effect: 'fade',
+	autoplay: 2500,
+    autoplayDisableOnInteraction: false
+});
+--></script> 
+
+#}

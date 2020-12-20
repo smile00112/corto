@@ -1,0 +1,1013 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="form-inline pull-right">
+                <button id="save-form" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary">
+                    <i class="fa fa-save"></i>
+                </button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default">
+                    <i class="fa fa-reply"></i>
+                </a>
+            </div>
+            <h1>
+                {{ heading_title }}
+                {{ version }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                    <li>
+                        <a href="{{ breadcrumb.href }}">
+                            {{ breadcrumb.text }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if success %}
+            <div class="alert alert-success">
+                <i class="fa fa-exclamation-circle"></i>
+                {{ success }}
+                <button class="close" data-dismiss="alert" type="button">&times;</button>
+            </div>
+        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <i class="fa fa-pencil"></i>
+                    {{ text_form }}</h3>
+            </div>
+            <div class="panel-body">
+                <div class="d_shopunity_widget_update"></div>
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-layout"
+                      class="form-horizontal">
+                    {{ tabs }}
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <ul class="nav nav-pills nav-stacked" id="vertical-tabs">
+                                {% for tab in layout_tabs %}
+                                    <li>
+                                        <a href="#{{ tab.href }}" data-toggle="tab">
+                                            <i class="{{ tab.icon }}" aria-hidden="true"></i>
+                                            {{ tab.title }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div class="col-sm-{{ notify and shopunity_support ? '7' : '10' }}">
+                            <div class="tab-content main-content">
+                                <div id="home" class="tab-pane">
+                                    <div class="row">
+                                        {% if modules %}
+                                            {% for module in modules %}
+                                                <div class="{{ not notify ? 'col-lg-3' }} col-md-4 col-sm-6">
+                                                    <div class="tile tile-primary {{ module.active ? 'selected' }}">
+                                                        <div class="tile-heading clearfix">
+                                                            {{ module.name }}
+                                                            <div class="pull-right">
+                                                                <a id="delete-module" data-toggle="tooltip"
+                                                                   data-original-title="{{ button_delete }}"
+                                                                   data-id="{{ module.module_id }}">
+                                                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tile-body">
+                                                            <a href="#" class="view-setting "
+                                                               data-module-id="{{ module.module_id }}"></a>
+                                                            <a href="{{ module.link }}" class="view-setting "
+                                                               data-setting-id="1" data-toggle="tooltip" title=""
+                                                               data-original-title="{{ button_edit }}">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </a>
+                                                            <div class="pull-right">
+                                                                <ul class="layout-list">
+                                                                    {% if module.layouts %}
+                                                                        {% for layout in module.layouts %}
+                                                                            <li>
+                                                                                {{ layout.name }}</li>
+                                                                        {% endfor %}
+                                                                    {% else %}
+                                                                        <li>
+                                                                            {{ text_not_positioned }}</li>
+                                                                    {% endif %}
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tile-footer form-inline clearfix">
+                                                            <div class="">
+                                                                {{ text_status }}
+                                                                <div class="input-group pull-right">
+                                                                    <input name="module_status[{{ module.module_id }}]"
+                                                                           type="hidden" value="0"/>
+                                                                    <input type="checkbox" class="form-control switcher"
+                                                                           data-size="mini"
+                                                                           name="module_status[{{ module.module_id }}]" {{ module.setting.status ? 'checked="checked"' }}
+                                                                           value="1"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                        <div class="{{ not notify ? 'col-lg-3' }} col-md-4 col-sm-6">
+                                            <div class="tile tile-primary">
+                                                <div class="tile-heading">
+                                                    {{ text_new_setting }}</div>
+                                                <a id="create_setting" class="create-setting">
+                                                    <div class="tile-body">
+                                                        <i class="fa fa-plus"></i>
+                                                        <h3 class="pull-right">
+                                                            {{ text_create_setting }}</h3>
+                                                    </div>
+                                                </a>
+                                                <div class="tile-footer"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="setting" class="tab-pane">
+                                    {% if modules|length == 0 %}
+                                        <div class="alert alert-info" style="overflow: inherit;">
+                                            <div class="row vertical-align">
+                                                <div class="col-md-9">
+                                                    <h4>
+                                                        {{ text_quick_setup_title }}</h4>
+                                                    <p>
+                                                        {{ text_quick_setup_text }}</p>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <a id="quick-setup" class="btn btn-info btn-block">
+                                                        {{ button_quick_setup }}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="input_status">
+                                            {{ entry_status }}</label>
+                                        <div class="col-sm-10">
+                                            <input name="module_setting[status]" type="hidden" value="0"/>
+                                            <input type="checkbox" class="form-control switcher"
+                                                   data-label-text="{{ text_enabled }}"
+                                                   name="module_setting[status]" {{ setting.status ? 'checked="checked"' }}
+                                                   value="1" id="input_status"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label" for="input_name">
+                                                    {{ entry_name }}</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" type="text" name="module_setting[name]"
+                                                           value="{{ setting.name }}" id="input_name"
+                                                           data-error="name"/>
+                                                    {% if error.name %}
+                                                        <div class="text-danger">
+                                                            {{ error.name }}</div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label">
+                                                    {{ entry_title }}</label>
+                                                <div class="col-sm-8">
+                                                    {% for language in languages %}
+                                                        <div class="input-group pull-left"
+                                                             data-error="title{{ language.language_id }}">
+                                                            <span class="input-group-addon">
+                                                                <img src="{{ language.flag }}"
+                                                                     title="{{ language.name }}"
+                                                                     alt="{{ language.name }}"/>
+                                                            </span>
+                                                            <input type="text"
+                                                                   name="module_setting[title][{{ language.language_id }}]"
+                                                                   value="{{ attribute(setting.title, language.language_id) }}"
+                                                                   placeholder="{{ entry_title }}"
+                                                                   class="form-control"/>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="input_show_mode">
+                                                    {{ entry_show_mode }}</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="input_show_mode"
+                                                            name="module_setting[show_mode]">
+                                                        {% for key, value in show_modes %}
+                                                            {% if key == setting.show_mode %}
+                                                                <option value="{{ key }}" selected="selected">
+                                                                    {{ value }}</option>
+                                                            {% else %}
+                                                                <option value="{{ key }}">
+                                                                    {{ value }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" id="list-categories" style="display: none;">
+                                                <label class="control-label col-sm-4" for="input_category">
+                                                    {{ entry_categories }}</label>
+                                                <div class="col-sm-8">
+                                                    <div class="well well-sm" style="height: 150px; overflow: auto;">
+                                                        {% for key, value in categories %}
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {% if key in setting.categories %}
+                                                                        <input type="checkbox"
+                                                                               name="module_setting[categories][]"
+                                                                               value="{{ key }}" checked="checked"/>
+                                                                        {{ value }}
+                                                                    {% else %}
+                                                                        <input type="checkbox"
+                                                                               name="module_setting[categories][]"
+                                                                               value="{{ key }}"/>
+                                                                        {{ value }}
+                                                                    {% endif %}
+                                                                </label>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <a class="well-link well-link-all">
+                                                        {{ text_select_all }}</a>
+                                                    /
+                                                    <a class="well-link well-link-none">
+                                                        {{ text_unselect_all }}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="input_category">
+                                                    {{ entry_layouts }}</label>
+                                                <div class="col-sm-8">
+                                                    <div class="well well-sm" style="height: 150px; overflow: auto;">
+                                                        {% for key, value in layouts %}
+                                                            <div class="checkbox">
+                                                                <label>
+                                                                    {% if key in selected_layouts %}
+                                                                        <input type="checkbox" name="layout[layouts][]"
+                                                                               value="{{ key }}" checked="checked"/>
+                                                                        {{ value }}
+                                                                    {% else %}
+                                                                        <input type="checkbox" name="layout[layouts][]"
+                                                                               value="{{ key }}"/>
+                                                                        {{ value }}
+                                                                    {% endif %}
+                                                                </label>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                    <a class="well-link well-link-all">
+                                                        {{ text_select_all }}</a>
+                                                    /
+                                                    <a class="well-link well-link-none">
+                                                        {{ text_unselect_all }}</a>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="input_position">
+                                                    {{ entry_position }}</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="input_position"
+                                                            name="layout[position]"
+                                                            onchange="$(this).next().val($(this).val());">
+                                                        {% for key, value in positions %}
+                                                            {% if key == position %}
+                                                                <option value="{{ key }}" selected="selected">
+                                                                    {{ value }}</option>
+                                                            {% else %}
+                                                                <option value="{{ key }}">
+                                                                    {{ value }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                    <input type="hidden" name="module_setting[layout_position]"
+                                                           value="{{ position }}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4" for="input-sort-order">
+                                                    {{ entry_sort_order }}</label>
+                                                <div class="col-sm-8">
+                                                    <input type="text" class="form-control" data-error="sort_order"
+                                                           name="layout[sort_order]" value="{{ sort_order }}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="base_attributes" class="tab-pane">
+                                    <table class="table table-base-attribs">
+                                        <thead>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                {{ column_name }}</td>
+                                            <td>
+                                                {{ column_status }}</td>
+                                            <td class="col-sm-2">
+                                                {{ column_type }}</td>
+                                            <td>
+                                                {{ column_sort_order_values }}</td>
+                                            <td>
+                                                {{ column_collapse }}</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="FiltersBody">
+                                        {% for key, value in base_attribs %}
+                                            <tr data-sort-order="{{ value.sort_order }}">
+                                                <td style="width:1px;">
+                                                        <span class="drag-handle">
+                                                            <span class="fa fa-bars fa-fw fa-2x"></span>&nbsp;
+                                                        </span>
+                                                    <input type="hidden" class="form-control sort-value"
+                                                           name="module_setting[base_attribs][{{ key }}][sort_order]"
+                                                           value="{{ value.sort_order }}"/>
+                                                </td>
+                                                <td style="width:200px;">
+                                                    {{ value.name }}</td>
+                                                <td style="width:120px;" {{ value.status ? 'disable-next' }}>
+                                                    <input name="module_setting[base_attribs][{{ key }}][status]"
+                                                           type="hidden" value="0"/>
+                                                    <input type="checkbox" class="switcher"
+                                                           data-label-text="{{ text_enabled }}" value="1"
+                                                           name="module_setting[base_attribs][{{ key }}][status]" {{ value.status ? 'checked="checked"' }}/>
+                                                </td>
+                                                <td>
+                                                    {% if value.allowed_types %}
+                                                        <select class="form-control"
+                                                                name="module_setting[base_attribs][{{ key }}][type]">
+                                                            {% for base_type_key, base_type_title in base_types %}
+                                                                {% if base_type_key in value.allowed_types %}
+                                                                    {% if base_type_key == value.type %}
+                                                                        <option value="{{ base_type_key }}"
+                                                                                selected="selected">
+                                                                            {{ base_type_title }}</option>
+                                                                    {% else %}
+                                                                        <option value="{{ base_type_key }}">
+                                                                            {{ base_type_title }}</option>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </select>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if value.sort_order_values is defined %}
+                                                        <select class="form-control"
+                                                                name="module_setting[base_attribs][{{ key }}][sort_order_values]">
+                                                            {% for sort_order_type_key, sort_order_type_title in sort_order_types %}
+                                                                {% if sort_order_type_key == value.sort_order_values %}
+                                                                    <option value="{{ sort_order_type_key }}"
+                                                                            selected="selected">
+                                                                        {{ sort_order_type_title }}</option>
+                                                                {% else %}
+                                                                    <option value="{{ sort_order_type_key }}">
+                                                                        {{ sort_order_type_title }}</option>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </select>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if value.collapse is defined %}
+                                                        <input name="module_setting[base_attribs][{{ key }}][collapse]"
+                                                               type="hidden" value="0"/>
+                                                        <input type="checkbox" class="switcher"
+                                                               data-label-text="{{ text_enabled }}" value="1"
+                                                               name="module_setting[base_attribs][{{ key }}][collapse]" {{ value.collapse ? 'checked="checked"' }}/>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% for value in templates %}
+                                    {{ value }}
+                                {% endfor %}
+                                <div id="configuration" class="tab-pane">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-4">
+                                                    {{ entry_event_filter }}</label>
+                                                <div class="col-sm-8">
+                                                    <div class="btn-group" data-toggle="buttons">
+                                                        <label class="btn btn-success {{ setting.submission == '0' ? 'active' }}">
+                                                            <input type="radio" name="module_setting[submission]"
+                                                                   value="0" {{ setting.submission == '0' ? 'checked="checked"' }}/>
+                                                            {{ entry_any_change }}
+                                                        </label>
+                                                        <label class="btn btn-success {{ setting.submission == '1' ? 'active' }}">
+                                                            <input type="radio" name="module_setting[submission]"
+                                                                   value="1" {{ setting.submission == '1' ? 'checked="checked"' }}/>
+                                                            {{ entry_apply_button }}
+                                                        </label>
+                                                        <label class="btn btn-success {{ setting.submission == '2' ? 'active' }}">
+                                                            <input type="radio" name="module_setting[submission]"
+                                                                   value="2" {{ setting.submission == '2' ? 'checked="checked"' }}/>
+                                                            {{ entry_several_filter }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group"
+                                                 id="time-interval" {{ setting.submission != '2' ? 'style="display:none;"' }}>
+                                                <label class="col-sm-4 control-label" for="input_time">
+                                                    {{ entry_time }}</label>
+                                                <div class="col-sm-4">
+                                                    <input id="input_time" type="text" name="module_setting[time]"
+                                                           class="form-control" value="{{ setting.time }}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group"
+                                                 id="button-position" {{ setting.submission != '1' ? 'style="display:none;"' }}>
+                                                <label class="col-sm-4 control-label">
+                                                    {{ entry_position_button }}</label>
+                                                <div class="col-sm-8">
+                                                    <div class="btn-group" data-toggle="buttons">
+                                                        <label class="btn btn-success {{ setting.button_filter_position == '0' ? 'active' }}">
+                                                            <input type="radio"
+                                                                   name="module_setting[button_filter_position]"
+                                                                   value="0" {{ setting.button_filter_position == '0' ? 'checked="checked"' }}/>
+                                                            {{ text_place_bottom }}
+                                                        </label>
+                                                        <label class="btn btn-success {{ setting.button_filter_position == '1' ? 'active' }}">
+                                                            <input type="radio"
+                                                                   name="module_setting[button_filter_position]"
+                                                                   value="1" {{ setting.button_filter_position == '1' ? 'checked="checked"' }}/>
+                                                            {{ text_floating_button }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label" for="input_show_selected_filters">
+                                                    {{ entry_show_selected_filters }}</label>
+                                                <div class="col-sm-8">
+                                                    <input name="module_setting[selected_filters]" type="hidden"
+                                                           value="0"/>
+                                                    <input id="input_show_selected_filters" type="checkbox"
+                                                           class="form-control switcher"
+                                                           data-label-text="{{ text_enabled }}"
+                                                           name="module_setting[selected_filters]" {{ setting.selected_filters ? 'checked="checked"' }}
+                                                           value="1"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label" for="input_button_reset">
+                                                    {{ entry_button_reset }}</label>
+                                                <div class="col-sm-8">
+                                                    <input name="module_setting[button_reset]" type="hidden" value="0"/>
+                                                    <input id="input_button_reset" type="checkbox"
+                                                           class="form-control switcher"
+                                                           data-label-text="{{ text_enabled }}"
+                                                           name="module_setting[button_reset]" {{ setting.button_reset ? 'checked="checked"' }}
+                                                           value="1"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label" for="input_status">
+                                                    {{ entry_show_mobile }}</label>
+                                                <div class="col-sm-8">
+                                                    <input name="module_setting[show_mobile]" type="hidden" value="0"/>
+                                                    <input type="checkbox" class="form-control switcher"
+                                                           data-label-text="{{ text_enabled }}"
+                                                           name="module_setting[show_mobile]" {{ setting.show_mobile ? 'checked="checked"' }}
+                                                           value="1" id="input_status"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label"
+                                                       for="input_display_quantity_product">
+                                                    {{ entry_display_quantity_product }}</label>
+                                                <div class="col-sm-8">
+                                                    <input name="module_setting[display_quantity]" type="hidden"
+                                                           value="0"/>
+                                                    <input id="input_display_quantity_product" type="checkbox"
+                                                           class="form-control switcher"
+                                                           data-label-text="{{ text_enabled }}"
+                                                           name="module_setting[display_quantity]" {{ setting.display_quantity ? 'checked="checked"' }}
+                                                           value="1"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label" for="input_limit_height">
+                                                    {{ entry_limit_height }}</label>
+                                                <div class="col-sm-4">
+                                                    <input name="module_setting[limit_height]" type="hidden" value="0"/>
+                                                    <input id="input_limit_height" type="checkbox"
+                                                           class="form-control switcher"
+                                                           data-label-text="{{ text_enabled }}"
+                                                           name="module_setting[limit_height]" {{ setting.limit_height ? 'checked="checked"' }}
+                                                           value="1"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group"
+                                                 id="limit-height" {{ setting.limit_height ? 'style="display:none;"' }}>
+                                                <label class="control-label col-sm-4" for="input_height">
+                                                    {{ entry_height }}</label>
+                                                <div class="col-sm-4">
+                                                    <input id="input_height" type="text" name="module_setting[height]"
+                                                           class="form-control" value="{{ setting.height }}"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label" for="input_limit_block">
+                                                    {{ entry_limit_block }}</label>
+                                                <div class="col-sm-8">
+                                                    <input name="module_setting[limit_block]" type="hidden" value="0"/>
+                                                    <input id="input_limit_block" type="checkbox"
+                                                           class="form-control switcher"
+                                                           data-label-text="{{ text_enabled }}"
+                                                           name="module_setting[limit_block]" {{ setting.limit_block ? 'checked="checked"' }}
+                                                           value="1"/>
+                                                </div>
+                                            </div>
+                                            <div id="limit-block" {{ setting.limit_block ? 'style="display:none;"' }}>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label" for="input_count_element">
+                                                        {{ entry_count_element }}</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="input_count_element" type="text"
+                                                               name="module_setting[count_elemnts]" class="form-control"
+                                                               value="{{ setting.count_elemnts }}"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label" for="input_min_elemnts">
+                                                        {{ entry_min_elemnts }}</label>
+                                                    <div class="col-sm-8">
+                                                        <input id="input_min_elemnts" type="text"
+                                                               name="module_setting[min_elemnts]" class="form-control"
+                                                               value="{{ setting.min_elemnts }}"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="af_design" class="tab-pane">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="input_theme">
+                                            {{ entry_theme_scrollbar }}</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="input_theme"
+                                                    name="module_setting[theme_scrollbar]">
+                                                {% for key, theme in themes_scrollbar %}
+                                                    {% if key == setting.theme_scrollbar %}
+                                                        <option value="{{ key }}" selected="selected">
+                                                            {{ theme }}</option>
+                                                    {% else %}
+                                                        <option value="{{ key }}">
+                                                            {{ theme }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="input_theme">
+                                            {{ entry_theme }}</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="input_theme" name="module_setting[theme]">
+                                                {% for theme in themes %}
+                                                    {% if theme == setting.theme %}
+                                                        <option value="{{ theme }}" selected="selected">
+                                                            {{ theme }}</option>
+                                                    {% else %}
+                                                        <option value="{{ theme }}">
+                                                            {{ theme }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div id="custom-theme" {{ setting.theme != 'custom' ? 'style="display:none;"' }}>
+                                        <h3>
+                                            {{ text_header }}</h3>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label" for="input_background">
+                                                        {{ entry_background }}</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][header][background]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.header.background }}"
+                                                               id="input_background"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label" for="input_text">
+                                                        {{ entry_text }}</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][header][text]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.header.text }}" id="input_text"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h3>
+                                            {{ text_product_quantity }}</h3>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label"
+                                                           for="input_product_quantity_background">
+                                                        {{ entry_background }}</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][product_quantity][background]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.product_quantity.background }}"
+                                                               id="input_product_quantity_background"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label"
+                                                           for="input_product_quantity_text">
+                                                        {{ entry_text }}</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][product_quantity][text]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.product_quantity.text }}"
+                                                               id="input_product_quantity_text"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h3>
+                                            {{ text_price_slider }}</h3>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input_price_slider">
+                                                        {{ entry_background }}</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][price_slider][background]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.price_slider.background }}"
+                                                               id="input_price_slider"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input_area_background">
+                                                        {{ entry_active_area_background }}</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][price_slider][area_active]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.price_slider.area_active }}"
+                                                               id="input_area_background"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input_handle_background">
+                                                        {{ entry_handle_background }}</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][price_slider][handle_background]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.price_slider.handle_background }}"
+                                                               id="input_handle_background"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input_handle_border">
+                                                        {{ entry_handle_border }}</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][price_slider][handle_border]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.price_slider.handle_border }}"
+                                                               id="input_handle_border"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input_border">
+                                                        {{ entry_border }}</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][price_slider][border]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.price_slider.border }}"
+                                                               id="input_border"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h3>
+                                            {{ text_group_block_header }}</h3>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label"
+                                                           for="input_group_header_background">
+                                                        {{ entry_background }}</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][group_header][background]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.group_header.background }}"
+                                                               id="input_group_header_background"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label" for="input_group_header_text">
+                                                        {{ entry_text }}</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][group_header][text]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.group_header.text }}"
+                                                               id="input_group_header_text"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h3>
+                                            {{ text_button_color }}</h3>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input_button_filter">
+                                                        {{ entry_color_button_filter }}</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][button][button_filter]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.button.button_filter }}"
+                                                               id="input_button_filter"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label"
+                                                           for="input_border_radius_image">
+                                                        {{ entry_border_radius_image }}</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][button][border_radius_image]"
+                                                               class="form-control"
+                                                               value="{{ design.button.border_radius_image }}"
+                                                               id="input_border_radius_image"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input_border_image">
+                                                        {{ entry_color_border_image }}</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][button][border_image]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.button.border_image }}"
+                                                               id="input_border_image"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label" for="input_button_reset">
+                                                        {{ entry_color_button_reset }}</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text"
+                                                               data-name="module_setting[design][button][button_reset]"
+                                                               class="form-control color-picker"
+                                                               value="{{ design.button.button_filter }}"
+                                                               id="input_button_reset"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="input_theme">
+                                            {{ entry_custom_style }}</label>
+                                        <div class="col-sm-10">
+                                                                                                                <textarea
+                                                                                                                        class="form-control"
+                                                                                                                        id="input_custom_style"
+                                                                                                                        name="module_setting[custom_style]"
+                                                                                                                        rows="5">
+                                                                                                                    {{ setting.custom_style }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if notify and shopunity_support %}
+                            <div class="col-md-3">
+                                <div class="d_shopunity_widget_1"></div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="template-new-element">
+    <tr id="element-<%= key %>-<%= id %>" data-sort-order="0">
+        <td style="max-width: 175px;">
+            <%=name%>
+        </td>
+        <td class="text-center disabled-next">
+            <input class="sort-value" name="module_setting[<%= key %>][<%= id %>][sort_order]" type="hidden" value="0"/>
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-success btn-sm <% if (setting.status == 'default') { %> active <% } %>">
+                    <input type="radio" name="module_setting[<%= key %>][<%= id %>][status]" value="default" <% if
+                    (setting.status === 'default') { %> checked="checked" <% } %>/>
+                    {{ text_default }}
+                </label>
+                <label class="btn btn-success btn-sm <% if (setting.status == '1') { %> active <% } %>">
+                    <input type="radio" name="module_setting[<%= key %>][<%= id %>][status]" value="1" <% if
+                    (setting.status === '1') { %> checked="checked" <% } %>/>
+                    {{ text_yes }}
+                </label>
+                <label class="btn btn-success btn-sm <% if (setting.status == '0') { %> active <% } %>">
+                    <input type="radio" name="module_setting[<%= key %>][<%= id %>][status]" value="0" <% if
+                    (setting.status === '0') { %> checked="checked" <% } %>/>
+                    {{ text_no }}
+                </label>
+            </div>
+        </td>
+        <td class="text-center">
+            <select class="form-control" name="module_setting[<%= key %>][<%= id %>][type]">
+                <% _.map(base_types, function(base_type_title, base_type_key) { %>
+                <option value="<%= base_type_key %>"
+                <%=base_type_key==setting.type?'selected="selected"':'' %>>
+                <%=base_type_title%></option>
+                <% }); %>
+            </select>
+        </td>
+        <td class="text-center">
+            <input name="module_setting[<%= key %>][<%= id %>][collapse]" type="hidden" value="0"/>
+            <input type="checkbox" class="form-control switcher" data-label-text="{{ text_enabled }}" value="1"
+                   name="module_setting[<%= key %>][<%= id %>][collapse]" <% if (setting.collapse == '1') { %>
+            checked="checked" <% } %>/>
+        </td>
+        <td class="text-center">
+            <select class="form-control" name="module_setting[<%= key %>][<%= id %>][sort_order_values]">
+                {% for sort_order_type_key, sort_order_type_title in sort_order_types %}
+                    <option selected="selected" value="{{ sort_order_type_key }}" <% if (setting.sort_order_values == '{{ sort_order_type_key }}') { %> <% }%>>{{ sort_order_type_title }}</option>
+                {% endfor %}
+            </select>
+        </td>
+        <td>
+            <a class="delete-element-button" onclick="$(this).closest('tr').remove()">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+        </td>
+    </tr>
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#vertical-tabs > li:first >a ').trigger('click');
+        var setting = {
+            form: $("#form-layout"),
+            token: '{{ token_url }}'
+        };
+        var template = {
+            'new_element': $('#template-new-element')
+        };
+        d_ajax_filter = d_ajax_filter || {};
+        d_ajax_filter.init(setting);
+        d_ajax_filter.initTemplate(template);
+        d_ajax_filter.createSortable('table.table-base-attribs > tbody', 'tr');
+        $(".switcher").bootstrapSwitch({'onColor': 'success', 'onText': '{{ text_yes }}', 'offText': '{{ text_no }}'});
+        $(document).on('change', 'select[name=\'module_setting[show_mode]\']', function () {
+            var mode = $(this).val();
+            if (mode !== 'all') {
+                $('#list-categories').show();
+            } else {
+                $('#list-categories').hide();
+            }
+        });
+        $('select[name="module_setting[show_mode]"]').trigger('change');
+        $(document).on('click', '.well-link-all', function () {
+            $(this).parent().find(':checkbox').prop('checked', true);
+        });
+        $(document).on('click', '.well-link-none', function () {
+            $(this).parent().find(':checkbox').prop('checked', false);
+        });
+        $("input.color-picker").ColorPickerSliders({
+            size: 'sm',
+            placement: 'bottom',
+            swatches: false,
+            sliders: false,
+            hsvpanel: true
+        });
+        $(document).on('change', "#design input.color-picker", function () {
+            $('#input_theme').val('custom');
+        });
+        $(document).on('change', "[name='module_setting[submission]']:radio", function () {
+            var value = $(this).val();
+            if (value === '2') {
+                $('#time-interval').show();
+            } else {
+                $('#time-interval').hide();
+            }
+            if (value === '1') {
+                $('#button-position').show();
+            } else {
+                $('#button-position').hide();
+            }
+        });
+        $(document).on('switchChange.bootstrapSwitch', '.table-base-attribs input[name$="[status]"]', function (event, state) {
+            $(this).closest('td').removeClass('disabled-next');
+            if (!state) {
+                $(this).closest('td').addClass('disabled-next');
+            }
+        });
+        $(document).on('switchChange.bootstrapSwitch', 'input[name="module_setting[limit_height]"]', function (event, state) {
+            if (state) {
+                $('#limit-height').show();
+                $('input[type=checkbox][name="module_setting[limit_block]"]').bootstrapSwitch('state', false);
+            } else {
+                $('#limit-height').hide();
+            }
+        });
+        $(document).on('switchChange.bootstrapSwitch', 'input[name="module_setting[limit_block]"]', function (event, state) {
+            if (state) {
+                $('#limit-block').show();
+                $('input[type=checkbox][name="module_setting[limit_height]"]').bootstrapSwitch('state', false);
+            } else {
+                $('#limit-block').hide();
+            }
+        });
+        $(document).on('switchChange.bootstrapSwitch', 'input[name="module_setting[status]"]', function (event, state) {
+            if (state) {
+                $('.tile.selected input[type=checkbox][name^="module_status"]').bootstrapSwitch('state', true);
+            } else {
+                $('.tile.selected input[type=checkbox][name^="module_status"]').bootstrapSwitch('state', false);
+            }
+        });
+        $(document).on('switchChange.bootstrapSwitch', '.tile.selected input[type=checkbox][name^="module_status"]', function (event, state) {
+            if (state) {
+                $('input[type=checkbox][name="module_setting[status]"]').bootstrapSwitch('state', true);
+            } else {
+                $('input[type=checkbox][name="module_setting[status]"]').bootstrapSwitch('state', false);
+            }
+        });
+        $(document).on('click', '#save-form', function () {
+            d_ajax_filter.save();
+        });
+        $(document).on('click', '#create_setting', function () {
+            d_ajax_filter.create();
+        });
+        $(document).on('click', '#quick-setup', function () {
+            d_ajax_filter.create(true);
+        });
+        $(document).on('click', '[id=delete-module]', function () {
+            var module_id = $(this).data('id');
+            d_ajax_filter.delete(module_id);
+        });
+        $(document).on('change', '[name="module_setting[theme]"]', function () {
+            var value = $(this).val();
+            if (value == 'custom') {
+                $('#custom-theme input, #custom-theme select').each(function () {
+                    $(this).attr('name', $(this).data('name'));
+                });
+                $('#custom-theme').show();
+            } else {
+                $('#custom-theme input, #custom-theme select').each(function () {
+                    $(this).removeAttr('name');
+                });
+                $('#custom-theme').hide();
+            }
+        });
+        $('[name="module_setting[theme]"]').trigger('change');
+        $(document).on('change', '[name="module_setting[option_default][status]"]:radio, [name="module_setting[attribute_default][status]"]:radio, [name="module_setting[filter_default][status]"]:radio, [name^="module_setting[options]"][name$="[status]"]:radio, [name^="module_setting[filters]"][name$="[status]"]:radio, [name^="module_setting[attributes]"][name$="[status]"]:radio', function () {
+            var value = $(this).val();
+            $(this).closest('td').removeClass('disabled-next');
+            if (value == 'default' || value == '0') {
+                $(this).closest('td').addClass('disabled-next');
+            }
+        });{% if module_id %}
+        $(document).on('change', '[name^=module_setting]', function () {
+            window.onbeforeunload = function (e) {
+                return true;
+            };
+        });{% endif %}
+        {% if shopunity_support %}
+        var d_shopunity_widget_update = jQuery.extend(true, {}, d_shopunity_widget);
+        d_shopunity_widget_update.init({
+            class: '.d_shopunity_widget_update',
+            token: '{{ token }}',
+            action: 'loadUpdate',
+            extension_id: '5'
+        });{% endif %}
+    });{% if shopunity_support %}
+    var d_shopunity_widget_1 = jQuery.extend(true, {}, d_shopunity_widget);
+    d_shopunity_widget_1.init({class: '.d_shopunity_widget_1', token: '{{ token }}', extension_id: '126'}){% endif %}
+</script>
+{{ footer }}
+                                                                    

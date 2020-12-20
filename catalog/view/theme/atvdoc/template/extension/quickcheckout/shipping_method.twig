@@ -1,0 +1,199 @@
+{% if error_warning %} 
+<div class="alert alert-danger">{{ error_warning }}</div>
+{% endif %} 
+{% if shipping_methods %}
+<p>{{ text_shipping_method }}</p>
+{% if shipping %}
+<table class="table {% if shipping_title_display %}{{ 'table-striped' }}{% endif %}" style="margin-bottom: 0">
+  {% for key,shipping_method in shipping_methods %}
+  {% if shipping_title_display %}
+  <tr>
+    <td colspan="4">
+	  <b>{{ shipping_method.title }}</b>
+	</td>
+  </tr>
+  {% endif %} 
+  {% if not shipping_method.error %} 
+  {% for quote in shipping_method.quote %} 
+  <tr>
+    <td>{% if quote.code == code %} 
+      <input type="radio" name="shipping_method" value="{{ quote.code }}" id="{{ quote.code }}" checked="checked" />
+      {% else %}   
+      <input type="radio" name="shipping_method" value="{{ quote.code }}" id="{{ quote.code }}" />
+      {% endif %}</td>
+    <td><label for="{{ quote.code }}">{{ quote.title }}</label></td>
+    <td style="padding:1px!important">
+    {% if shipping_logo[key] and not shipping_title_display %} 
+	  <img style="max-width:100%" src="{{ shipping_logo[key] }}" alt="{{ shipping_method.title }}" title="{{ shipping_method.title }}" />
+	{% endif %}
+	</td>
+    <td class="table-price-shipping" style="text-align:right;width: 22%;"><label for="{{ quote.code }}">{{ quote.text }}</label></td>
+  </tr>
+  {% endfor %}
+  {% else %}   
+  <tr>
+    <td colspan="4"><div class="error">{{ shipping_method.error }}</div></td>
+  </tr>
+  {% endif %}
+  {% endfor %}
+</table>
+{% else %}   
+  <select class="form-control" name="shipping_method">
+    {% for shipping_method in shipping_methods %} 
+      {% if not shipping_method.error %} 
+		{% for quote in shipping_method.quote %} 
+		  {% if quote.code == code %} 
+		    {% set code = quote.code %}
+			{% set exists = true %} 
+			<option value="{{ quote.code }}" selected="selected">
+		  {% else %}   
+			<option value="{{ quote.code }}">
+		  {% endif %} 
+		  {{ quote.title }}&nbsp;&nbsp;({{ quote.text }})</option>
+		{% endfor %}
+	  {% endif %}
+    {% endfor %}
+  </select><br />
+{% endif %}
+
+{% endif %}
+{% if delivery and (not delivery_delivery_time or delivery_delivery_time == '1' or delivery_delivery_time == '3') %} 
+<hr>
+<div{{ delivery_required ? ' class="required"' }}>
+  <label class="control-label"><strong>{{ text_delivery }}</strong></label>
+  {% if delivery_delivery_time == '1' %} 
+  <input type="text" name="delivery_date" value="{{ delivery_date }}" class="form-control date" readonly="true" style="background:#ffffff;" />
+  {% else %}  
+  <input type="text" name="delivery_date" value="{{ delivery_date }}" class="form-control date" readonly="true" style="background:#ffffff;" />
+  {% endif %} 
+  {% if delivery_delivery_time == '3' %}<br />
+    <select name="delivery_time" class="form-control">{% for quickcheckout_delivery_time in delivery_times %}
+    {% if quickcheckout_delivery_time[language_id] %} 
+      {% if delivery_time == quickcheckout_delivery_time[language_id] %} 
+	  <option value="{{ quickcheckout_delivery_time[language_id] }}" selected="selected">{{ quickcheckout_delivery_time[language_id] }}</option>
+	  {% else %}   
+	  <option value="{{ quickcheckout_delivery_time[language_id] }}">{{ quickcheckout_delivery_time[language_id] }}</option>
+      {% endif %} 
+	{% endif %} 
+    {% endfor %}</select>
+  {% endif %}
+</div>
+{% elseif delivery_delivery_time and delivery_delivery_time == '2' %} 
+  <input type="text" name="delivery_date" value="" class="hide" />
+  <select name="delivery_time" class="hide"><option value=""></option></select>
+  <strong>{{ text_estimated_delivery }}</strong><br />
+  {{ estimated_delivery }}<br />
+  {{ estimated_delivery_time }} 
+{% else %}   
+  <input type="text" name="delivery_date" value="" class="hide" />
+  <select name="delivery_time" class="hide"><option value=""></option></select>
+{% endif %}
+
+<script type="text/javascript"><!--
+$('#shipping-method input[name=\'shipping_method\'], #shipping-method select[name=\'shipping_method\']').on('change', function() {
+	{% if not logged %} 
+		if ($('#payment-address input[name=\'shipping_address\']:checked').val()) {
+			var post_data = $('#payment-address input[type=\'text\'], #payment-address input[type=\'checkbox\']:checked, #payment-address input[type=\'radio\']:checked, #payment-address input[type=\'hidden\'], #payment-address select, #shipping-method input[type=\'text\'], #shipping-method input[type=\'checkbox\']:checked, #shipping-method input[type=\'radio\']:checked, #shipping-method input[type=\'hidden\'], #shipping-method select, #shipping-method textarea');
+		} else {
+			var post_data = $('#shipping-address input[type=\'text\'], #shipping-address input[type=\'checkbox\']:checked, #shipping-address input[type=\'radio\']:checked, #shipping-address input[type=\'hidden\'], #shipping-address select, #shipping-method input[type=\'text\'], #shipping-method input[type=\'checkbox\']:checked, #shipping-method input[type=\'radio\']:checked, #shipping-method input[type=\'hidden\'], #shipping-method select, #shipping-method textarea');
+		}
+
+		$.ajax({
+			url: 'index.php?route=extension/quickcheckout/shipping_method/set',
+			type: 'post',
+			data: post_data,
+			dataType: 'html',
+			cache: false,
+			success: function(html) {
+				{% if cart %} 
+				loadCart();
+				{% endif %} 
+				
+				{% if shipping_reload %} 
+				reloadPaymentMethod();
+				{% endif %} 
+			},
+			{% if debug %} 
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+			{% endif %} 
+		});
+	{% else %}   
+		if ($('#shipping-address input[name=\'shipping_address\']:checked').val() == 'new') {
+			var url = 'index.php?route=extension/quickcheckout/shipping_method/set';
+			var post_data = $('#shipping-address input[type=\'text\'], #shipping-address input[type=\'checkbox\']:checked, #shipping-address input[type=\'radio\']:checked, #shipping-address input[type=\'hidden\'], #shipping-address select, #shipping-method input[type=\'text\'], #shipping-method input[type=\'checkbox\']:checked, #shipping-method input[type=\'radio\']:checked, #shipping-method input[type=\'hidden\'], #shipping-method select, #shipping-method textarea');
+		} else {
+			var url = 'index.php?route=extension/quickcheckout/shipping_method/set&address_id=' + $('#shipping-address select[name=\'address_id\']').val();
+			var post_data = $('#shipping-method input[type=\'text\'], #shipping-method input[type=\'checkbox\']:checked, #shipping-method input[type=\'radio\']:checked, #shipping-method input[type=\'hidden\'], #shipping-method select, #shipping-method textarea');
+		}
+		
+		$.ajax({
+			url: url,
+			type: 'post',
+			data: post_data,
+			dataType: 'html',
+			cache: false,
+			success: function(html) {
+				{% if cart %} 
+				loadCart();
+				{% endif %} 
+				
+				{% if shipping_reload %} 
+				if ($('#payment-address input[name=\'payment_address\']').val() == 'new') {
+					reloadPaymentMethod();
+				} else {
+					reloadPaymentMethodById($('#payment-address select[name=\'address_id\']').val());
+				}
+				{% endif %} 
+			},
+			{% if debug %} 
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+			{% endif %} 
+		});
+	{% endif %}
+});
+
+$(document).ready(function() {
+	$('#shipping-method input[name=\'shipping_method\']:checked, #shipping-method select[name=\'shipping_method\']').trigger('change');
+});
+
+{% if delivery and delivery_delivery_time == '1' %} 
+$(document).ready(function() {
+	$('input[name=\'delivery_date\']').datetimepicker({
+		format: 'DD.MM.YYYY HH:mm',
+		minDate: '{{ delivery_min }}',
+		maxDate: '{{ delivery_max }}',
+		disabledDates: [{{ delivery_unavailable }}],
+		enabledHours: [{{ hours }}],
+		ignoreReadonly: true,
+		locale: 'ru',
+		widgetPositioning: {
+            horizontal: 'left',
+            vertical: 'bottom'
+        },
+		{% if delivery_days_of_week != '' %} 
+		daysOfWeekDisabled: [{{ delivery_days_of_week }}]
+		{% endif %} 
+	});
+});
+{% elseif delivery and (delivery_delivery_time == '3' or delivery_delivery_time == '0') %} 
+	$('input[name=\'delivery_date\']').datetimepicker({
+		format: 'DD.MM.YYYY',
+		minDate: '{{ delivery_min }}',
+		maxDate: '{{ delivery_max }}',
+		disabledDates: [{{ delivery_unavailable }}],
+		ignoreReadonly: true,
+		locale: 'ru',
+		widgetPositioning: {
+            horizontal: 'left',
+            vertical: 'bottom'
+        },
+		{% if delivery_days_of_week != '' %} 
+		daysOfWeekDisabled: [{{ delivery_days_of_week }}]
+		{% endif %} 
+	});
+{% endif %}
+//--></script>

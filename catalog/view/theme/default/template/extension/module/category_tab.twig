@@ -1,0 +1,45 @@
+<div class="category-tab">
+    <!--category-tab-->
+    <div class="col-sm-12">
+        <ul class="nav nav-tabs">
+        {% for category in categories %}
+            {% if loop.index0 == 0 %}
+            	{% set class = ' class="active"'%}
+            {% else %}
+            	{% set class = ''%}
+            {% endif %}
+            <li{{class}}><a href="#tab-{{loop.index}}" data-toggle="tab">{{category.category}}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="tab-content">
+        {% for products in categories %}
+        {% if loop.index0 == 0 %}
+        	{% set class = ' active in' %}
+        {% else %}
+        	{% set class = ''%}
+        {% endif %}
+        <div class="tab-pane fade{{class}}" id="tab-{{loop.index}}">
+        	{% for product in products.products %}
+            <div class="col-sm-3">
+                <div class="product-image-wrapper">
+                    <div class="single-products">
+                        <div class="productinfo text-center">
+                            <img src="{{product.thumb}}" alt="{{product.name}}" />
+                            {% if product.special %}
+                            	<h2>{{product.special}}</h2>
+                            {% else %}
+                            	<h2>{{product.price}}</h2>
+                            {% endif %}
+                            <p><a href="{{product.href}}">{{product.name}}</a></p>
+                            <a href="#" class="btn btn-default add-to-cart" onclick="cart.add({{product.product_id}});"><i class="fa fa-shopping-cart"></i>{{ button_cart }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!--/category-tab-->

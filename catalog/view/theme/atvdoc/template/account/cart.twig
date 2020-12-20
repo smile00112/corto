@@ -1,0 +1,231 @@
+{{ header }}
+
+<div class="content-wrapper">
+  <div class="center inner">
+    <div class="content">
+      <div class="left-column">
+
+        {{ column_left }}
+
+        {{ column_right }}
+
+
+      </div>
+
+
+      <div class="workarea {{ class }}" id="content">
+        <div class="body_text">
+
+          <div class="breadcrumb-share">
+            <div id="navigation" class="breadcrumb">
+     
+              {% for breadcrumb in breadcrumbs %}
+
+                 <div class="breadcrumb__item"  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                    <span class="breadcrumb__arrow"></span>
+                    {% if breadcrumb.href %} <a class="breadcrumb__link" href="{{ breadcrumb.href }}" title=" " itemprop="url">{% endif %}
+                      <span class="breadcrumb__title" itemprop="title">
+                        {{ breadcrumb.text }}
+                      </span>
+                      {% if breadcrumb.href %}</a>{% endif %}
+                  </div>
+              {% endfor %}
+              
+              <!--
+              <div class="breadcrumb__item"><span class="breadcrumb__arrow"></span><span
+                  class="breadcrumb__title">{{ breadcrumb.text }}</span></div>
+
+              -->
+            </div>
+          </div>
+
+          <h1 id="pagetitle">Моя корзина</h1>
+        {% if empty_cart == 0 %}
+          <form method="post" action="/personal/cart/" name="basket_form" id="basket_form">
+
+            <div class="cart-items" id="id-cart-list">
+              <div class="sort-clear">
+                <div class="sort">
+                  <!--
+                  <div class="sorttext">Показывать:</div>
+                  <a href="javascript:void(0)" class="sortbutton current"><span class="def">Товары в корзине</span><span
+                      class="mob">В корзине</span></a>
+                  -->
+                </div>
+                <div class="clear">
+                  <a class="btn_buy apuo clear_cart" href="javascropt:void(0);" title="Очистить корзину" onclick="cart.remove('all')"><span
+                      class="clear_cont"><i class="fa fa-times"></i><span>Очистить корзину</span></span></a>
+                </div>
+              </div>
+              <div id="min_price_message" class="alertMsg info disN">
+                <i class="fa fa-info"></i>
+                <span class="text">Минимальная сумма заказа руб.</span>
+              </div>
+
+              <div class="equipment" id="cart_equipment">
+                <div class="thead">
+                  <div class="cart-item-image">Фото</div>
+                  <div class="cart-item-name">Название</div>
+                  <div class="cart-item-price">Цена</div>
+                  <div class="cart-item-quantity">Кол-во</div>
+                  <div class="cart-item-summa">Сумма</div>
+                  <div class="cart-item-actions">Действия</div>
+                </div>
+                <div class="tbody">
+
+                  {% for product in products %}
+                        <div class="tr" id="{{ product.cart_id }}">
+                          <div class="tr_into">
+                            <div class="cart-item-image">
+                              {% if product.thumb %} <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></a> {% endif %}
+                            </div>
+                            <div class="cart-item-name">
+                              <a href="{{ product.href }}">{{ product.name }}</a>
+                            </div>
+
+                            <div class="cart-item-price">
+                              <div class="old-price" id="">
+                              </div>
+                              <div class="price" id="">
+                                {{ product.price }} </div>
+                              <div class="unit">
+                                за <span id="">шт</span>
+                              </div>
+                            </div>
+
+                            <div class="cart-item-quantity">
+                              <div style="float:right;" class="buy_more">
+                                <a href="javascript:void(0)" class="minus" onclick="cart.setQuantity({{ product.cart_id }},  'down' );"><span>-</span></a>
+                                                                
+                                <input type="text" name="quantity[{{ product.cart_id }}]" value="{{ product.quantity }}" size="1" class="carrttt-input quantity form-control" />
+                               
+                                <a href="javascript:void(0)" class="plus" onclick="cart.setQuantity({{ product.cart_id }}, 'up' );"><span>+</span></a>
+                              </div>
+                            </div>
+
+                            <div class="cart-item-summa" id="" data-itemsum="" data-separator=" "
+                              data-decimal="0" data-dec-point="." data-hide-zero="Y">
+                              <span class="sum">
+                                <span id="itemSumVal_{{ product.cart_id }}">{{ product.total }}</span>
+                               {#<span class="curr"> руб.</span>#}
+                              </span>
+                            </div>
+                            <div class="cart-item-actions">
+                              <div class="delay">
+                                <a class="setaside" href="/personal/cart/?action=delay&amp;id=18023" title="Отложить"><i
+                                    class="fa fa-heart-o"></i></a>
+                              </div>
+                              <div class="delete">
+                                <a class="deleteitem" href="/checkout/cart/?action=delete&id={{ product.cart_id }}"
+                                  onclick="cart.delete({{ product.cart_id }});" title="Удалить"><i class="fa fa-trash-o"></i></a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                   {% endfor %}
+
+
+{#}
+                  <tr>
+                    <td class="text-center">{% if product.thumb %} <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></a> {% endif %}</td>
+                    <td class="text-left"><a href="{{ product.href }}">{{ product.name }}</a> {% if not product.stock %} <span class="text-danger">***</span> {% endif %}
+                      {% if product.option %}
+                      {% for option in product.option %} <br />
+                      <small>{{ option.name }}: {{ option.value }}</small> {% endfor %}
+                      {% endif %}
+                      {% if product.reward %} <br />
+                      <small>{{ product.reward }}</small> {% endif %}
+                      {% if product.recurring %} <br />
+                      <span class="label label-info">{{ text_recurring_item }}</span> <small>{{ product.recurring }}</small> {% endif %}</td>
+                    <td class="text-left">{{ product.model }}</td>
+                    <td class="text-left"><div class="input-group btn-block" style="max-width: 200px;">
+                        <input type="text" name="quantity[{{ product.cart_id }}]" value="{{ product.quantity }}" size="1" class="form-control" />
+                        <span class="input-group-btn">
+                        <button type="submit" data-toggle="tooltip" title="{{ button_update }}" class="btn btn-primary"><i class="fa fa-refresh"></i></button>
+                        <button type="button" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger" onclick="cart.remove('{{ product.cart_id }}');"><i class="fa fa-times-circle"></i></button>
+                        </span></div></td>
+                    <td class="text-right">{{ product.price }}</td>
+                    <td class="text-right">{{ product.total }}</td>
+                  </tr>
+#}
+
+                
+
+               
+                  
+
+
+
+
+                  {% for total in totals %}
+           
+
+                  <div class="myorders_itog">
+                    <div class="cart-itogo">{{ total.title }}:</div>
+                    <div class="cart-allsum" id="cart-allsum" data-allsum="13400" data-separator=" " data-decimal="0"
+                      data-dec-point="." data-hide-zero="Y">
+                      <span class="allsum">
+                        <span id="allSumVal">{{ total.text }}</span>
+                        {#<span class="curr"> руб.</span>#}
+                      </span>
+                    </div>
+                  </div>
+                  {% endfor %}
+
+                </div>
+              </div>
+
+              <div class="w100p">
+
+                <div class="cart-coupon" id="cart-coupon">
+                  <div class="bx_ordercart_coupon">
+                    <input type="text" id="coupon" name="COUPON" value="" placeholder="Введите купон" onchange="enterCoupon();">
+                    <button type="button" name="ENTER_COUPON" value="" onclick="enterCoupon();"><i
+                        class="fa fa-chevron-right"></i></button>
+                    <div class="clr"></div>
+                  </div>
+                </div>
+
+                <input type="hidden" id="min_price_vlue" value="">
+                <input type="hidden" id="total_price_basket" value="13400">
+
+                <div id="btn_buy_basket" class="cart-buttons">
+
+                  <button type="button" id="btn_basket_order" name="BasketOrder" class="btn_buy popdef bt3" value="Оформить"
+                    onclick="location.href='{{ checkout }}'">Оформить</button>
+                </div>
+
+                <div class="clr"></div>
+              </div>
+            </div>
+
+            <div class="cart-items" id="id-shelve-list" style="display:none;">
+              <div class="sort-clear">
+                <div class="sort">
+                  <div class="sorttext">Показывать:</div>
+                  <a href="javascript:void(0)" onclick="showBasketItems(1);" class="sortbutton"><span class="def">Товары в
+                      корзине</span><span class="mob">В корзине</span> (2)</a>
+                  <a href="javascript:void(0)" class="sortbutton current"><span class="def">Отложенные товары</span><span
+                      class="mob">Отложенные</span></a>
+                </div>
+              </div>
+
+              <span class="alertMsg info">
+                <i class="fa fa-info" aria-hidden="true"></i>
+                <span class="text">В вашей корзине ещё нет отложенных товаров.</span>
+              </span>
+            </div> <input type="hidden" name="BasketOrder" value="BasketOrder">
+          </form>
+    {% else %}
+         Корзина пуста. 
+    {% endif %}
+
+  </div>
+  </div>
+  </div>    
+</div>  
+
+
+
+  {{ footer }}
+

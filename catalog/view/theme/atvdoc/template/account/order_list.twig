@@ -1,0 +1,367 @@
+{{ header }}
+
+<div class="content-wrapper">
+  <div class="center inner">
+    <div class="content">
+      <div class="left-column">
+
+        {{ column_left }}
+
+        {{ column_right }}
+
+
+      </div>
+
+
+      <div class="workarea {{ class }}" id="content">
+        <div class="body_text">
+
+          <div class="breadcrumb-share">
+            <div id="navigation" class="breadcrumb">
+
+              {% for breadcrumb in breadcrumbs %}
+
+                 <div class="breadcrumb__item"  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="child">
+                    <span class="breadcrumb__arrow"></span>
+                    {% if breadcrumb.href %} <a class="breadcrumb__link" href="{{ breadcrumb.href }}" title="{{ breadcrumb.text1 }}" itemprop="url">{% endif %}
+                      <span class="breadcrumb__title" itemprop="title">
+                        {{ breadcrumb.text }}
+                      </span>
+                      {% if breadcrumb.href %}</a>{% endif %}
+                  </div>
+              {% endfor %}
+
+            </div>
+          </div>
+
+        <h1 id="pagetitle">Мои заказы</h1>
+      
+        {{ content_top }}
+
+        {% if orders %}
+        <div class="order-list">
+          <div class="sort tabfilter order">
+            <div class="sorttext">Показывать:</div>
+            <a class="sortbutton active {% if type == 'new' %}current{% endif %}" href="/index.php?route=account/order&new=1">Текущие заказы</a>
+            <a class="sortbutton all {% if type == 'old' %}current{% endif %}" href="/index.php?route=account/order&old=1">Архив заказов</a>
+           <!-- <a class="sortbutton cancel {% if type == 'canseled' %}current{% endif %}" href="/index.php?route=account/order&canseled=1">Отмененные заказы</a>-->
+          </div>
+        
+              <div class="cart-items">
+              <div class="equipment-order list">
+                <div class="thead">					
+                  <div class="cart-item-number-date">Номер и дата</div>
+                  <div class="cart-item-status">Статус</div>
+                  <div class="cart-item-payment">Способ оплаты</div>
+                  <div class="cart-item-payed">Оплачен</div>
+                  <div class="cart-item-summa">Сумма</div>
+                </div>
+                <div class="tbody">
+                  {% for order in orders %}
+
+{#
+                  <tr >
+                    <td class="text-right">#{{ order.order_id }}</td>
+                    <td class="text-left">{{ order.name }}</td>
+                    <td class="text-right">{{ order.products }}</td>
+                    <td class="text-left">{{ order.status }}</td>
+                    <td class="text-right">{{ order.total }}</td>
+                    <td class="text-left">{{ order.date_added }}</td>
+                    <td class="text-right"><a href="{{ order.view }}" data-toggle="tooltip" title="{{ button_view }}" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
+                  </tr>
+#}
+
+                    <div class="tr {% if order.order_status_id ==5 and type == 'new' %}hide{% endif %}
+                                   {% if order.order_status_id !=5 and type == 'old' %}hide{% endif %}
+                    ">
+                      <div class="tr_into">
+                        <div class="tr_into_in">
+                          <div class="cart-item-plus-minus">
+                            <script type="text/javascript">
+                              $(document).ready(function () {
+                                $("#plus-minus-{{ order.order_id }}").click(function () {
+                                  var clickitem = $(this);
+                                  if (clickitem.hasClass("plus")) {
+                                    clickitem.removeClass().addClass("minus active");
+                                  } else {
+                                    clickitem.removeClass().addClass("plus");
+                                  }
+                                  $(".cart-items.basket.{{ order.order_id }}, .order-recipient.{{ order.order_id }}, .order-item-actions.{{ order.order_id }}").slideToggle();
+                                });
+                              });
+                            </script>
+                            <a href="javascript:void(0)" id="plus-minus-{{ order.order_id }}" class="plus" data-order_id="{{ order.order_id }}"><i
+                                class="fa fa-plus-circle"></i><i class="fa fa-minus-circle"></i></a>
+                          </div>
+                          <div class="cart-item-number-date">
+                            <span class="cart-item-number">№{{ order.order_id }}</span>{{ order.date_added }}</div>
+                          <div class="cart-item-status">
+                            <span class="item-status-n">{{ order.status }}</span>
+                          </div>
+                          
+                          <div class="cart-item-payment">
+                            <div class="cart-item-payment-title">
+                              {{ order.payment_method }}
+                           <!--     <a href="/personal/orders/993/">Оплатить</a> -->
+                            </div>
+                          </div>
+                     
+                          <div class="cart-item-payed">
+                            Нет 
+                          </div>
+                          <div class="cart-item-summa">
+                            <span class="sum">{{ order.total }}</span>
+                          </div>
+                        </div>
+                    
+                        <div class="cart-items basket {{ order.order_id }}" style="display: none;">
+                          <div class="equipment-order basket">
+                            <div class="thead">
+                              <div class="cart-item-name">Состав заказа</div>
+                              <div class="cart-item-price">Цена</div>
+                              <div class="cart-item-quantity">Кол-во</div>
+                              <div class="cart-item-summa">Сумма</div>
+                            </div>
+                            <div class="tbody" data-load="0" >
+{#
+                              <div class="tr">
+                                <div class="tr_into">
+                                  <div class="cart-item-number">1</div>
+                                  <div class="cart-item-image">
+                                    <img src="/upload/resize_cache/iblock/056/30_30_1/0568876f20135764f4648ea74f33721e.jpg" width="30"
+                                      height="30">
+                                  </div>
+                                  <div class="cart-item-name">
+                                    <a href="/catalog/benzinovye-trimmery/benzinovyy-trimmer-prorab-8401/">
+                                      Бензиновый триммер Prorab 8401 </a>
+                                  </div>
+                                  <div class="cart-item-price">
+                                    <div class="price">
+                                      4 150 руб. </div>
+                                  </div>
+                                  <div class="cart-item-quantity">
+                                    1 шт </div>
+                                  <div class="cart-item-summa">
+                                    <span class="sum">
+                                      4 150 руб. </span>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                              <div class="tr">
+                                <div class="tr_into">
+                                  <div class="cart-itogo">
+                                    Почта России:EMS </div>
+                                  <div class="cart-allsum">
+                                    <span class="allsum">
+                                      1 392 руб. </span>
+                                  </div>
+                                </div>
+                              </div>
+#}
+
+                            </div>
+                            {#}
+                            <div class="myorders_itog">
+                              <div class="cart-itogo">Итого:</div>
+                              <div class="cart-allsum">
+                                <span class="allsum">
+                                  90 222 руб. </span>
+                              </div>
+                            </div>
+                            #}
+                          </div>
+                        </div>
+                    
+                        <table class="order-recipient {{ order.order_id }}" style="display: none;">
+                          <tbody>
+                            {#
+                            <tr>
+                              <td class="field-name">Ф.И.О.:</td>
+                              <td class="field-value">
+                                test test </td>
+                            </tr>
+                            #}
+                          </tbody>
+                        </table>
+                    {#}
+                        <div class="order-item-actions {{ order.order_id }}" style="display: none;">
+                          <a class="btn_buy apuo order_repeat" href="/personal/orders/?COPY_ORDER=Y&amp;ID=993" title="Повторить заказ"><i
+                              class="fa fa-repeat"></i><span>Повторить заказ</span></a>
+                          <a class="btn_buy apuo order_delete" href="/personal/cancel/993/?CANCEL=Y" title="Отменить заказ"><i
+                              class="fa fa-times"></i><span>Отменить заказ</span></a>
+                          <a class="btn_buy apuo order_detail" href="/personal/orders/993/" title="Подробнее о заказе"><i
+                              class="fa fa-chevron-right"></i><span>Подробнее о заказе</span></a>
+                          <div class="clr"></div>
+                        </div>
+                        #}
+                        <br>
+                        <br>
+                      </div>
+                    </div>
+                    {% endfor %} 
+
+                          </div>
+              </div>
+            </div>		
+          </div>
+
+
+          {% endif %}  
+
+        {{ content_bottom }}
+
+      
+   
+  </div>
+  </div>
+  </div>    
+</div>  
+<script>
+  
+  $('.equipment-order .plus').click(function(){
+      var $this = $(this),
+      $order_id = $this.data('order_id'),
+      $prod_contener = $('.basket.'+$order_id+' .tbody');
+      $info_contener = $('.order-recipient.'+$order_id+' tbody');
+      ///$('.basket .23').remove();
+      //$prod_contener.html('');
+
+      if($prod_contener.data('load') != 1)
+      $.ajax({
+        url: 'index.php?route=account/order/info_json',
+        type: 'post',
+        data: 'order_id=' + $order_id + '',
+        dataType: 'json',
+        beforeSend: function() {
+            view_preloder(true);
+        },
+        complete: function() {
+          view_preloder(false);
+        },
+        success: function(json) {
+                console.log(json);
+
+                console.log($prod_contener.data('load'));
+
+                $prod_contener.data('load', 1);
+                for($ii=0; $ii<json.products.length; $ii++){
+                    var el = json.products[$ii];
+                   // $prod_contener.append('<tr class="table__row"><td class="table__cell"><a class="color-red" href="/index.php?route=product/product&product_id='+el.product_id+'">'+el.name+'</a></td><td class="table__cell">'+el.quantity+' шт</td><td class="table__cell"></td><td class="table__cell">'+(json.order_products[$ii].price*1)+'</td><td class="table__cell">'+el.price+'</td></tr>');
+
+
+                    $prod_contener.append('<div class="tr"><div class="tr_into"><div class="cart-item-number">'+($ii+1)+'</div><div class="cart-item-image"><img src="'+el.thumb+'" width="30"height="30"></div><div class="cart-item-name"><a href="/index.php?route=product/product&product_id='+el.product_id+'">'+el.name+'</a></div><div class="cart-item-price"><div class="price">'+el.price+' </div></div><div class="cart-item-quantity">'+el.quantity+' шт </div><div class="cart-item-summa"><span class="sum">'+el.total+' </span></div></div></div>');
+
+                   
+                }
+
+                for($ii=0; $ii<json.totals.length; $ii++){
+                    var t = json.totals[$ii];
+                    if($ii != json.totals.length-1){
+                       
+                        $prod_contener.append('<div class="tr"><div class="tr_into"><div class="cart-itogo">'+t.title+'</div><div class="cart-allsum"><span class="allsum">'+t.text+' </span></div></div></div>');
+                    }
+                    else{
+                        $prod_contener.append('<div class="myorders_itog"><div class="cart-itogo">'+t.title+':</div><div class="cart-allsum"><span class="allsum">'+t.text+'</span></div></div>');
+                    }
+                }
+
+                $info_contener.append('<tr><td class="field-name">Город:</td><td class="field-value">'+json.order_info.payment_city+'</td></tr>');
+                $info_contener.append('<tr><td class="field-name">Адрес доставки:</td><td class="field-value">'+json.order_info.payment_address_1+'</td></tr>');
+                  
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+          alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+      });
+      
+      if(!$this.hasClass('table-toggler_active')){
+          $this.addClass('table-toggler_active');
+          $this.parents('tr').next().fadeIn();
+      }else{
+          $this.removeClass('table-toggler_active');
+          $this.parents('tr').next().fadeOut();
+      }
+      
+  })
+  </script>
+
+
+
+
+{{ footer }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="account-order" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h1>{{ heading_title }}</h1>
+      {% if orders %}
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <td class="text-right">{{ column_order_id }}</td>
+              <td class="text-left">{{ column_customer }}</td>
+              <td class="text-right">{{ column_product }}</td>
+              <td class="text-left">{{ column_status }}</td>
+              <td class="text-right">{{ column_total }}</td>
+              <td class="text-left">{{ column_date_added }}</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody>
+           {% for order in orders %}
+            <tr>
+              <td class="text-right">#{{ order.order_id }}</td>
+              <td class="text-left">{{ order.name }}</td>
+              <td class="text-right">{{ order.products }}</td>
+              <td class="text-left">{{ order.status }}</td>
+              <td class="text-right">{{ order.total }}</td>
+              <td class="text-left">{{ order.date_added }}</td>
+              <td class="text-right"><a href="{{ order.view }}" data-toggle="tooltip" title="{{ button_view }}" class="btn btn-info"><i class="fa fa-eye"></i></a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 text-left">{{ pagination }}</div>
+        <div class="col-sm-6 text-right">{{ results }}</div>
+      </div>
+      {% else %}
+      <p>{{ text_empty }}</p>
+      {% endif %}
+      <div class="buttons clearfix">
+        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+      </div>
+        </div>
+    </div>
+</div>

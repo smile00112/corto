@@ -1,0 +1,380 @@
+{% for field in fields %} 
+  {% if field == 'country' %}
+    {% if attribute(_context, 'field_' ~ field).display %}  
+	<div class="col-sm-6{{ attribute(_context, 'field_' ~ field).required ? ' required' }}">
+	  <label class="control-label">{{ entry_country }}</label>
+	  <select name="country_id" class="form-control" id="input-payment-country">
+	  {% for country in countries %} 
+		{% if country.country_id == country_id %} 
+		<option value="{{ country.country_id }}" selected="selected">{{ country.name }}</option>
+		{% else %}   
+		<option value="{{ country.country_id }}">{{ country.name }}</option>
+		{% endif %}
+	  {% endfor %}
+	  </select>
+	</div>
+	{% else %}   
+	<select name="country_id" class="hide">
+	{% for country in countries %} 
+	  {% if country.country_id == country_id %} 
+	  <option value="{{ country.country_id }}" selected="selected">{{ country.name }}</option>
+	  {% else %}   
+	  <option value="{{ country.country_id }}">{{ country.name }}</option>
+	  {% endif %}
+	{% endfor %}
+	</select>
+	{% endif %}
+  {% elseif  field == 'zone' %} 
+    {% if attribute(_context, 'field_' ~ field).display %}  
+	<div class="col-sm-6{{ attribute(_context, 'field_' ~ field).required ? ' required' }}">
+	  <label class="control-label">{{ entry_zone }}</label>
+	  <select name="zone_id" class="form-control" id="input-payment-zone"></select>
+	</div>
+	{% else %}   
+	  <select name="zone_id" class="hide"></select>
+	{% endif %} 
+  {% elseif field == 'customer_group' %} 
+    {% if attribute(_context, 'field_' ~ field).display %}  
+	<div class="col-sm-6 required"{{ customer_groups|length <= 1 ? ' style="display:none !important"' }}>
+	  <label class="control-label">{{ entry_customer_group }}</label>
+	  <select name="customer_group_id" class="form-control" id="input-payment-customer-group">
+		{% for customer_group in customer_groups %} 
+		<option value="{{ customer_group.customer_group_id }}"{{ customer_group.customer_group_id == customer_group_id ? ' selected="selected"' }}>{{ customer_group.name }}</option>
+		{% endfor %} 
+	  </select>
+	</div>
+	{% else %}   
+	  <select name="customer_group_id" class="hide">
+		{% for customer_group in customer_groups %} 
+		<option value="{{ customer_group.customer_group_id }}"{{ customer_group.customer_group_id == customer_group_id ? ' selected="selected"' }}>{{ customer_group.name }}</option>
+		{% endfor %} 
+	  </select>
+	{% endif %}
+  {% else %}   
+    {% if attribute(_context, 'field_' ~ field).display %}  
+	<div{{ field == 'postcode' ? ' id="payment-postcode-required"' }} class="col-sm-6{{attribute(_context, 'field_' ~ field).required ? ' required' }}">
+	  <label class="control-label" for="input-payment-{{ field|replace({'_' : '-'}) }}">{{ attribute(_context, 'entry_' ~ field) }}</label>
+	  <input type="text" name="{{ field }}" placeholder="{{ attribute(_context, 'field_' ~ field).placeholder }}" value="{{ attribute(_context, field) ? attribute(_context, field) : attribute(_context, 'field_' ~ field).default }}" class="form-control"  id="input-payment-{{ field|replace({'_' : '-'}) }}" />
+	</div>
+	{% else %}   
+	<input type="text" name="{{ field }}" value="{{ attribute(_context, field) ? attribute(_context, field) : attribute(_context, 'field_' ~ field).default }}" class="hide" />
+	{% endif %}
+  {% endif %}
+{% endfor %}
+<!-- CUSTOM FIELDS -->
+<div id="custom-field-payment">
+  {% for custom_field in custom_fields %} 
+  {% if custom_field.location == 'account' or custom_field.location == 'address' %} 
+	<div class="col-sm-6 custom-field" data-sort="{{ custom_field.sort_order }}" id="payment-custom-field{{ custom_field.custom_field_id }}">
+	  <label class="control-label" for="input-payment-custom-field{{ custom_field.custom_field_id }}">{{ custom_field.name }}</label>
+	  {% if custom_field.type == 'select' %} 
+		<select name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control">
+		  <option value="">{{ text_select }}</option>
+		  {% for custom_field_value in custom_field.custom_field_value %} 
+		  {% if guest_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id == guest_custom_field[custom_field.custom_field_id] %} 
+		  <option value="{{ custom_field_value.custom_field_value_id }}" selected="selected">{{ custom_field_value.name }}</option>
+		  {% else %}   
+		  <option value="{{ custom_field_value.custom_field_value_id }}">{{ custom_field_value.name }}</option>
+		  {% endif %}
+		  {% endfor %}
+		</select>
+	  {% endif %}
+	  {% if custom_field.type == 'radio' %} 
+		{% for custom_field_value in custom_field.custom_field_value %} 
+		  <div class="radio">
+			{% if guest_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id == guest_custom_field[custom_field.custom_field_id] %} 
+			<label>
+			  <input type="radio" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ custom_field_value.custom_field_value_id }}" checked="checked" />
+			  {{ custom_field_value.name }}</label>
+			{% else %}   
+			<label>
+			  <input type="radio" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ custom_field_value.custom_field_value_id }}" />
+			  {{ custom_field_value.name }}</label>
+			{% endif %}
+		  </div>
+		{% endfor %}
+	  {% endif %}
+	  {% if custom_field.type == 'checkbox' %} 
+		{% for custom_field_value in custom_field.custom_field_value %} 
+		  <div class="checkbox">
+			{% if guest_custom_field[custom_field.custom_field_id] and custom_field_value.custom_field_value_id in guest_custom_field[custom_field.custom_field_id] %}
+			<label>
+			  <input type="checkbox" name="custom_field[{{ custom_field.location}}][{{ custom_field.custom_field_id }}][]" value="{{ custom_field_value.custom_field_value_id }}" checked="checked" />
+			  {{ custom_field_value.name }}</label>
+			{% else %}   
+			<label>
+			  <input type="checkbox" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}][]" value="{{ custom_field_value.custom_field_value_id }}" />
+			  {{ custom_field_value.name }}</label>
+			{% endif %} 
+		  </div>
+		{% endfor %}
+	  {% endif %}
+	  {% if custom_field.type == 'text' %} 
+		<input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ guest_custom_field[custom_field.custom_field_id] ? guest_custom_field[custom_field.custom_field_id] : custom_field.value }}" placeholder="{{ custom_field.name }}" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control" />
+	  {% endif %} 
+	  {% if custom_field.type == 'textarea' %} 
+		<textarea name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" rows="5" placeholder="{{ custom_field.name }}" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control">{{ guest_custom_field[custom_field.custom_field_id] ? guest_custom_field[custom_field.custom_field_id] : custom_field.value }}</textarea>
+	  {% endif %} 
+	  {% if custom_field.type == 'file' %} 
+		<br />
+		<button type="button" id="button-payment-custom-field{{ custom_field.custom_field_id }}" data-loading-text="{{ text_loading }}" class="btn btn-default"><i class="fa fa-upload"></i>{{ button_upload }}</button>
+		<input type="hidden" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ guest_custom_field[custom_field.custom_field_id] ? guest_custom_field[custom_field.custom_field_id] }}" />
+	  {% endif %} 
+	  {% if custom_field.type == 'date' %} 
+		<input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ guest_custom_field[custom_field.custom_field_id] ? guest_custom_field[custom_field.custom_field_id] : custom_field.value }}" placeholder="{{ custom_field.name }}" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control date" />
+	  {% endif %} 
+	  {% if custom_field.type == 'time' %} 
+		<input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ guest_custom_field[custom_field.custom_field_id] ? guest_custom_field[custom_field.custom_field_id] : custom_field.value }}" placeholder="{{ custom_field.name }}" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control time" />
+	  {% endif %} 
+	  {% if custom_field.type == 'datetime' %} 
+		<input type="text" name="custom_field[{{ custom_field.location }}][{{ custom_field.custom_field_id }}]" value="{{ guest_custom_field[custom_field.custom_field_id] ? guest_custom_field[custom_field.custom_field_id] : custom_field.value }}" placeholder="{{ custom_field.name }}" id="input-payment-custom-field{{ custom_field.custom_field_id }}" class="form-control datetime" />
+	  {% endif %} 
+    </div>
+  {% endif %}
+  {% endfor %}
+</div>
+<div id="captcha-checkout">
+{{ captcha }}
+</div>
+<div style="clear:both; {% if not shipping_checkbox.display and not field_register.display %}{{ 'margin-bottom:15px;' }}{% endif %}"></div>
+<div {% if shipping_checkbox.display or field_register.display %} style="clear:both;margin-top:20px;padding-top:15px;border-top:1px solid #DDDDDD;" {% endif %}>
+  {% if field_register.display %} 
+	{% if not guest_checkout or field_register.required %} 
+	  <input type="checkbox" name="create_account" value="1" id="create" class="hide" checked="checked" />
+	{% else %}
+	  <input type="checkbox" name="create_account" value="1" id="create"{{ create_account ? ' checked="checked"' }} />
+	  <label for="create">{{ text_create_account }}</label><br />
+	{% endif %} 
+	<div id="create_account">{{ register }}</div>
+  {% else %}
+    <input type="checkbox" name="create_account" value="1" id="create" class="hide" />
+  {% endif %}
+  {% if shipping_checkbox.display %} 
+    <label for="shipping"><input type="checkbox" name="shipping_address" value="1" id="shipping"{{ shipping_address ? ' checked="checked"' }} /> {{ entry_shipping }}</label>
+  {% else %}   
+    <input type="checkbox" name="shipping_address" value="1" id="shipping" checked="checked" class="hide" />
+  {% endif %}
+</div>
+
+<script type="text/javascript"><!--
+$(document).ready(function() {
+	// Sort the custom fields
+	$('#custom-field-payment .custom-field[data-sort]').detach().each(function() {
+		if ($(this).attr('data-sort') >= 0 && $(this).attr('data-sort') <= $('#payment-address .col-sm-6').length) {
+			$('#payment-address .col-sm-6').eq($(this).attr('data-sort')).before(this);
+		} 
+		
+		if ($(this).attr('data-sort') > $('#payment-address .col-sm-6').length) {
+			$('#payment-address .col-sm-6:last').after(this);
+		}
+			
+		if ($(this).attr('data-sort') < -$('#payment-address .col-sm-6').length) {
+			$('#payment-address .col-sm-6:first').before(this);
+		}
+	});
+
+	$('#payment-address select[name=\'customer_group_id\']').on('change', function() {
+		$.ajax({
+			url: 'index.php?route=checkout/checkout/customfield&customer_group_id=' + this.value,
+			dataType: 'json',
+			success: function(json) {
+				$('#payment-address .custom-field').hide();
+				$('#payment-address .custom-field').removeClass('required');
+
+				for (i = 0; i < json.length; i++) {
+					custom_field = json[i];
+
+					$('#payment-custom-field' + custom_field['custom_field_id']).show();
+
+					if (custom_field['required']) {
+						$('#payment-custom-field' + custom_field['custom_field_id']).addClass('required');
+					} else {
+						$('#payment-custom-field' + custom_field['custom_field_id']).removeClass('required');
+					}
+				}
+				
+				{% if shipping_required %} 
+				$('#shipping-address .custom-field').hide();
+				$('#shipping-address .custom-field').removeClass('required');
+
+				for (i = 0; i < json.length; i++) {
+					custom_field = json[i];
+
+					$('#shipping-custom-field' + custom_field['custom_field_id']).show();
+
+					if (custom_field['required']) {
+						$('#shipping-custom-field' + custom_field['custom_field_id']).addClass('required');
+					} else {
+						$('#shipping-custom-field' + custom_field['custom_field_id']).removeClass('required');
+					}
+				}
+				{% endif %} 
+			},
+			{% if debug %} 
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+			{% endif %} 
+		});
+	});
+
+	$('#payment-address select[name=\'customer_group_id\']').trigger('change');
+
+	$('#payment-address button[id^=\'button-payment-custom-field\']').on('click', function() {
+		var node = this;
+
+		$('#form-upload').remove();
+
+		$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+
+		$('#form-upload input[name=\'file\']').trigger('click');
+
+		timer = setInterval(function() {
+			if ($('#form-upload input[name=\'file\']').val() != '') {
+				clearInterval(timer);
+			
+				$.ajax({
+					url: 'index.php?route=tool/upload',
+					type: 'post',
+					dataType: 'json',
+					data: new FormData($('#form-upload')[0]),
+					cache: false,
+					contentType: false,
+					processData: false,
+					beforeSend: function() {
+						$(node).button('loading');
+					},
+					complete: function() {
+						$(node).button('reset');
+					},
+					success: function(json) {
+						$('.text-danger').remove();
+						
+						if (json['error']) {
+							$(node).parent().find('input[name^=\'custom_field\']').after('<div class="text-danger">' + json['error'] + '</div>');
+						}
+		
+						if (json['success']) {
+							alert(json['success']);
+		
+							$(node).parent().find('input[name^=\'custom_field\']').attr('value', json['file']);
+						}
+					},
+					error: function(xhr, ajaxOptions, thrownError) {
+						alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+					}
+				});
+			}
+		}, 500);
+	});
+
+	$('#payment-address select[name=\'country_id\']').on('change', function() {
+		$.ajax({
+			url: 'index.php?route=extension/quickcheckout/checkout/country&country_id=' + this.value,
+			dataType: 'json',
+			cache: false,
+			beforeSend: function() {
+				$('#payment-address select[name=\'country_id\']').after('<i class="fa fa-spinner fa-spin"></i>');
+			},
+			complete: function() {
+				$('.fa-spinner').remove();
+			},			
+			success: function(json) {
+				if (json['postcode_required'] == '1') {
+					$('#payment-postcode-required').addClass('required');
+				} else {
+					$('#payment-postcode-required').removeClass('required');
+				}
+				
+				var html = '';
+				
+				if (json['zone'] != '') {
+					for (i = 0; i < json['zone'].length; i++) {
+						html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+						
+						if (json['zone'][i]['zone_id'] == '{{ zone_id }}') {
+							html += ' selected="selected"';
+						}
+		
+						html += '>' + json['zone'][i]['name'] + '</option>';
+					}
+				} else {
+					html += '<option value="0" selected="selected">{{ text_none }}</option>';
+				}
+				
+				$('#payment-address select[name=\'zone_id\']').html(html).trigger('change');
+			},
+			{% if debug %} 
+			error: function(xhr, ajaxOptions, thrownError) {
+				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+			}
+			{% endif %} 
+		});
+	});
+
+	$('#payment-address select[name=\'country_id\']').trigger('change');
+
+	{% if shipping_required %} 
+		// Guest Shipping Form
+		$('#payment-address input[name=\'shipping_address\']').on('change', function() {
+			if ($('#payment-address input[name=\'shipping_address\']:checked').val()) {
+				$('#shipping-address').slideUp('slow');
+
+				{% if shipping_required %} 
+				reloadShippingMethod('payment');
+				{% endif %} 
+			} else {
+				$.ajax({
+					url: 'index.php?route=extension/quickcheckout/guest_shipping&customer_group_id=' + $('#payment-address select[name=\'customer_group_id\']').val(),
+					dataType: 'html',
+					cache: false,
+					beforeSend: function() {
+						// Nothing at the moment
+					},
+					success: function(html) {
+						$('#shipping-address .quickcheckout-content').html(html);
+						
+						$('#shipping-address').slideDown('slow');
+					},
+					{% if debug %} 
+					error: function(xhr, ajaxOptions, thrownError) {
+						alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+					}
+					{% endif %} 
+				});
+			}
+		});
+		
+		{% if shipping_address %} 
+		$('#shipping-address').hide();
+		{% else %}   
+		$('#payment-address input[name=\'shipping_address\']').trigger('change');
+		{% endif %} 
+	{% endif %}
+
+	$('#payment-address select[name=\'zone_id\']').on('change', function() {
+		reloadPaymentMethod();
+		
+		{% if shipping_required %} 
+		if ($('#payment-address input[name=\'shipping_address\']:checked').val()) {
+			reloadShippingMethod('payment');
+		}
+		{% endif %} 
+	});
+
+	// Create account
+	$('#payment-address input[name=\'create_account\']').on('change', function() {
+		if ($('#payment-address input[name=\'create_account\']:checked').val()) {
+			$('#create_account').slideDown('slow');
+		} else {
+			$('#create_account').slideUp('slow');
+		}
+	});
+
+	{% if create_account or not guest_checkout or field_register.required %} 
+	$('#create_account').show();
+	{% else %}   
+	$('#create_account').hide();
+	{% endif %}
+});
+//--></script>

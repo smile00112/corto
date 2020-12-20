@@ -1,0 +1,454 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="pull-right">
+                <div id="submit-button-container">
+                    <button type="submit" form="form-watermark" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                    <a href="{{ help }}" data-toggle="tooltip" title="{{ button_help }}" class="btn btn-info"><i class="fa fa-question-circle"></i></a>
+                    <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+                </div>
+                <div id="clean-working-container" style="display: none;">
+                    <i class="fa fa-spin fa-circle-o-notch"></i> {{ text_clean }}
+                    <button id="clean-stop" class="btn btn-danger"><i class="fa fa-ban"></i> {{ text_stop }}</button>
+                </div>
+            </div>
+            <h1>{{ heading_dashboard }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if error %}
+        <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error }}
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endif %}
+        {% if success %}
+        <div class="alert alert-success alert-dismissible"><i class="fa fa-check"></i> {{ success }}
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endif %}
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="pull-right">
+                            <div class="btn-group margin-top--9">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                {{ store }} <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    {% for store in stores %}
+                                        <li><a href="{{ store.url }}">{{ store.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <h3 class="panel-title"><i class="fa fa-sliders"></i> {{ text_settings }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ save }}" method="post" enctype="multipart/form-data" id="form-watermark" class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="select-status">
+                                    <span data-toggle="tooltip" title="{{ help_status }}">{{ entry_status }}</span>
+                                </label>
+                                <div class="col-sm-10">
+                                    <select name="module_iwatermark_status" id="select-status" class="form-control">
+                                        <option value="0" {{ status == '0' ? 'selected' }}>{{ text_disabled }}</option>
+                                        <option value="1" {{ status == '1' ? 'selected' }}>{{ text_enabled }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="select-dimension-type"><span data-toggle="tooltip" title="{{ help_dimension_type }}">{{ entry_dimension_type }}</span></label>
+                                <div class="col-sm-10">
+                                    <div class="row" role="dimension-container" data-dimension-col="6">
+                                        <div role="dimension-select" class="col-xs-12">
+                                            <select name="module_iwatermark_dimension_type" id="select-dimension-type" class="form-control">
+                                                <option value="all" {{ dimension_type == 'all' ? 'selected' }}>{{ text_all_dimensions }}</option>
+                                                <option value="bigger" {{ dimension_type == 'bigger' ? 'selected' }}>{{ text_bigger_dimensions }}</option>
+                                                <option value="smaller" {{ dimension_type == 'smaller' ? 'selected' }}>{{ text_smaller_dimensions }}</option>
+                                            </select>
+                                        </div>
+
+                                        <div role="dimension-value" data-dimension-value="bigger,smaller" class="col-xs-12">
+                                            <div class="input-group">
+                                                <input type="number" name="module_iwatermark_dimension_width" value="{{ dimension_width }}" placeholder="{{ placeholder_dimension }}" class="form-control text-right" />
+
+                                                <span class="input-group-addon"><i class="fa fa-times"></i></span>
+
+                                                <input type="number" name="module_iwatermark_dimension_height" value="{{ dimension_height }}" placeholder="{{ placeholder_dimension }}" class="form-control" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="select-product-type"><span data-toggle="tooltip" title="{{ help_product_type }}">{{ entry_product_type }}</span></label>
+                                <div class="col-sm-10">
+                                    <div class="row" role="dimension-container" data-dimension-col="6">
+                                        <div role="dimension-select" class="col-xs-12">
+                                            <select name="module_iwatermark_product_type" id="select-product-type" class="form-control">
+                                                <option value="all" {{ product_type == 'all' ? 'selected' }}>{{ text_all_products }}</option>
+                                                <option value="specific" {{ product_type == 'specific' ? 'selected' }}>{{ text_specific_products }}</option>
+                                            </select>
+                                        </div>
+
+                                        <div role="dimension-value" data-dimension-value="specific" class="col-xs-12">
+                                            <input type="text" name="product" value="" placeholder="{{ entry_product }}" class="autocomplete-product form-control" />
+                                            <div class="well well-sm specific-products">
+                                                {% for product in products %}
+                                                    <div class="specific-product" data-id="{{ product.product_id }}">
+                                                        <i class="fa fa-minus-circle"></i>
+                                                        {{ product.name }}
+                                                        <input type="hidden" name="module_iwatermark_product[]" value="{{ product.product_id }}" />
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="select-category-type"><span data-toggle="tooltip" title="{{ help_category_type }}">{{ entry_category_type }}</span></label>
+                                <div class="col-sm-10">
+                                    <div class="row" role="dimension-container" data-dimension-col="6">
+                                        <div role="dimension-select" class="col-xs-12">
+                                            <select name="module_iwatermark_category_type" id="select-category-type" class="form-control">
+                                                <option value="all" {{ category_type == 'all' ? 'selected' }}>{{ text_all_categories }}</option>
+                                                <option value="specific" {{ category_type == 'specific' ? 'selected' }}>{{ text_specific_categories }}</option>
+                                            </select>
+                                        </div>
+
+                                        <div role="dimension-value" data-dimension-value="specific" class="col-xs-12">
+                                            <input type="text" name="category" value="" placeholder="{{ entry_category }}" class="autocomplete-category form-control" />
+                                            <div class="well well-sm specific-categories">
+                                                {% for category in categories %}
+                                                    <div class="specific-category" data-id="{{ category.category_id }}">
+                                                        <i class="fa fa-minus-circle"></i>
+                                                        {{ category.name }}
+                                                        <input type="hidden" name="module_iwatermark_category[]" value="{{ category.category_id }}" />
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="select-watermark-type"><span data-toggle="tooltip" title="{{ help_watermark_type }}">{{ entry_watermark_type }}</span></label>
+                                <div class="col-sm-10">
+                                    <div class="row" role="dimension-container" data-dimension-col="6">
+                                        <div role="dimension-select" class="col-xs-12">
+                                            <select name="module_iwatermark_watermark_type" id="select-watermark-type" class="form-control preview-input">
+                                                <option value="text" {{ watermark_type == 'text' ? 'selected' }}>{{ text_watermark_text }}</option>
+                                                <option value="image" {{ watermark_type == 'image' ? 'selected' }}>{{ text_watermark_image }}</option>
+                                            </select>
+                                        </div>
+
+                                        <div role="dimension-value" data-dimension-value="text" class="col-xs-12">
+                                            <div class="input-group margin-bottom-10">
+                                                <span class="input-group-addon">{{ entry_text }}</span>
+                                                <input type="text" name="module_iwatermark_text" value="{{ text }}" placeholder="{{ placeholder_text }}" class="form-control preview-input" />
+                                            </div>
+
+                                            <div class="input-group margin-bottom-10">
+                                                <span class="input-group-addon">{{ entry_font }}</span>
+                                                <select id="select-font" name="module_iwatermark_font" class="selectpicker preview-input" role="font-select">
+                                                    {% for item in fonts %}
+                                                        <option value="{{ item.font_filename }}" {{ font == item.font_filename ? 'selected' }}>{{ item.family_name }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+
+                                            <div class="input-group margin-bottom-10">
+                                                <span class="input-group-addon">{{ entry_font_size }}</span>
+                                                <input type="number" name="module_iwatermark_font_size" value="{{ font_size }}" placeholder="{{ placeholder_font_size }}" class="form-control preview-input" min="1" max="1000" />
+                                                <span class="input-group-addon">{{ text_px }}</span>
+                                            </div>
+
+                                            <div role="colorpicker" class="input-group">
+                                                <span class="input-group-addon"><i></i></span>
+                                                <input type="text" name="module_iwatermark_color" value="{{ color }}" placeholder="{{ placeholder_color }}" class="form-control preview-input" />
+                                            </div>
+                                        </div>
+
+                                        <div role="dimension-value" data-dimension-value="image" class="col-xs-12">
+                                            <div role="image-upload" data-image-upload-url="{{ upload_url }}">
+                                                <input type="hidden" name="module_iwatermark_image_file" value="{{ image.file }}" role="image-upload-hidden" class="preview-input" />
+                                                <div class="margin-bottom-10">
+                                                    <p class="image-upload-info">
+                                                        <button class="btn btn-primary" role="image-upload-button" data-loading-text="{{ text_loading }}"><i class="fa fa-upload"></i> {{ text_upload }}</button> <span>{{ text_upload_info }}</span>
+                                                    </p>
+                                                    <div role="image-upload-preview" class="image-upload-preview">
+                                                        {% if image.url %}
+                                                            <img src="{{ image.url }}" alt="" />
+                                                        {% else %}
+                                                            <div class="alert alert-warning">{{ error_no_image }}</div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="select-position"><span data-toggle="tooltip" title="{{ help_position }}">{{ entry_position }}</span></label>
+                                <div class="col-sm-10">
+                                    <select class="form-control preview-input" name="module_iwatermark_position" id="select-position">
+                                        <option value="top_left" {{ position == 'top_left' ? 'selected' }}>{{ text_top_left }}</option>
+                                        <option value="top_center" {{ position == 'top_center' ? 'selected' }}>{{ text_top_center }}</option>
+                                        <option value="top_right" {{ position == 'top_right' ? 'selected' }}>{{ text_top_right }}</option>
+                                        <option value="left_center" {{ position == 'left_center' ? 'selected' }}>{{ text_left_center }}</option>
+                                        <option value="center" {{ position == 'center' ? 'selected' }}>{{ text_center }}</option>
+                                        <option value="right_center" {{ position == 'right_center' ? 'selected' }}>{{ text_right_center }}</option>
+                                        <option value="bottom_left" {{ position == 'bottom_left' ? 'selected' }}>{{ text_bottom_left }}</option>
+                                        <option value="bottom_center" {{ position == 'bottom_center' ? 'selected' }}>{{ text_bottom_center }}</option>
+                                        <option value="bottom_right" {{ position == 'bottom_right' ? 'selected' }}>{{ text_bottom_right }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="input-rotation"><span data-toggle="tooltip" title="{{ help_rotation }}">{{ entry_rotation }}</span></label>
+                                <div class="col-sm-10">
+                                    <div class="input-group">
+                                        <input id="input-rotation" type="number" name="module_iwatermark_rotation" value="{{ rotation }}" placeholder="{{ placeholder_rotation }}" class="form-control preview-input" min="0" max="360" />
+                                        <span class="input-group-addon">&deg;</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="select-opacity-type"><span data-toggle="tooltip" title="{{ help_opacity_type }}">{{ entry_opacity_type }}</span></label>
+                                <div class="col-sm-10">
+                                    <div class="row" role="dimension-container" data-dimension-col="6">
+                                        <div role="dimension-select" class="col-xs-12">
+                                            <select name="module_iwatermark_opacity_type" id="select-opacity-type" class="form-control preview-input">
+                                                <option value="image" {{ opacity_type == 'image' ? 'selected' }}>{{ text_image_opacity }}</option>
+                                                <option value="general" {{ opacity_type == 'general' ? 'selected' }}>{{ text_general_opacity }}</option>
+                                            </select>
+                                        </div>
+
+                                        <div role="dimension-value" data-dimension-value="general" class="col-xs-12">
+                                            <input type="number" name="module_iwatermark_opacity" value="{{ opacity }}" placeholder="{{ placeholder_opacity }}" class="form-control preview-input" min="1" max="100" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-picture-o"></i> {{ text_preview }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="text-center preview-container">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).on('focus', '.autocomplete-product', function() {
+        var element = this;
+
+        $(element).autocomplete({
+            'source': function(request, response) {
+                $.ajax({
+                    url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+                    dataType: 'json',
+                    success: function(json) {
+                        response($.map(json, function(item) {
+                            return {
+                                label: item['name'],
+                                value: item['product_id']
+                            }
+                        }));
+                    }
+                });
+            },
+            'select': function(item) {
+                $(element).val('');
+
+                $(element).parent().find('.specific-product[data-id="' + item.value + '"]').remove();
+
+                $(element).parent().find('.specific-products').append(`
+                    <div class="specific-product" data-id="${item.value}">
+                        <i class="fa fa-minus-circle"></i> ${item.label}
+                        <input type="hidden" name="module_iwatermark_product[]" value="${item.value}" />
+                    </div>
+                `);
+            }
+        });
+    });
+
+    $(document).on('focus', '.autocomplete-category', function() {
+        var element = this;
+
+        $(element).autocomplete({
+            'source': function(request, response) {
+                $.ajax({
+                    url: 'index.php?route=catalog/category/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
+                    dataType: 'json',
+                    success: function(json) {
+                        response($.map(json, function(item) {
+                            return {
+                                label: item['name'],
+                                value: item['category_id']
+                            }
+                        }));
+                    }
+                });
+            },
+            'select': function(item) {
+                $(element).val('');
+
+                $(element).parent().find('.specific-category[data-id="' + item.value + '"]').remove();
+
+                $(element).parent().find('.specific-categories').append(`
+                    <div class="specific-category" data-id="${item.value}">
+                        <i class="fa fa-minus-circle"></i> ${item.label}
+                        <input type="hidden" name="module_iwatermark_category[]" value="${item.value}" />
+                    </div>
+                `);
+            }
+        });
+    });
+
+    $(document).on('click', '.specific-category > .fa-minus-circle, .specific-product > .fa-minus-circle', function() {
+        $(this).parent().remove();
+    });
+
+    (function() {
+        var
+            timeout,
+            delay = 300,
+            fadeOutDuration = 150,
+            fadeInDuration = 300
+            selector_container = '.preview-container';
+            selector_input = '.preview-input';
+
+        $(document).on('change', '#form-watermark', function(e) {
+            if (!$(e.target).is(selector_input)) {
+                return;
+            }
+
+            var form = this;
+
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                $(selector_container).fadeOut(fadeOutDuration, function() {
+                    $(selector_container)
+                        .html(`
+                            <div class="alert alert-info"><i class="fa fa-spin fa-circle-o-notch"></i>&nbsp;{{ text_loading }}</div>
+                        `)
+                        .fadeIn(fadeInDuration, function() {
+                            $.ajax({
+                                url: '{{ preview_url }}',
+                                async: true,
+                                type: 'POST',
+                                dataType: 'json',
+                                data: $(form).serialize(),
+                                success: function(json) {
+                                    $(selector_container).find('img').remove();
+
+                                    var image = $('<img alt="{{ text_preview }}" style="display: none;" />');
+
+                                    $(image)
+                                        .load(function() {
+                                            $(selector_container).fadeOut(fadeOutDuration, function() {
+                                                $(selector_container).find('.alert').remove();
+
+                                                $(selector_container).find('img').show();
+
+                                                $(selector_container).fadeIn(fadeInDuration);
+                                            });
+                                        })
+                                        .appendTo(selector_container)
+                                        .attr('src', json.url);
+                                }
+                            });
+                        });
+                });
+            }, delay);
+        });
+    })();
+
+    var clean = (function($) {
+        var 
+            fadeOutDuration = 150,
+            fadeInDuration = 300,
+            xhr = null,
+            selector = {
+                form_buttons: '#submit-button-container',
+                progress: '#clean-working-container'
+            },
+            init = function() {
+                $(selector.form_buttons).fadeOut(fadeOutDuration, function() {
+                    $(selector.progress).fadeIn(fadeInDuration);
+                });
+                
+                work();
+            },
+            finish = function() {
+                $(selector.progress).fadeOut(fadeOutDuration, function() {
+                    $(selector.form_buttons).fadeIn(fadeInDuration);
+                });
+            },
+            work = function() {
+                xhr = $.ajax({
+                    url: '{{ clean_url_work }}',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (!data.done) {
+                            work();
+                        } else {
+                            finish();
+                        }
+                    }
+                });
+            },
+            cancel = function() {
+                if (xhr) xhr.abort();
+
+                $.ajax({
+                    url: '{{ clean_url_cancel }}',
+                    complete: finish
+                });
+            };
+
+        $('#clean-stop').click(function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            cancel();
+        });
+
+        return {
+            init: init
+        }
+    })(jQuery);
+
+    // Start cleaning - this fires only if there is a cleaning process initialized in the session. Every step of the cleaning process operates on only a single product_id group: 1-1000, 1001-2000, 2001-3000, etc.
+    {% if clean %}
+        clean.init();
+    {% endif %}
+</script>
+{{ footer }}
