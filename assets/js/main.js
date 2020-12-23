@@ -151,6 +151,7 @@ jQuery('.regpopup').fancybox();
 		jQuery('body').on('click', 'a', function (e) {
 			var $target = jQuery(this).prop('target');
 			if( $target == '_blank') return;
+			if(jQuery(this).hasClass('dropdown-item')) return;	
 			e.preventDefault();
 			var hrefLink = jQuery(this).attr("href");
 			var linkReg = /^#.*/.exec(hrefLink);

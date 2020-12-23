@@ -1,0 +1,261 @@
+{{ header }}
+
+{{ column_left }}
+
+{{ column_right }}
+
+{{ content_top }}
+
+<style>
+  .dropdown-item.active, .dropdown-item:active{
+      color: #ffffff;
+  }
+  .dropdown-item.active, .dropdown-item:active {
+      background-color: #e02430;
+  }
+  .bs-searchbox .form-control {
+      width: 96%;
+  }
+  .ymap{
+      margin-top: 10px;
+  }
+  .office-contener{
+    margin-top: 20px;
+  }
+  .dropdown:focus{
+        border: 1px solid red;
+  }
+.btn.focus, .btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgb(210 115 115 / 25%);
+}
+#nav-block{
+    /* position: relative; */
+    /* width: 100%; */
+    padding-right: 0;
+    padding-left: 0;
+}
+</style>
+<!-- pic panel -->
+<div id="pic-block" class="cube-wrap col site-pane">
+    <div class="cube">
+        <div class="front-pane hiddenBackface">
+            <div class="pic-block__inside">
+                <div class="category-info" style="background-image: url(/assets/images/slide2.jpg);">
+                    <div class="category-info__desc b-bottom">
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="right-pane hiddenBackface"></div>
+        <div class="left-pane hiddenBackface"></div>
+    </div>
+</div><!-- pic panel END -->
+
+
+
+<div id="page-block" class="cube-wrap-с site-pane" style="opacity: 0;">
+    <div class="cube-с">
+        <div class="right-pane hiddenBackface"></div>
+        <div class="left-pane hiddenBackface"></div>
+        <div class="front-pane hiddenBackface">
+            <div class="page-block__inside">
+                <div id="system-message-container">
+                </div>
+
+
+                <!-- download catalog btn -->
+                <div class="item-page" itemscope="" itemtype="https://schema.org/Article">
+                    <meta itemprop="inLanguage" content="ru-RU">
+
+
+                    <div class="page-header">
+                        <h2 itemprop="headline">{{ heading_title }}</h2>
+                        
+                        <div itemprop="articleBody">
+
+                            <select class="form-control" id="cities-select" data-container="body" data-live-search="true" title="Выберите город" data-hide-disabled="true">
+                                {% for city in cities %}
+                                  <option data-city="{{ city.coordinates }}" data-city_id="{{ city.city_id }}">{{ city.name }}</option>
+                                {% endfor %} 
+                            </select>
+
+
+
+
+                            <script src="//api-maps.yandex.ru/2.1/?apikey=40f57253-fc8c-401a-ba61-cf54ec811243&lang=ru_RU" async type="text/javascript"></script> 
+                            <script>
+                              $(window).on('load',function(){ 
+                                //Город на катах по умолчанию
+                                if(!localStorage.getItem('mapCity')){
+                                  localStorage.setItem('mapCity', 'Москва');
+                                }
+                            
+                              var json= {{ cities_json }};
+                                var myMap, placemarks = [], myPlacemark;
+
+                                $('select').selectpicker();
+
+                                $( document ).on( "click", '[data-store_coorinates]', function(e){
+                                    $c = $(this).data('store_coorinates').split(',');
+                                    console.log($c);
+                                    console.warn(placemarks)
+                                    //Скрол до карты
+                                    var destination = $('#map').offset().top;
+                                    $('html, body').animate({ scrollTop: destination }, 600);
+
+                                    //Центрирование магазина на карте
+                                    myMap.panTo([$c], {flying: true, duration: 1000}).then(function () {
+                                      //myGeoObject_номер_.balloon.open(); //
+                                      //var Placemark = eval(varString);
+                                      //      (myPlacemark+'7').balloon.open();
+
+                                      myMap.setZoom(12);
+
+                                    });
+                                 
+                                    return false;
+                                });
+
+
+                                $('#cities-select').change(function(){
+                                  var с = $('#cities-select option:selected').data('city').split(','),
+                                  id = $('#cities-select option:selected').data('city_id'),
+                                  city = $('#cities-select option:selected').text();
+                                  localStorage.setItem('mapCity', city);
+                                  myMap.panTo(
+                                    [	с	], {
+                                        flying: true
+                                    }
+                                  );
+                                  var city_json = json.filter(function(e){
+                                    return e.city_id == id;
+                                  });
+
+                                  //console.log('newJson', city_json)
+
+                                  $('.office-contener').html('');
+                                  for( i = 0; i < city_json[0].offices.length; i++ ){
+                                      
+                                      console.warn(city_json[0].offices[i]);
+
+                                      var html = '',
+                                      elem = city_json[0].offices[i];
+                                      html+='<div class="contacts-address" data-store_coorinates="'+elem.coordinates+'">';
+                                      html+='<div class="contacts-address__name">'+elem.address+'</div>';
+                                      html+='<div class="contacts-address__info"><div class="contacts-address__info-item">';
+                                      html+='<p class="color-muted-200">Телефон</p>';
+                                      html+='<p>'+elem.phone+'</p></div>';
+                                      html+='<div class="contacts-address__info-item">';
+                                      html+='<p class="color-muted-200">Режим работы</p>';
+                                      html+='<p>'+elem.worktime+'</p>';
+                                      html+='</div></div></div><hr class="mt-1 mb-2 dark">';
+
+                                      $('.office-contener').append(html);
+
+                                  }
+
+
+                                })
+                                
+
+
+                                setTimeout(function(){
+                                    ymaps.ready(function () { 
+                                      myMap = new ymaps.Map('map', {
+                                        center: [  53.262172, 34.312749  ], 
+                                        zoom : 8,
+                                        controls: ['zoomControl'],
+                                        behaviors: ['drag']
+                                        //type: "yandex#publicMap"
+                                      });
+                                              
+                                      var clusterer = new ymaps.Clusterer({
+                                          clusterDisableClickZoom: true,
+                                          clusterOpenBalloonOnClick: true,
+                                          // Устанавливаем стандартный макет балуна кластера "Карусель".
+                                          clusterBalloonContentLayout: 'cluster#balloonCarousel',
+                                          // Устанавливаем собственный макет.
+                                          //clusterBalloonItemContentLayout: customItemContentLayout,
+                                          // Устанавливаем режим открытия балуна. 
+                                          // В данном примере балун никогда не будет открываться в режиме панели.
+                                          clusterBalloonPanelMaxMapArea: 0,
+                                          // Устанавливаем размеры макета контента балуна (в пикселях).
+                                          clusterBalloonContentLayoutWidth: 200,
+                                          clusterBalloonContentLayoutHeight: 130,
+                                          // Устанавливаем максимальное количество элементов в нижней панели на одной странице
+                                          clusterBalloonPagerSize: 5
+                                        // Настройка внешего вида нижней панели.
+                                        // Режим marker рекомендуется использовать с небольшим количеством элементов.
+                                        // clusterBalloonPagerType: 'marker',
+                                        // Можно отключить зацикливание списка при навигации при помощи боковых стрелок.
+                                        // clusterBalloonCycling: false,
+                                        // Можно отключить отображение меню навигации.
+                                        // clusterBalloonPagerVisible: false
+                                      });
+                                       clusterer.options.set('preset', 'islands#redClusterIcons');
+                                      
+
+                                      {% for city in cities %}
+                                        {% for office in city.offices %}
+
+                                          myPlacemark{{office.office_id}} = new ymaps.Placemark([{{office.coordinates}}], {
+                                            balloonContentHeader: '<h2>{{city.name}}.</h2>',
+                                            balloonContentBody: '<div><b>{{office.address}}</b><br/></div>',
+                                            balloonContentFooter: "{{office.phone}}"
+                                          }, {
+                                            iconColor: 'red',
+                                             preset: 'islands#redCircleDotIcon',
+                                          });
+                                          placemarks.push(myPlacemark{{office.office_id}});
+
+                                        {% endfor %}
+                                      {% endfor %}
+                                      
+                                        clusterer.add(placemarks);
+                                        myMap.geoObjects.add(clusterer);	
+                                        
+                                      });
+                                      
+                                },1000);
+
+                                setTimeout(function(){
+                                  //Выбираем Город по умолчанию
+                                   $('#cities-select option:contains("'+localStorage.getItem('mapCity')+'")').prop('selected', true);
+                                   $('#cities-select').change();
+                                },1500)
+                              });
+                            </script>
+
+                            <div class="ymap" id="map" style="height:400px; width:100%;"></div>
+
+
+                   
+                            <div class="office-contener">
+
+                            </div>
+
+                        </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{{ content_top }}
+
+{{ content_bottom }}
+
+
+
+{{ footer }}

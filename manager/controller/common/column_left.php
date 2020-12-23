@@ -170,7 +170,24 @@ class ControllerCommonColumnLeft extends Controller {
 					'children' => $faq
 				);		
 			}
- 
+ 			//CITY
+			 $city = array();
+			 if ($this->user->hasPermission('access', 'catalog/cities')) {		
+				 $city[] = array(
+					 'name'	   => 'Наши магазины',
+					 'href'     => $this->url->link('catalog/cities', 'user_token=' . $this->session->data['user_token'], true),
+					 'children' => array()		
+				 );					
+			 }
+			 if ($city) {
+				 $data['menus'][] = array(
+					 'id'       => 'menu-cities',
+					 'icon'	   => 'fa-shopping-bag', 
+					 'name'	   => 'Магазины',
+					 'href'     => '',
+					 'children' => $city
+				 );		
+			 }
 			// BLOG
 			
 			$blog = array();

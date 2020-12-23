@@ -57,10 +57,49 @@ class ControllerInformationInformation extends Controller {
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
-			$data['footer'] = $this->load->controller('common/footer');
-			$data['header'] = $this->load->controller('common/header');
 
-			$this->response->setOutput($this->load->view('information/information', $data));
+
+			if($information_id == 8 && !empty($_GET['test'])){
+				$this->load->model('catalog/cities');
+
+				$cities_info = $this->model_catalog_cities->getCities();
+
+				if ($cities_info) {
+					$this->document->addScript('https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js','footer');
+					$this->document->addScript('catalog/view/javascript/bootstrap/js/bootstrap-select.min.js','footer');
+					$this->document->addStyle('https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css');					
+					$this->document->addStyle('catalog/view/javascript/bootstrap/css/bootstrap-select.min.css');
+					foreach ($cities_info as $result) {
+						$offices =  $this->model_catalog_cities->getOffices(['city_id' => $result['city_id']]);
+						// foreach ($offices as &$office){
+						// 	$office['edit'] = $this->url->link('catalog/cities/edit_office', 'user_token=' . $this->session->data['user_token'] . '&city_id=' . $office['city_id']. '&office_id=' . $office['office_id'], true);
+						// }
+			
+						$data['cities'][] = array(
+							'city_id' => $result['city_id'],				
+							'name'          => $result['name'],
+							'coordinates'     => $result['coordinates'],
+							'status'  	  	 => $result['status'],
+							'sort_order'  	  	 => $result['sort_order'],
+							'date_added'  	  	 => $result['date_added'],
+							'offices' => $offices,
+						);
+					}
+
+					$data['cities_json'] = json_encode( $data['cities'] );
+				}
+				$data['footer'] = $this->load->controller('common/footer');
+				$data['header'] = $this->load->controller('common/header');
+				//$data['cities'] = $this->load->controller('imformation/cities');
+				// print_r($data['cities']);
+				// exit;
+				$this->response->setOutput($this->load->view('information/cities', $data));
+
+			}else{
+				$data['footer'] = $this->load->controller('common/footer');
+				$data['header'] = $this->load->controller('common/header');
+				$this->response->setOutput($this->load->view('information/information', $data));
+			}	
 		} else {
 			$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('text_error'),

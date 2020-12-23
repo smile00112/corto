@@ -1,0 +1,108 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="pull-right">
+                <button type="submit" form="form-information" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+            <h1>{{ heading_title }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">{% if error_warning %}
+        <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_form }}</h3>
+            </div>
+            <div class="panel-body">
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-information" class="form-horizontal">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab-general">
+                            <ul class="nav nav-tabs" id="language">
+                                {% for language in languages %}
+                                <li><a href="#language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /> {{ language.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                            <div class="tab-content">{% for language in languages %}
+                                <div class="tab-pane" id="language{{ language.language_id }}">
+                                    <div class="form-group required">
+                                        <label class="col-sm-2 control-label" for="input-city">Город</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="information_description[{{ language.language_id }}][name]" value="{{ information_description[language.language_id] ? information_description[language.language_id].name }}" placeholder="Название города" id="input-city" class="form-control" />
+                                            {% if error_name[language.language_id] %}
+                                            <div class="text-danger">{{ error_name[language.language_id] }}</div>
+                                            {% endif %} </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="input-coordinates">Координаты</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="information_description[{{ language.language_id }}][coordinates]" value="{{ information_description[language.language_id] ? information_description[language.language_id].coordinates }}" placeholder="Координаты города" id="input-coordinates" class="form-control" />
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="input-meta-status{{ language.language_id }}">Статус</label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" name="information_description[{{ language.language_id }}][status]" value="1" {% if information_description[language.language_id].status == 1  %}checked{% endif %} placeholder="Одобрен" id="input-meta-status{{ language.language_id }}" class="form-control" />
+                                        </div>
+                                    </div>                                  
+                                </div>
+                                {% endfor %}</div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <link href="view/javascript/codemirror/lib/codemirror.css" rel="stylesheet" />
+    <link href="view/javascript/codemirror/theme/monokai.css" rel="stylesheet" />
+    <script type="text/javascript" src="view/javascript/codemirror/lib/codemirror.js"></script>
+    <script type="text/javascript" src="view/javascript/codemirror/lib/xml.js"></script>
+    <script type="text/javascript" src="view/javascript/codemirror/lib/formatting.js"></script>
+    <script type="text/javascript" src="view/javascript/summernote/summernote.js"></script>
+    <link href="view/javascript/summernote/summernote.css" rel="stylesheet" />
+    <script type="text/javascript" src="view/javascript/summernote/summernote-image-attributes.js"></script>
+    <script type="text/javascript" src="view/javascript/summernote/opencart.js"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=40f57253-fc8c-401a-ba61-cf54ec811243&lang=ru_RU" type="text/javascript"></script>
+    <script type="text/javascript">
+        <!--
+        $('#language a:first').tab('show');
+        //
+        -->
+       //
+        $(document).ready(function(){
+
+            $('[id="input-city"]').change(function(){
+                var city = $(this).val(); // Выбираем выбраный город получаем его название
+
+                if(city){
+                    var myGeocoder = ymaps.geocode(city);
+                    myGeocoder.then(
+                        function (res) {
+                        // alert('Координаты объекта :' + res.geoObjects.get(0).geometry.getCoordinates());
+                            $('#input-coordinates').val(res.geoObjects.get(0).geometry.getCoordinates())
+                        },
+                        function (err) {
+                            alert('Ошибка получения координат, проверьте название города или введите ккординаты вручную');
+                        }
+                    );
+                }
+            });
+           
+        });
+
+
+    </script>
+</div>
+{{ footer }}
